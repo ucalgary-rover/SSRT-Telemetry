@@ -17,6 +17,8 @@ class RoverAngle : public QObject
     Q_PROPERTY(qreal y_angle READ y_angle WRITE setYAngle NOTIFY yAngleChanged)
     Q_PROPERTY(qreal danger_level_x READ danger_level_x CONSTANT FINAL)
     Q_PROPERTY(qreal danger_level_y READ danger_level_y CONSTANT FINAL)
+    Q_PROPERTY(qreal warning_level_x READ warning_level_x CONSTANT FINAL)
+    Q_PROPERTY(qreal warning_level_y READ warning_level_y CONSTANT FINAL)
     Q_PROPERTY(bool x_danger READ x_danger WRITE set_x_danger NOTIFY xDangerChanged)
     Q_PROPERTY(bool y_danger READ y_danger WRITE set_y_danger NOTIFY yDangerChanged)
 
@@ -39,6 +41,9 @@ public:
     Q_INVOKABLE void set_x_danger(bool in_danger);
     Q_INVOKABLE void set_y_danger(bool in_danger);
 
+    qreal warning_level_x() const;
+    qreal warning_level_y() const;
+
 signals:
     void xAngleChanged();
     void yAngleChanged();
@@ -52,6 +57,8 @@ private:
 
     qreal m_danger_level_x;
     qreal m_danger_level_y;
+    qreal m_warning_level_x;
+    qreal m_warning_level_y;
     bool m_x_danger;
     bool m_y_danger;
 

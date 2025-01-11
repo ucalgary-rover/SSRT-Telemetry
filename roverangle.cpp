@@ -8,6 +8,8 @@ RoverAngle::RoverAngle(QObject *parent)
     m_y_angle(0),
     m_danger_level_x(45),
     m_danger_level_y(45),
+    m_warning_level_x(30),
+    m_warning_level_y(30),
     m_stream_running(true)
 {
     m_get_data_thread = std::thread(&RoverAngle::streamData, this);
@@ -146,4 +148,14 @@ void RoverAngle::set_y_danger(bool in_danger)
     }
     m_y_danger = in_danger;
     emit yDangerChanged();
+}
+
+qreal RoverAngle::warning_level_x() const
+{
+    return m_warning_level_x;
+}
+
+qreal RoverAngle::warning_level_y() const
+{
+    return m_warning_level_y;
 }

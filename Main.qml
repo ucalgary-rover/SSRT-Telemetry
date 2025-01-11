@@ -23,7 +23,7 @@ ApplicationWindow {
         component PlaceholderRectangle: Rectangle {
             property alias text: placeholderText.text
 
-            color: "transparent"
+            color: "#F3D5B5"
             border.color: "#42271C"
             border.width: 3
 
@@ -80,6 +80,25 @@ ApplicationWindow {
                 anchors.top: parent.top
                 anchors.topMargin: parent.height * 0.25
                 clip: true
+
+                Text {
+                    text: angleController.y_angle.toFixed(2)
+
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.margins: 10
+
+                    color: "white"
+
+                    // color: {
+                    //     if(Math.abs(angleController.y_angle) > angleController.warning_level_y) {
+                    //         return "red"
+                    //     }
+                    //     else {
+                    //         return "black"
+                    //     }
+                    // }
+                }
 
                 // y angle rover display
                 Rectangle {
