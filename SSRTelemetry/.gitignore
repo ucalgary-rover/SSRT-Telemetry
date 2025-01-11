@@ -1,0 +1,40 @@
+# ignore CMakeList.txt.usr since it's specific to each user
+CMakeLists.txt.user
+CMakeLists.txt.user.54e4385
+
+# Build directories
+build-*/
+build/
+bin/
+lib/
+out/
+
+# Qt Creator specific files
+*.pro.user
+*.pro.user.*
+*.pro.user.shared
+
+# Generated files
+*.moc
+*.obj
+*.o
+*.h.gch
+*.qmlc
+*.gch
+*.autosave
+
+# CMake specific files
+CMakeCache.txt
+CMakeFiles/
+*.cmake
+
+# Temporary files
+*.tmp
+*.log
+
+# macOS specific
+.DS_Store
+
+# Visual Studio Code specific
+.vscode/
+
