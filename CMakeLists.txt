@@ -8,8 +8,13 @@ find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
+qt_add_resources(RESOURCE_SOURCES
+    Resources.qrc
+)
+
 qt_add_executable(appSSRTelemetry
     main.cpp
+    ${RESOURCE_SOURCES}
 )
 
 qt_add_qml_module(appSSRTelemetry
