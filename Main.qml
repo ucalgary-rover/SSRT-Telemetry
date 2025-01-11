@@ -31,6 +31,8 @@ ApplicationWindow {
                 id: placeholderText
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
+                // color: "#000000
+                opacity: 1.0
             }
         }
 
@@ -47,12 +49,32 @@ ApplicationWindow {
             height: parent.height
             anchors.right: parent.right
 
+
             // x angle view
             PlaceholderRectangle {
                 width: parent.width
                 height: parent.height * 0.25
                 anchors.top: parent.top
                 clip: true
+
+                Text {
+                    text: angleController.x_angle.toFixed(2)
+
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.margins: 10
+
+                    opacity: 1.0
+
+                    color: {
+                        if(Math.abs(angleController.x_angle) > angleController.warning_level_x) {
+                            return "red"
+                        }
+                        else {
+                            return "black"
+                        }
+                    }
+                }
 
                 // x angle rover view
                 Rectangle {
@@ -88,16 +110,16 @@ ApplicationWindow {
                     anchors.top: parent.top
                     anchors.margins: 10
 
-                    color: "white"
+                    opacity: 1.0
 
-                    // color: {
-                    //     if(Math.abs(angleController.y_angle) > angleController.warning_level_y) {
-                    //         return "red"
-                    //     }
-                    //     else {
-                    //         return "black"
-                    //     }
-                    // }
+                    color: {
+                        if(Math.abs(angleController.y_angle) > angleController.warning_level_y) {
+                            return "red"
+                        }
+                        else {
+                            return "black"
+                        }
+                    }
                 }
 
                 // y angle rover display
