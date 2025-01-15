@@ -1,0 +1,22 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+    -   id: check-yaml
+    -   id: end-of-file-fixer
+    -   id: trailing-whitespace
+    -   id: mixed-line-ending
+        args:
+        -   --fix=auto
+    -   id: check-json
+    -   id: pretty-format-json
+        args: [--autofix, --indent=4, --no-ensure-ascii, --no-sort-keys]
+-   repo: https://github.com/pocc/pre-commit-hooks
+    rev: v1.3.5
+    hooks:
+      - id: clang-format
+        args: [--style=llvm]
+      - id: cppcheck
+        args: [--library=qt, --enable=all, --inconclusive,
+        --suppress=unmatchedSuppression, --suppress=missingIncludeSystem,
+        --suppress=unusedStructMember]

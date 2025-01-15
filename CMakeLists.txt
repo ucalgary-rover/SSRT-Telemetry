@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.16)
 
 project(SSRTelemetry VERSION 0.1 LANGUAGES CXX)
 
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 
@@ -17,7 +19,7 @@ qt_add_qml_module(appSSRTelemetry
     VERSION 1.0
     QML_FILES
         Main.qml
-        SOURCES roverangle.h roverangle.cpp
+        SOURCES roverangle.hpp roverangle.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
