@@ -99,6 +99,13 @@ sudo apt-install clang-format
 sudo apt install cppcheck
 ```
 
+### Testing precommit
+To test precommit execution run:
+```bash
+pre-commit run --all-files
+```
+If your code passes all tests then it is commit ready!
+
 ## Writing documentation the Doxygen way for C++
 See resources for guidelines to writing documentation that is doxygen compatible
 
