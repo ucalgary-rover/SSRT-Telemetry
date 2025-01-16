@@ -104,7 +104,7 @@ To test precommit execution run:
 ```bash
 pre-commit run --all-files
 ```
-If your code passes all tests then it is commit ready!
+If your code passes all tests then it is commit ready.
 
 ## Writing documentation the Doxygen way for C++
 See resources for guidelines to writing documentation that is doxygen compatible
