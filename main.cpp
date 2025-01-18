@@ -1,7 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "roverangle.h"
-
+#include "rovertracker.h"
 
 int main(int argc, char *argv[])
 {
@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
 
     // add the RoverAngle type
     qmlRegisterType<RoverAngle>("SSRTelemetry", 1, 0, "RoverAngle");
+    qmlRegisterType<RoverTracker>("com.example", 1, 0, "RoverTracker");
 
     QQmlApplicationEngine engine;
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed,

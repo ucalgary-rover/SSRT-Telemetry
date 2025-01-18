@@ -1,0 +1,2 @@
+set(__QT_DEPLOY_TARGET_appSSRTelemetry_FILE /home/charbel/SSRT-Telemetry/build/Desktop_Qt_6_8_1-Debug/appSSRTelemetry)
+set(__QT_DEPLOY_TARGET_appSSRTelemetry_TYPE EXECUTABLE)

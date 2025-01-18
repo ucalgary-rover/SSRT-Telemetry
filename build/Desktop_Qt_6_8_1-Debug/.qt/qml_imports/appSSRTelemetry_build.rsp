@@ -1,0 +1,14 @@
+-rootPath
+/home/charbel/SSRT-Telemetry
+-cmake-output
+-output-file
+/home/charbel/SSRT-Telemetry/build/Desktop_Qt_6_8_1-Debug/.qt/qml_imports/appSSRTelemetry_build.cmake
+-importPath
+/home/charbel/SSRT-Telemetry/build/Desktop_Qt_6_8_1-Debug/SSRTelemetry
+-importPath
+/home/charbel/SSRT-Telemetry/build/Desktop_Qt_6_8_1-Debug
+-importPath
+/home/charbel/Qt/6.8.1/gcc_64/qml
+-qrcFiles
+/home/charbel/SSRT-Telemetry/build/Desktop_Qt_6_8_1-Debug/.qt/rcc/qmake_SSRTelemetry.qrc
+/home/charbel/SSRT-Telemetry/build/Desktop_Qt_6_8_1-Debug/.qt/rcc/appSSRTelemetry_raw_qml_0.qrc

@@ -1,0 +1,10 @@
+-I
+/home/charbel/SSRT-Telemetry/build/Desktop_Qt_6_8_1-Debug
+-I
+/home/charbel/Qt/6.8.1/gcc_64/qml
+--resource
+/home/charbel/SSRT-Telemetry/build/Desktop_Qt_6_8_1-Debug/.qt/rcc/qmake_SSRTelemetry.qrc
+--resource
+/home/charbel/SSRT-Telemetry/build/Desktop_Qt_6_8_1-Debug/.qt/rcc/appSSRTelemetry_raw_qml_0.qrc
+--module
+SSRTelemetry
