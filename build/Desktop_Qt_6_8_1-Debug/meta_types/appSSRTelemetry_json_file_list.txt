@@ -1,2 +1,0 @@
-/home/charbel/SSRT-Telemetry/build/Desktop_Qt_6_8_1-Debug/appSSRTelemetry_autogen/include/../EWIEGA46WW/moc_roverangle.cpp.json
-/home/charbel/SSRT-Telemetry/build/Desktop_Qt_6_8_1-Debug/appSSRTelemetry_autogen/include/../EWIEGA46WW/moc_rovertracker.cpp.json

@@ -1,6 +1,0 @@
-<RCC>
-  <qresource prefix="/qt/qml/SSRTelemetry/">
-    <file alias="Main.qml">/home/charbel/SSRT-Telemetry/Main.qml</file>
-  </qresource>
-</RCC>
-
