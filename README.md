@@ -84,6 +84,11 @@ pre-commit autoupdate
 
 If you see the expected version, pre-commit is successfully installed and ready to use!
 
+To initalize pre-commit hooks on a repository. Change directory into repository directory and run:
+```bash
+pre-commit install
+```
+
 ### Linters and Static Analyzers
 This repo uses basic language agnostic cleanup tools provided by pre-commit, clang-format to enforce LLVM code standard and cpp check to detect small bugs in C++ code.
 
