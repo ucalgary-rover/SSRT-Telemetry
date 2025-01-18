@@ -148,12 +148,12 @@ Window {
     width: 1920
     height: 1080
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("Shulich Space Rover Team")
 
     // Use the Loader to instantiate and display the component
     Loader {
         anchors.centerIn: parent
-        source: "qrc:/SSRT_UI/LoadingPage/Loading_Page.ui.qml"
+        source: "qrc:/SSRT_UI/Homepage/BasePage.qml"
     }
     // StackView {
     //     id: stackView

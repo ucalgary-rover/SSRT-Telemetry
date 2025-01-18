@@ -130,13 +130,13 @@ Rectangle {
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.topMargin: 853
-            Horizontal_Middle_inset {
-                id: horizontal_Middle_inset
-                width: 1920
-                height: 2
-                anchors.left: parent.left
-                anchors.top: parent.top
-            }
+            // Horizontal_Middle_inset {
+            //     id: horizontal_Middle_inset
+            //     width: 1920
+            //     height: 2
+            //     anchors.left: parent.left
+            //     anchors.top: parent.top
+            // }
 
             Rectangle {
                 id: camera_Check_Box_Bar1
@@ -178,15 +178,15 @@ Rectangle {
                             font.family: "Inter"
                         }
 
-                        Checkboxes {
-                            id: checkboxes
-                            width: 48
-                            height: 48
-                            anchors.left: parent.left
-                            anchors.top: parent.top
-                            anchors.leftMargin: 31
-                            state: "type_Selected_State_Enabled"
-                        }
+                        // Checkboxes {
+                        //     id: checkboxes
+                        //     width: 48
+                        //     height: 48
+                        //     anchors.left: parent.left
+                        //     anchors.top: parent.top
+                        //     anchors.leftMargin: 31
+                        //     state: "type_Selected_State_Enabled"
+                        // }
                         Layout.preferredWidth: 107
                         Layout.preferredHeight: 70
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
@@ -216,15 +216,15 @@ Rectangle {
                             font.family: "Inter"
                         }
 
-                        Checkboxes {
-                            id: checkboxes1
-                            width: 48
-                            height: 48
-                            anchors.left: parent.left
-                            anchors.top: parent.top
-                            anchors.leftMargin: 31
-                            state: "type_Selected_State_Enabled"
-                        }
+                        // Checkboxes {
+                        //     id: checkboxes1
+                        //     width: 48
+                        //     height: 48
+                        //     anchors.left: parent.left
+                        //     anchors.top: parent.top
+                        //     anchors.leftMargin: 31
+                        //     state: "type_Selected_State_Enabled"
+                        // }
                         Layout.preferredWidth: 110
                         Layout.preferredHeight: 70
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
@@ -254,15 +254,15 @@ Rectangle {
                             font.family: "Inter"
                         }
 
-                        Checkboxes {
-                            id: checkboxes2
-                            width: 48
-                            height: 48
-                            anchors.left: parent.left
-                            anchors.top: parent.top
-                            anchors.leftMargin: 31
-                            state: "type_Selected_State_Enabled"
-                        }
+                        // Checkboxes {
+                        //     id: checkboxes2
+                        //     width: 48
+                        //     height: 48
+                        //     anchors.left: parent.left
+                        //     anchors.top: parent.top
+                        //     anchors.leftMargin: 31
+                        //     state: "type_Selected_State_Enabled"
+                        // }
                         Layout.preferredWidth: 111
                         Layout.preferredHeight: 70
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
@@ -292,15 +292,15 @@ Rectangle {
                             font.family: "Inter"
                         }
 
-                        Checkboxes {
-                            id: checkboxes3
-                            width: 48
-                            height: 48
-                            anchors.left: parent.left
-                            anchors.top: parent.top
-                            anchors.leftMargin: 31
-                            state: "type_Selected_State_Enabled"
-                        }
+                        // Checkboxes {
+                        //     id: checkboxes3
+                        //     width: 48
+                        //     height: 48
+                        //     anchors.left: parent.left
+                        //     anchors.top: parent.top
+                        //     anchors.leftMargin: 31
+                        //     state: "type_Selected_State_Enabled"
+                        // }
                         Layout.preferredWidth: 111
                         Layout.preferredHeight: 70
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
@@ -330,15 +330,15 @@ Rectangle {
                             font.family: "Inter"
                         }
 
-                        Checkboxes {
-                            id: checkboxes4
-                            width: 48
-                            height: 48
-                            anchors.left: parent.left
-                            anchors.top: parent.top
-                            anchors.leftMargin: 31
-                            state: "type_Selected_State_Enabled"
-                        }
+                        // Checkboxes {
+                        //     id: checkboxes4
+                        //     width: 48
+                        //     height: 48
+                        //     anchors.left: parent.left
+                        //     anchors.top: parent.top
+                        //     anchors.leftMargin: 31
+                        //     state: "type_Selected_State_Enabled"
+                        // }
                         Layout.preferredWidth: 110
                         Layout.preferredHeight: 70
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
@@ -368,15 +368,15 @@ Rectangle {
                             font.family: "Inter"
                         }
 
-                        Checkboxes {
-                            id: checkboxes5
-                            width: 48
-                            height: 48
-                            anchors.left: parent.left
-                            anchors.top: parent.top
-                            anchors.leftMargin: 31
-                            state: "type_Selected_State_Enabled"
-                        }
+                        // Checkboxes {
+                        //     id: checkboxes5
+                        //     width: 48
+                        //     height: 48
+                        //     anchors.left: parent.left
+                        //     anchors.top: parent.top
+                        //     anchors.leftMargin: 31
+                        //     state: "type_Selected_State_Enabled"
+                        // }
                         Layout.preferredWidth: 110
                         Layout.preferredHeight: 70
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
@@ -406,15 +406,15 @@ Rectangle {
                             font.family: "Inter"
                         }
 
-                        Checkboxes {
-                            id: checkboxes6
-                            width: 48
-                            height: 48
-                            anchors.left: parent.left
-                            anchors.top: parent.top
-                            anchors.leftMargin: 31
-                            state: "type_Selected_State_Enabled"
-                        }
+                        // Checkboxes {
+                        //     id: checkboxes6
+                        //     width: 48
+                        //     height: 48
+                        //     anchors.left: parent.left
+                        //     anchors.top: parent.top
+                        //     anchors.leftMargin: 31
+                        //     state: "type_Selected_State_Enabled"
+                        // }
                         Layout.preferredWidth: 109
                         Layout.preferredHeight: 70
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
@@ -444,15 +444,15 @@ Rectangle {
                             font.family: "Inter"
                         }
 
-                        Checkboxes {
-                            id: checkboxes7
-                            width: 48
-                            height: 48
-                            anchors.left: parent.left
-                            anchors.top: parent.top
-                            anchors.leftMargin: 31
-                            state: "type_Selected_State_Enabled"
-                        }
+                        // Checkboxes {
+                        //     id: checkboxes7
+                        //     width: 48
+                        //     height: 48
+                        //     anchors.left: parent.left
+                        //     anchors.top: parent.top
+                        //     anchors.leftMargin: 31
+                        //     state: "type_Selected_State_Enabled"
+                        // }
                         Layout.preferredWidth: 110
                         Layout.preferredHeight: 70
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
