@@ -1,6 +1,9 @@
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Dialogs
+import QtQuick 2.15
+import QtLocation 6.2
+import QtPositioning 6.2
+
+import QtQuick.Controls 2.15
+import com.example 1.0
 import SSRTelemetry
 
 ApplicationWindow {
@@ -15,6 +18,10 @@ ApplicationWindow {
 
     RoverAngle {
         id: angleController
+    }
+
+    RoverTracker {
+        id: roverTracker
     }
 
     Row {
@@ -34,12 +41,73 @@ ApplicationWindow {
             }
         }
 
-        // placeholder for map
-        PlaceholderRectangle {
+        Map {
+            id: map
             width: parent.width * 0.75
             height: parent.height
             anchors.left: parent.left
-            text: qsTr("Map Implementation")
+
+            plugin: Plugin {
+                name: "osm"
+                PluginParameter {
+                    name: "osm.mapping.providersrepository.address"
+                    value: "https://tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=636ab8ae26aa43588f5c914d74ca747a"
+                }
+                PluginParameter { name: "osm.mapping.providersrepository.enabled"; value: true }
+            }
+            zoomLevel: 15
+
+            // Center the map on the rover's position
+            center: QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude)
+
+            // Rover marker
+            MapQuickItem {
+                anchorPoint.x: 10
+                anchorPoint.y: 10
+                coordinate: QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude)
+                sourceItem: Rectangle {
+                    width: 20
+                    height: 20
+                    color: "blue"
+                    radius: 10
+                }
+            }
+
+            // Black background with latitude and longitude
+            Rectangle {
+                id: coordsBackground
+                z: 999                // Ensure it's on top of the map
+                radius: 6
+                color: "black"
+                border.width: 1
+                border.color: "gray"
+
+                // top-left corner with some margin
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.topMargin: 10
+                anchors.leftMargin: 10
+
+                implicitWidth: columnContent.implicitWidth + 12
+                implicitHeight: columnContent.implicitHeight + 12
+
+                Column {
+                    id: columnContent
+                    spacing: 4
+                    anchors.margins: 6
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+
+                    Text {
+                        text: qsTr("Latitude: ") + roverTracker.latitude.toFixed(3)
+                        color: "black"
+                    }
+                    Text {
+                        text: qsTr("Longitude: ") + roverTracker.longitude.toFixed(3)
+                        color: "black"
+                    }
+                }
+            }
         }
 
         Column {
@@ -47,14 +115,14 @@ ApplicationWindow {
             height: parent.height
             anchors.right: parent.right
 
-            // x angle view
+            // X angle view
             PlaceholderRectangle {
                 width: parent.width
                 height: parent.height * 0.25
                 anchors.top: parent.top
                 clip: true
 
-                // x angle rover view
+                // X angle rover view
                 Rectangle {
                     width: parent.width * 0.6
                     height: parent.height * 0.4
@@ -73,7 +141,7 @@ ApplicationWindow {
                 }
             }
 
-            // y angle view
+            // Y angle view
             PlaceholderRectangle {
                 width: parent.width
                 height: parent.height * 0.25
@@ -81,7 +149,7 @@ ApplicationWindow {
                 anchors.topMargin: parent.height * 0.25
                 clip: true
 
-                // y angle rover display
+                // Y angle rover display
                 Rectangle {
                     width: parent.width * 0.6
                     height: parent.height * 0.4
@@ -99,7 +167,7 @@ ApplicationWindow {
                 }
             }
 
-            // placeholder for other component
+            // Placeholder for other component
             PlaceholderRectangle {
                 width: parent.width
                 height: parent.height * 0.5
@@ -117,7 +185,6 @@ ApplicationWindow {
         standardButtons: Dialog.Ok
         anchors.centerIn: parent
 
-
         Text {
             text: {
                 if(angleController.x_danger && angleController.y_danger) {
@@ -129,12 +196,10 @@ ApplicationWindow {
                 else {
                     return qsTr("Warning! Y angle of the rover is at a dangerous level")
                 }
-                // we don't need to have a catch-all end condition since this dialolg is only triggered
-                // when one or more of the danger thresholds are reached
             }
         }
 
-        // reset flags when accepted
+        // Reset flags when accepted
         onAccepted: {
             angleController.set_x_danger(false)
             angleController.set_y_danger(false)

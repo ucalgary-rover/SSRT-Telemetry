@@ -1,14 +1,13 @@
 #ifndef ROVERANGLE_H
 #define ROVERANGLE_H
 
-#include <QObject>
 #include <QDebug>
+#include <QObject>
 #include <cmath>
 
 // the below includes are only used for simulated data
 #include <chrono>
 #include <thread>
-
 
 class RoverAngle : public QObject
 {
@@ -19,7 +18,6 @@ class RoverAngle : public QObject
     Q_PROPERTY(qreal danger_level_y READ danger_level_y CONSTANT FINAL)
     Q_PROPERTY(bool x_danger READ x_danger WRITE set_x_danger NOTIFY xDangerChanged)
     Q_PROPERTY(bool y_danger READ y_danger WRITE set_y_danger NOTIFY yDangerChanged)
-
 
 public:
     explicit RoverAngle(QObject *parent = nullptr);
