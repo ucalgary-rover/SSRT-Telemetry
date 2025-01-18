@@ -70,6 +70,8 @@ sudo pacman -S pre-commit
 
 ### Verification
 
+*You may need to refresh the terminal for precommit install to take effect*
+
 After installation, verify the installation by checking the version:
 ```bash
 pre-commit --version
