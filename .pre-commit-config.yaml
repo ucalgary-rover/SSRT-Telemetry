@@ -15,8 +15,8 @@ repos:
     rev: v1.3.5
     hooks:
       - id: clang-format
-        args: [--style=llvm]
+        args: [--style=llvm, -i]
       - id: cppcheck
         args: [--library=qt, --enable=all, --inconclusive,
         --suppress=unmatchedSuppression, --suppress=missingIncludeSystem,
-        --suppress=unusedStructMember]
+        --suppress=unusedStructMember, --suppress=unusedFunction]

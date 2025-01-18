@@ -1,4 +1,4 @@
-
+#include "roverTracker.hpp"
 #include "roverangle.hpp"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -8,6 +8,7 @@ int main(int argc, char *argv[]) {
 
   // add the RoverAngle type
   qmlRegisterType<RoverAngle>("SSRTelemetry", 1, 0, "RoverAngle");
+  qmlRegisterType<RoverTracker>("com.example", 1, 0, "RoverTracker");
 
   QQmlApplicationEngine engine;
   QObject::connect(
