@@ -1,16 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>SSRT_UI/AdditionalUIComponents/Badges.ui.qml</file>
-        <file>SSRT_UI/AdditionalUIComponents/Car.ui.qml</file>
-        <file>SSRT_UI/AdditionalUIComponents/Check_indeterminate_small.ui.qml</file>
-        <file>SSRT_UI/AdditionalUIComponents/Check_small.ui.qml</file>
-        <file>SSRT_UI/AdditionalUIComponents/Checkboxes.ui.qml</file>
-        <file>SSRT_UI/AdditionalUIComponents/Compass_Navigator.ui.qml</file>
-        <file>SSRT_UI/AdditionalUIComponents/Horizontal_Full_width.ui.qml</file>
-        <file>SSRT_UI/AdditionalUIComponents/Horizontal_Middle_inset.ui.qml</file>
-        <file>SSRT_UI/AdditionalUIComponents/Location_on.ui.qml</file>
-        <file>SSRT_UI/AdditionalUIComponents/Vertical_Inset.ui.qml</file>
-        <file>SSRT_UI/AdditionalUIComponents/Videocam.ui.qml</file>
         <file>SSRT_UI/AddtionalUIComponents/Badges.ui.qml</file>
         <file>SSRT_UI/AddtionalUIComponents/Car.ui.qml</file>
         <file>SSRT_UI/AddtionalUIComponents/Check_indeterminate_small.ui.qml</file>
