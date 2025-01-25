@@ -151,6 +151,7 @@ Window {
     height: 1080
     visible: true
     title: qsTr("Schulich Space Rover Team")
+    color:  "#F3D5B5"
 
     RoverAngle {
         id: angleController
