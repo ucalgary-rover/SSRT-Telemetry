@@ -26,5 +26,6 @@
         <file>SSRT_UI/Homepage/Homepage.ui.qml</file>
         <file>SSRT_UI/LoadingPage/Loading_Page.ui.qml</file>
         <file>SSRT_UI/Homepage/BasePage.qml</file>
+        <file>SSRT_UI/AddtionalUIComponents/CameraCheckbox.qml</file>
     </qresource>
 </RCC>
