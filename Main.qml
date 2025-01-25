@@ -309,4 +309,17 @@ Window {
             // TODO: add cooldown to prevent notification spam
         }
     }
+
+    // Use the Loader to instantiate and display the component
+    Loader {
+        anchors.centerIn: parent
+        source: "qrc:/SSRT_UI/Homepage/BasePage.qml"
+        // source: "qrc:/SSRT_UI/CameraPage/Camera_Frame.ui.qml"
+    }
+    // StackView {
+    //     id: stackView
+    //     anchors.fill:parent
+    //     initialItem: "qrc:/SSRT_UI/LoadingPage/Loading_Page.ui.qml"
+    // }
+
 }
