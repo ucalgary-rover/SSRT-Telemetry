@@ -27,5 +27,8 @@
         <file>SSRT_UI/LoadingPage/Loading_Page.ui.qml</file>
         <file>SSRT_UI/Homepage/BasePage.qml</file>
         <file>SSRT_UI/AddtionalUIComponents/CameraCheckbox.qml</file>
+        <file>SSRT_UI/Homepage/RoverAngleDisplay.qml</file>
+        <file>SSRT_UI/assets/rover-front-view.png</file>
+        <file>SSRT_UI/assets/rover-side-view.png</file>
     </qresource>
 </RCC>

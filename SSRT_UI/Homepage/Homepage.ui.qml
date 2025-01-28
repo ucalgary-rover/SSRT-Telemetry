@@ -105,6 +105,14 @@ Rectangle {
         anchors.leftMargin: 1415
         anchors.topMargin: 441
     }
+
+    RoverAngleDisplay {
+        id: roverAngle
+        width: 500
+        height: 1000
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+    }
 }
 
 /*##^##
