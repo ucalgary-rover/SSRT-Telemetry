@@ -30,5 +30,6 @@
         <file>SSRT_UI/Homepage/RoverAngleDisplay.qml</file>
         <file>SSRT_UI/assets/rover-front-view.png</file>
         <file>SSRT_UI/assets/rover-side-view.png</file>
+        <file>SSRT_UI/Homepage/MapDisplay.qml</file>
     </qresource>
 </RCC>
