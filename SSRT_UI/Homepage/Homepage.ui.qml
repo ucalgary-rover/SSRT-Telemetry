@@ -112,6 +112,7 @@ Rectangle {
         height: 1000
         anchors.right: parent.right
         anchors.bottom: parent.bottom
+        warningAngleThreshold: 45
     }
 }
 

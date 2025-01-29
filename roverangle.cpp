@@ -75,18 +75,18 @@ void RoverAngle::streamData() {
 // watch the x and y angles to see if they reach a dangerous level
 void RoverAngle::monitorData() {
   while (m_stream_running) {
-    bool x_in_danger = abs(x_angle()) < danger_level_x();
-    bool y_in_danger = abs(y_angle()) < danger_level_y();
+    bool x_in_danger = abs(x_angle()) > danger_level_x();
+    bool y_in_danger = abs(y_angle()) > danger_level_y();
 
-    qDebug("Current x danger: %i, current y danger: %i", x_danger(),
-           y_danger());
+    // qDebug("Current x danger: %i, current y danger: %i", x_danger(),
+    // y_danger());
 
     if (x_in_danger && y_in_danger) {
       qDebug("Both angles of the rover are in danger of tipping!");
       set_x_danger(true);
       set_y_danger(true);
     } else if (x_in_danger) {
-      qDebug("X angle in danger of tipping");
+      qDebug("X angle in danger of tipping ");
       set_x_danger(true);
     } else if (y_in_danger) {
       qDebug("Y angle in danger of tipping");
