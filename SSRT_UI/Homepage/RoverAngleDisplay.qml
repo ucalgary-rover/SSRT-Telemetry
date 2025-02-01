@@ -1,6 +1,7 @@
 import QtQuick
 import SSRTelemetry
 import QtQuick.Layouts
+import QtQuick.Controls
 // import QtGraphicalEffects 1.0
 
 ColumnLayout {
