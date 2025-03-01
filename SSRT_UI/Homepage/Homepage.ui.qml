@@ -13,72 +13,8 @@ Rectangle {
     color: "transparent"
 
     MapDisplay {
-
+        width: 1415
     }
-
-    // Application_Layout {
-    //     id: application_Layout
-    //     width: 1920
-    //     height: 1080
-    //     anchors.left: parent.left
-    //     anchors.top: parent.top
-    //     state: "property_1_Telemetry"
-    // }
-    // Rectangle {
-    //     id: map_frame
-    //     width: 1322
-    //     height: 855
-    //     color: "transparent"
-    //     anchors.left: parent.left
-    //     anchors.top: parent.top
-    //     anchors.leftMargin: 49
-    //     anchors.topMargin: 45
-    //     Image {
-    //         id: map
-    //         anchors.left: parent.left
-    //         anchors.top: parent.top
-    //         source: "../assets/map.png"
-    //     }
-
-    //     Rectangle {
-    //         id: rectangle_1
-    //         width: 1322
-    //         height: 72
-    //         color: "#d4c4b5"
-    //         anchors.left: parent.left
-    //         anchors.top: parent.top
-    //     }
-
-    //     Image {
-    //         id: latitude_38_8951_Longitude_77_0364_Speed_10km_hr
-    //         anchors.left: parent.left
-    //         anchors.top: parent.top
-    //         anchors.leftMargin: 139
-    //         anchors.topMargin: 23
-    //         source: "../assets/latitude_38_8951_Longitude_77_0364_Speed_10km_hr.png"
-    //     }
-
-    //     // Car {
-    //     //     id: car
-    //     //     width: 62
-    //     //     height: 61
-    //     //     anchors.left: parent.left
-    //     //     anchors.top: parent.top
-    //     //     anchors.leftMargin: 750
-    //     //     anchors.topMargin: 544
-    //     // }
-
-    //     // Compass_Navigator {
-    //     //     id: compass_Navigator
-    //     //     width: 74
-    //     //     height: 92
-    //     //     anchors.left: parent.left
-    //     //     anchors.top: parent.top
-    //     //     anchors.leftMargin: 1203
-    //     //     anchors.topMargin: 102
-    //     //     clip: true
-    //     // }
-    // }
 
     Image {
         id: date_2024_10_22_11_14_51_Sensor_A_N_A_Sensor_B_N_A_Sensor_C_N_A
