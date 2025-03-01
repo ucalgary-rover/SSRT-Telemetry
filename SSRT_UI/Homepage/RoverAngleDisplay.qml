@@ -105,8 +105,15 @@ ColumnLayout {
                 }
             }
 
-            // Reset flags when accepted
-            onAccepted: {
+            // Reset flags when accepted OR rejected
+            onAccepted: {r
+                angleController.set_x_danger(false)
+                angleController.set_y_danger(false)
+
+                // TODO: add cooldown to prevent notification spam
+            }
+
+            onRejected: {
                 angleController.set_x_danger(false)
                 angleController.set_y_danger(false)
 
