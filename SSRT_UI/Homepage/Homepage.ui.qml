@@ -26,6 +26,7 @@ Rectangle {
         source: "../assets/date_2024_10_22_11_14_51_Sensor_A_N_A_Sensor_B_N_A_Sensor_C_N_A.png"
     }
 
+    // vertical divider bar
     Rectangle {
         id: rectangle
         width: 5
@@ -35,6 +36,7 @@ Rectangle {
         color: "#7b664c"
     }
 
+    // divider bars
     Rectangle {
         id: horizontal_Full_width
         width: 505
@@ -46,12 +48,23 @@ Rectangle {
         anchors.topMargin: 441
     }
 
+    Rectangle {
+        id: horizontal_angle_divider
+        width: 505
+        height: 4
+        color: "#7b664c"
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.leftMargin: 1415
+        anchors.topMargin: parent.height / 4
+    }
+
     RoverAngleDisplay {
         id: roverAngle
         width: 500
-        height: 1000
+        height: parent.height / 2
         anchors.right: parent.right
-        anchors.bottom: parent.bottom
+        anchors.top: parent.top
         warningAngleThreshold: 45
     }
 }
