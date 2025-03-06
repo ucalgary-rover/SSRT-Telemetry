@@ -67,6 +67,14 @@ Rectangle {
         anchors.top: parent.top
         warningAngleThreshold: 45
     }
+
+    ScienceSensorDisplay {
+        id: scienceSensor
+        width: 500
+        height: parent.height / 2
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+    }
 }
 
 /*##^##

@@ -6,6 +6,8 @@
 RoverAngle::RoverAngle(QObject *parent)
     : QObject{parent}, m_x_angle(0), m_y_angle(0), m_danger_level_x(45),
       m_danger_level_y(45), m_stream_running(true) {
+  qDebug("IN ROVER ANGLE CTOR");
+
   m_get_data_thread = std::thread(&RoverAngle::streamData, this);
   m_monitor_thread = std::thread(&RoverAngle::monitorData, this);
 }

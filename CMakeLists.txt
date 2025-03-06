@@ -26,6 +26,7 @@ qt_add_qml_module(appSSRTelemetry
         Main.qml
         SOURCES roverangle.hpp roverangle.cpp
         SOURCES roverTracker.hpp roverTracker.cpp
+        SOURCES sciencesensors.hpp sciencesensors.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
