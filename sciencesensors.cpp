@@ -4,7 +4,7 @@
 ScienceSensors::ScienceSensors(QObject *parent)
     : QObject{parent}, m_decay_coeff(0), m_half_life(0), m_total_energy(0),
       m_uncertainty(0), m_ozone_ppm(0), m_h2_ppm(0), m_atomic_radius(0),
-      m_radioactivity(0), m_stream_running(false) {
+      m_radioactivity(0), m_stream_running(true) {
   srand(time(0));
 
   m_get_data_thread = std::thread(&ScienceSensors::streamData, this);

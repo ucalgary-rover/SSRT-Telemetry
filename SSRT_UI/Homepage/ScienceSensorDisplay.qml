@@ -23,10 +23,19 @@ ColumnLayout {
         RowLayout {
             Text {
                 id: sensorName
+                font.bold: true
+                font.pointSize: 16
+            }
+
+            Text {
+                text: qsTr(":")
+                font.bold: true
+                font.pointSize: 16
             }
 
             Text {
                 id: sensorValue
+                font.pointSize: 16
             }
         }
 
