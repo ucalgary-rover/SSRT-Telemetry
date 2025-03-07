@@ -8,36 +8,9 @@ StackLayout {
     anchors.fill: parent
     width: parent.width
     currentIndex: tabBar.currentIndex
-    Page {
-        header: Application_Layout {
-            id: application_Layout
-            width: 1920
-            height: 150
-            anchors.left: parent.left
-            anchors.top: parent.top
 
-            onTelemetryClicked: {
-                pageLoader.source = "qrc:/SSRT_UI/Homepage/BasePage.qml"
-            }
-
-            onCameraClicked:{
-                pageLoader.source = "qrc:/SSRT_UI/CameraPage/CameraPage.qml"
-            }
-
-        }
-
-        Homepage {
-            color: "#f3d5b5"
-        }
-
-        Item {
-            id:telemetrytabbutton
-        }
-
-        Item {
-            id:camerabutton
-        }
-
-
+    Homepage {
+        color: "#f3d5b5"
     }
+
 }

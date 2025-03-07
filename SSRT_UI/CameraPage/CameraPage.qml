@@ -1,39 +1,20 @@
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Controls.Material
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
-import "../Components"
 
 StackLayout {
     anchors.fill: parent
-    width: parent.width
-    currentIndex: tabBar.currentIndex
-    Page {
-        header: Application_Layout {
-            id: application_Layout
-            width: 1920
-            height: 150
-            anchors.left: parent.left
-            anchors.top: parent.top
+    currentIndex: 0   // set to 0 since we have one child
 
-            onTelemetryClicked: {
-                pageLoader.source = "qrc:/SSRT_UI/Homepage/BasePage.qml"
-            }
+    // Wrap the Text inside an Item to make it a proper child
+    Item {
+        anchors.fill: parent
 
-            onCameraClicked:{
-                pageLoader.source = "qrc:/SSRT_UI/CameraPage/CameraPage.qml"
-            }
-
+        Text {
+            text: "Hello, World!"
+            font.pixelSize: 32
+            color: "black"
+            anchors.centerIn: parent
         }
-
-        Item {
-            id:telemetrytabbutton
-        }
-
-        Item {
-            id:camerabutton
-        }
-
-
     }
 }
