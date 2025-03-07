@@ -14,6 +14,7 @@ Window {
 
     // Use the Loader to instantiate and display the component
     Loader {
+        id: pageLoader
         anchors.top: parent.top
         anchors.left: parent.top
         anchors.fill: parent
