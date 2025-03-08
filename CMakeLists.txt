@@ -10,8 +10,13 @@ find_package(Qt6 REQUIRED COMPONENTS Positioning)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
+qt_add_resources(RESOURCE_SOURCES
+    Resources.qrc
+)
+
 qt_add_executable(appSSRTelemetry
     main.cpp
+    ${RESOURCE_SOURCES}
 )
 
 qt_add_qml_module(appSSRTelemetry
@@ -21,6 +26,7 @@ qt_add_qml_module(appSSRTelemetry
         Main.qml
         SOURCES roverangle.hpp roverangle.cpp
         SOURCES roverTracker.hpp roverTracker.cpp
+        SOURCES sciencesensors.hpp sciencesensors.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts 1.15
-import QtQuick.Studio.Components 1.0
 import QtQuick.Shapes 1.0
 
 Rectangle {
