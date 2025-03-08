@@ -2,7 +2,6 @@ import QtQuick 2.15
 import QtLocation 5.15
 import QtPositioning 5.15
 import QtQuick.Controls 2.15
-import com.example 1.0
 import SSRTelemetry
 
 Window {
