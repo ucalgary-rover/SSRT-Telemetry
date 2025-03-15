@@ -3,8 +3,8 @@ import QtQuick.Controls
 
 Rectangle {
     id: camera_View_Layout
-    width: 460
-    height: 415
+    implicitWidth: 460
+    implicitHeight: 415
     color: "#00ffffff"
     border.color: "#8f4c34"
     border.width: 1

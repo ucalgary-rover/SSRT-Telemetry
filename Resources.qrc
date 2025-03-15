@@ -33,5 +33,6 @@
         <file>SSRT_UI/Homepage/MapDisplay.qml</file>
         <file>SSRT_UI/CameraPage/CameraPage.ui.qml</file>
         <file>SSRT_UI/CameraPage/CameraPage.qml</file>
+        <file>SSRT_UI/CameraPage/CameraCheckboxes.qml</file>
     </qresource>
 </RCC>
