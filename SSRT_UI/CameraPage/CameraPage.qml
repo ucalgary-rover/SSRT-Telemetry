@@ -19,19 +19,23 @@ Page {
             Camera_View_Layout {
                 id: camera_View_Layout1
                 camera_Text: "Camera 1"
+                cameraIndex: 0
 
             }
             Camera_View_Layout {
                 id: camera_View_Layout2
                 camera_Text: "Camera 2"
+                cameraIndex: 4
             }
             Camera_View_Layout {
                 id: camera_View_Layout3
                 camera_Text: "Camera 3"
+                cameraIndex: 8
             }
             Camera_View_Layout {
                 id: camera_View_Layout4
                 camera_Text: "Camera 4"
+                cameraIndex: 12
             }
             Camera_View_Layout {
                 id: camera_View_Layout5

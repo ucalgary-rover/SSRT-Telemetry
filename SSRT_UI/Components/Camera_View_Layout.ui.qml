@@ -1,5 +1,6 @@
-import QtQuick
-import QtQuick.Controls
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtMultimedia
 
 Rectangle {
     id: camera_View_Layout
@@ -9,17 +10,24 @@ Rectangle {
     border.color: "#8f4c34"
     border.width: 1
     property alias camera_Text: camera_.text
+    property int cameraIndex: 0
 
-    Rectangle {
-        id: camera_Fill
-        width: 114
-        height: 35
-        opacity: 0.3
-        color: "#8f4c34"
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.leftMargin: 346
-        anchors.topMargin: 380
+    Item {
+        id: mediaContainer
+        anchors.fill: parent
+
+        MediaPlayer {
+            id: cameraPlayer
+            source: "http://127.0.0.1:5000/video_feed/" + cameraIndex // adjust URL as needed
+            videoOutput: videoOutput1
+            autoPlay: true
+        }
+
+        VideoOutput {
+            id: videoOutput1
+            anchors.fill: parent
+            fillMode: VideoOutput.PreserveAspectFit
+        }
     }
 
     Text {
@@ -40,10 +48,3 @@ Rectangle {
         font.family: "Inter"
     }
 }
-
-/*##^##
-Designer {
-    D{i:0;uuid:"5d4cef6b-38ee-5c15-9dc6-3796fcfddafd"}D{i:1;uuid:"5c08bd19-524f-565b-accc-ecfc58f1bee6"}
-D{i:2;uuid:"62c5a0cb-ad68-5992-8a81-242163e88e3f"}
-}
-##^##*/
