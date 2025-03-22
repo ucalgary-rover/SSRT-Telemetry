@@ -83,41 +83,41 @@ ColumnLayout {
         angle: angleController.y_angle
     }
 
-    Dialog {
-            id: dangerDialog
-            title: qsTr("Danger Alert!")
-            visible: angleController.x_danger || angleController.y_danger
-            modal: true
-            standardButtons: Dialog.Ok
-            anchors.centerIn: parent
+    // Dialog {
+    //         id: dangerDialog
+    //         title: qsTr("Danger Alert!")
+    //         visible: angleController.x_danger || angleController.y_danger
+    //         modal: true
+    //         standardButtons: Dialog.Ok
+    //         anchors.centerIn: parent
 
-            Text {
-                text: {
-                    if(angleController.x_danger && angleController.y_danger) {
-                        return qsTr("Warning! Both X and Y angles of the rover are at a dangerous level")
-                    }
-                    else if(angleController.x_danger) {
-                        return qsTr("Warning! X angle of the rover is at a dangerous level")
-                    }
-                    else {
-                        return qsTr("Warning! Y angle of the rover is at a dangerous level")
-                    }
-                }
-            }
+    //         Text {
+    //             text: {
+    //                 if(angleController.x_danger && angleController.y_danger) {
+    //                     return qsTr("Warning! Both X and Y angles of the rover are at a dangerous level")
+    //                 }
+    //                 else if(angleController.x_danger) {
+    //                     return qsTr("Warning! X angle of the rover is at a dangerous level")
+    //                 }
+    //                 else {
+    //                     return qsTr("Warning! Y angle of the rover is at a dangerous level")
+    //                 }
+    //             }
+    //         }
 
-            // Reset flags when accepted OR rejected
-            onAccepted: {
-                angleController.set_x_danger(false)
-                angleController.set_y_danger(false)
+    //         // Reset flags when accepted OR rejected
+    //         onAccepted: {
+    //             angleController.set_x_danger(false)
+    //             angleController.set_y_danger(false)
 
-                // TODO: add cooldown to prevent notification spam
-            }
+    //             // TODO: add cooldown to prevent notification spam
+    //         }
 
-            onRejected: {
-                angleController.set_x_danger(false)
-                angleController.set_y_danger(false)
+    //         onRejected: {
+    //             angleController.set_x_danger(false)
+    //             angleController.set_y_danger(false)
 
-                // TODO: add cooldown to prevent notification spam
-            }
-        }
+    //             // TODO: add cooldown to prevent notification spam
+    //         }
+    //     }
 }
