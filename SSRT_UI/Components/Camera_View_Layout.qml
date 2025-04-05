@@ -11,6 +11,18 @@ Rectangle {
     border.width: 1
     property alias camera_Text: camera_.text
     property int cameraIndex: 0
+    property bool active: true
+
+    onActiveChanged: {
+        if(active)
+        {
+            cameraPlayer.play();
+        }
+        else
+        {
+            cameraPlayer.stop();
+        }
+    }
 
     Item {
         id: mediaContainer
@@ -19,14 +31,21 @@ Rectangle {
         MediaPlayer {
             id: cameraPlayer
             source: "http://127.0.0.1:5000/video_feed/" + cameraIndex // adjust URL as needed
-            videoOutput: videoOutput1
-            autoPlay: true
+            videoOutput: videoOutput
+            autoPlay: false
         }
 
         VideoOutput {
-            id: videoOutput1
+            id: videoOutput
             anchors.fill: parent
             fillMode: VideoOutput.PreserveAspectFit
+        }
+    }
+
+    // Start the feed when the component is completed and active is true.
+    Component.onCompleted: {
+        if (active) {
+            cameraPlayer.play()
         }
     }
 

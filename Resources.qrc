@@ -22,7 +22,7 @@
         <file>SSRT_UI/assets/sSRT_Logo_property_1_Telemetry.png</file>
         <file>SSRT_UI/CameraPage/Camera_Frame.ui.qml</file>
         <file>SSRT_UI/Components/Application_Layout.qml</file>
-        <file>SSRT_UI/Components/Camera_View_Layout.ui.qml</file>
+        <file>SSRT_UI/Components/Camera_View_Layout.qml</file>
         <file>SSRT_UI/Homepage/Homepage.ui.qml</file>
         <file>SSRT_UI/LoadingPage/Loading_Page.ui.qml</file>
         <file>SSRT_UI/Homepage/BasePage.qml</file>
