@@ -5,7 +5,7 @@ project(SSRTelemetry VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Tell CMake where to look for your custom-built Qt modules (including MQTT)
 list(INSERT CMAKE_PREFIX_PATH 0 "/home/charbel")
-set(Qt6Mqtt_DIR "/home/charbel/lib/cmake/Qt6Mqtt")
+set(Qt6Mqtt_DIR "/home/danijourdain/lib/cmake/Qt6Mqtt")
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 find_package(Qt6 REQUIRED COMPONENTS Location)
@@ -31,8 +31,8 @@ qt_add_qml_module(appSSRTelemetry
         SOURCES roverTracker.hpp roverTracker.cpp
         SOURCES sciencesensors.hpp sciencesensors.cpp
         SOURCES rovermqtt.hpp rovermqtt.cpp
-        SOURCES maplabel.h
-        SOURCES labelmanager.h
+        SOURCES maplabel.hpp
+        SOURCES labelmanager.hpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

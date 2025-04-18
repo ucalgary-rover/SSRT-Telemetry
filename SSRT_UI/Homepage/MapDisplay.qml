@@ -155,7 +155,7 @@ Item {
             anchors.margins: 10
             width: 250
             height: 150
-            color: "white"
+            color: "#cba87f"
             border.color: "black"
             radius: 5
             z: 1
@@ -176,6 +176,36 @@ Item {
                 // Row for adding labels.
                 Row {
                     spacing: 10
+                    property MapLabel dropdownValue
+
+                    // dropdown menu
+                    ComboBox {
+                        id: dropdownMenu
+                        currentIndex: 0
+                        model: ["Poison", "Toxic", "Physical", "Damaged Line", "Ozone", "POI", "Hydrogen", "Damaged Rod", "Reactor"]
+
+                        onActivated: {
+                            if (currentValue === "Poison")
+                                parent.dropdownValue = MapLabel.Poison
+                            else if (currentValue === "Toxic")
+                                parent.dropdownValue = MapLabel.Toxic
+                            else if (currentValue === "Physical")
+                                parent.dropdownValue = MapLabel.Physical
+                            else if (currentValue === "Damaged Line")
+                                parent.dropdownValue = MapLabel.DamagedLine
+                            else if (currentValue === "Ozone")
+                                parent.dropdownValue = MapLabel.Ozone
+                            else if (currentValue === "POI")
+                                parent.dropdownValue = MapLabel.POI
+                            else if (currentValue === "Hydrogen")
+                                parent.dropdownValue = MapLabel.Hydrogen
+                            else if (currentValue === "Damaged Rod")
+                                parent.dropdownValue = MapLabel.DamagedRod
+                            else if (currentValue === "Reactor")
+                                parent.dropdownValue = MapLabel.Reactor
+                        }
+                    }
+
                     Button {
                         id: addPoisonButton
                         text: "Add Poison"
@@ -183,36 +213,18 @@ Item {
                         height: 40
                         background: Rectangle {
                             anchors.fill: parent
-                            color: "red"
+                            color: "#c85428"
                             radius: 4
                         }
                         font.pixelSize: 12
                         font.bold: true
                         onClicked: {
-                            console.log("Adding Poison Label at", map.center.latitude, map.center.longitude)
                             if (labelManager)
-                                labelManager.addLabel(map.center.latitude, map.center.longitude, MapLabel.Poison)
-                        }
-                    }
-                    Button {
-                        id: addToxicButton
-                        text: "Add Toxic"
-                        width: 100
-                        height: 40
-                        background: Rectangle {
-                            anchors.fill: parent
-                            color: "red"
-                            radius: 4
-                        }
-                        font.pixelSize: 12
-                        font.bold: true
-                        onClicked: {
-                            console.log("Adding Toxic Label at", map.center.latitude, map.center.longitude)
-                            if (labelManager)
-                                labelManager.addLabel(map.center.latitude, map.center.longitude, MapLabel.Toxic)
+                                labelManager.addLabel(map.center.latitude, map.center.longitude, parent.dropdownValue)
                         }
                     }
                 }
+
                 // Filtering controls.
                 Text {
                     text: "Filter Labels:"
