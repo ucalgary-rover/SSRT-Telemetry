@@ -24,9 +24,9 @@ Item {
         id: roverTracker
         onPositionChanged: {
             if (!mapDisplay.startSet) {
-                mapDisplay.startCoord = QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude)
-                mapDisplay.startSet = true
-                console.log("Start point set at", roverTracker.latitude, roverTracker.longitude)
+                mapDisplay.startCoord = QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude);
+                mapDisplay.startSet = true;
+                console.log("Start point set at", roverTracker.latitude, roverTracker.longitude);
             }
         }
     }
@@ -34,16 +34,16 @@ Item {
     RoverMQTT {
         id: mqttClient
         onStatusChanged: {
-            console.log("MQTT Status:", status)
+            console.log("MQTT Status:", status);
             if (status === "Connected") {
-                mqttClient.subscribeTopic("rover/sensor")
+                mqttClient.subscribeTopic("rover/sensor");
             }
         }
         onMessageReceived: {
-            console.log("Received Message on", topic, ":", message)
+            console.log("Received Message on", topic, ":", message);
         }
         Component.onCompleted: {
-            mqttClient.connectToBroker("localhost", 1883)
+            mqttClient.connectToBroker("localhost", 1883);
         }
     }
 
@@ -58,7 +58,10 @@ Item {
                 name: "osm.mapping.providersrepository.address"
                 value: "https://tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=636ab8ae26aa43588f5c914d74ca747a"
             }
-            PluginParameter { name: "osm.mapping.providersrepository.enabled"; value: true }
+            PluginParameter {
+                name: "osm.mapping.providersrepository.enabled"
+                value: true
+            }
         }
         zoomLevel: 15
 
@@ -81,17 +84,13 @@ Item {
         }
 
         // Center the map on the rover's current position.
-        center: roverTracker
-            ? QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude)
-            : QtPositioning.coordinate(0, 0)
+        center: roverTracker ? QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude) : QtPositioning.coordinate(0, 0)
 
         // Rover marker.
         MapQuickItem {
             anchorPoint.x: 10
             anchorPoint.y: 10
-            coordinate: roverTracker
-                ? QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude)
-                : QtPositioning.coordinate(0, 0)
+            coordinate: roverTracker ? QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude) : QtPositioning.coordinate(0, 0)
             sourceItem: Rectangle {
                 width: 20
                 height: 20
@@ -113,7 +112,7 @@ Item {
                     width: 20
                     height: 20
                     radius: 10
-                    color: modelData.type === MapLabel.Poison ? "yellow" : "red"
+                    color: modelData.type === MapLabel.Reactor ? "yellow" : "red"
                 }
             }
         }
@@ -123,7 +122,7 @@ Item {
             target: labelManager
             onLabelsUpdated: {
                 labelView.model = labelManager.allLabels();
-                console.log("labelsUpdated fired, count:", labelManager.labelCount)
+                console.log("labelsUpdated fired, count:", labelManager.labelCount);
             }
         }
 
@@ -139,9 +138,7 @@ Item {
                 if (!mapDisplay.startSet) {
                     return "Start not set";
                 }
-                var currentCoord = roverTracker
-                    ? QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude)
-                    : QtPositioning.coordinate(0, 0);
+                var currentCoord = roverTracker ? QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude) : QtPositioning.coordinate(0, 0);
                 var d = currentCoord.distanceTo(mapDisplay.startCoord);
                 return "Distance: " + d.toFixed(2) + " m";
             }
@@ -176,7 +173,7 @@ Item {
                 // Row for adding labels.
                 Row {
                     spacing: 10
-                    property MapLabel dropdownValue
+                    property MapLabel.LabelType dropdownValue
 
                     // dropdown menu
                     ComboBox {
@@ -185,30 +182,43 @@ Item {
                         model: ["Poison", "Toxic", "Physical", "Damaged Line", "Ozone", "POI", "Hydrogen", "Damaged Rod", "Reactor"]
 
                         onActivated: {
-                            if (currentValue === "Poison")
-                                parent.dropdownValue = MapLabel.Poison
-                            else if (currentValue === "Toxic")
-                                parent.dropdownValue = MapLabel.Toxic
-                            else if (currentValue === "Physical")
-                                parent.dropdownValue = MapLabel.Physical
-                            else if (currentValue === "Damaged Line")
-                                parent.dropdownValue = MapLabel.DamagedLine
-                            else if (currentValue === "Ozone")
-                                parent.dropdownValue = MapLabel.Ozone
-                            else if (currentValue === "POI")
-                                parent.dropdownValue = MapLabel.POI
-                            else if (currentValue === "Hydrogen")
-                                parent.dropdownValue = MapLabel.Hydrogen
-                            else if (currentValue === "Damaged Rod")
-                                parent.dropdownValue = MapLabel.DamagedRod
-                            else if (currentValue === "Reactor")
-                                parent.dropdownValue = MapLabel.Reactor
+                            console.log("current value: ", currentValue)
+                            switch (currentValue) {
+                            case "Poison":
+                                parent.dropdownValue = MapLabel.Poison;
+                                break;
+                            case "Toxic":
+                                parent.dropdownValue = MapLabel.Toxic;
+                                break;
+                            case "Physical":
+                                parent.dropdownValue = MapLabel.Physical;
+                                break;
+                            case "Damaged Line":
+                                parent.dropdownValue = MapLabel.DamagedLine;
+                                break;
+                            case "Ozone":
+                                parent.dropdownValue = MapLabel.Ozone;
+                                break;
+                            case "POI":
+                                parent.dropdownValue = MapLabel.POI;
+                                break;
+                            case "Hydrogen":
+                                parent.dropdownValue = MapLabel.Hydrogen;
+                                break;
+                            case "Damaged Rod":
+                                parent.dropdownValue = MapLabel.DamagedRod;
+                                break;
+                            case "Reactor":
+                                parent.dropdownValue = MapLabel.Reactor;
+                                break;
+                            }
+                            console.log("Selected LabelType:", controlPanelTest.selectedLabelType);
                         }
                     }
 
                     Button {
                         id: addPoisonButton
-                        text: "Add Poison"
+                        text: "Add"
                         width: 100
                         height: 40
                         background: Rectangle {
@@ -220,7 +230,7 @@ Item {
                         font.bold: true
                         onClicked: {
                             if (labelManager)
-                                labelManager.addLabel(map.center.latitude, map.center.longitude, parent.dropdownValue)
+                                labelManager.addLabel(map.center.latitude, map.center.longitude, parent.dropdownValue);
                         }
                     }
                 }
@@ -248,7 +258,7 @@ Item {
                         onClicked: {
                             if (labelManager)
                                 labelView.model = labelManager.allLabels();
-                            console.log("Filter set to All, count:", labelManager.labelCount)
+                            console.log("Filter set to All, count:", labelManager.labelCount);
                         }
                     }
                     Button {
@@ -266,7 +276,7 @@ Item {
                         onClicked: {
                             if (labelManager)
                                 labelView.model = labelManager.filterLabels(MapLabel.Poison);
-                            console.log("Filter set to Poison, count:", labelManager.filterLabels(MapLabel.Poison).length)
+                            console.log("Filter set to Poison, count:", labelManager.filterLabels(MapLabel.Poison).length);
                         }
                     }
                     Button {
@@ -284,7 +294,7 @@ Item {
                         onClicked: {
                             if (labelManager)
                                 labelView.model = labelManager.filterLabels(MapLabel.Toxic);
-                            console.log("Filter set to Toxic, count:", labelManager.filterLabels(MapLabel.Toxic).length)
+                            console.log("Filter set to Toxic, count:", labelManager.filterLabels(MapLabel.Toxic).length);
                         }
                     }
                 }
