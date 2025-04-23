@@ -15,7 +15,7 @@ public:
   Q_INVOKABLE void addLabel(double latitude, double longitude,
                             MapLabel::LabelType type) {
     MapLabel *newLabel = new MapLabel(latitude, longitude, type, this);
-    qDebug("Map label: ", type);
+    // qDebug("Map label: ", type);
     m_labels.append(newLabel);
     emit labelsUpdated();
   }

@@ -173,7 +173,7 @@ Item {
                 // Row for adding labels.
                 Row {
                     spacing: 10
-                    property MapLabel.LabelType dropdownValue
+                    property int dropdownValue
 
                     // dropdown menu
                     ComboBox {
@@ -212,7 +212,7 @@ Item {
                                 parent.dropdownValue = MapLabel.Reactor;
                                 break;
                             }
-                            console.log("Selected LabelType:", controlPanelTest.selectedLabelType);
+                            console.log("Selected LabelType:", parent.dropdownValue);
                         }
                     }
 
