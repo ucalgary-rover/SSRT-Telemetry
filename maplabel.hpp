@@ -33,26 +33,11 @@ public:
   double longitude() const { return m_longitude; }
   LabelType type() const { return m_type; }
 
-  void setLatitude(double lat) {
-    if (m_latitude != lat) {
-      m_latitude = lat;
-      emit labelChanged();
-    }
-  }
+  void setLatitude(double lat);
 
-  void setLongitude(double lon) {
-    if (m_longitude != lon) {
-      m_longitude = lon;
-      emit labelChanged();
-    }
-  }
+  void setLongitude(double lon);
 
-  void setType(LabelType type) {
-    if (m_type != type) {
-      m_type = type;
-      emit labelChanged();
-    }
-  }
+  void setType(LabelType type);
 
 signals:
   void labelChanged();

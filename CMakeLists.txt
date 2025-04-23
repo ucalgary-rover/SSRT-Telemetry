@@ -33,6 +33,8 @@ qt_add_qml_module(appSSRTelemetry
         SOURCES rovermqtt.hpp rovermqtt.cpp
         SOURCES maplabel.hpp
         SOURCES labelmanager.hpp
+        SOURCES labelmanager.cpp
+        SOURCES maplabel.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
