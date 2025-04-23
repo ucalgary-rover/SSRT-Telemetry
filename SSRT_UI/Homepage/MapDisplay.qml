@@ -199,6 +199,7 @@ Item {
                     // dropdown menu
                     ComboBox {
                         id: dropdownMenu
+                        height: 40
                         currentIndex: 0
                         model: ["Poison", "Toxic", "Physical", "Damaged Line", "Ozone", "POI", "Hydrogen", "Damaged Rod", "Reactor"]
 
@@ -238,7 +239,7 @@ Item {
                     }
 
                     Button {
-                        id: addPoisonButton
+                        id: addLabel
                         text: "Add"
                         width: 100
                         height: 40
@@ -264,58 +265,65 @@ Item {
                 }
                 Row {
                     spacing: 10
-                    Button {
-                        id: filterAllButton
-                        text: "All"
-                        width: 50
+                    ComboBox {
+                        id: filterDropdownMenu
                         height: 40
-                        background: Rectangle {
-                            anchors.fill: parent
-                            color: "red"
-                            radius: 4
-                        }
-                        font.pixelSize: 12
-                        font.bold: true
-                        onClicked: {
-                            if (labelManager)
-                                labelView.model = labelManager.allLabels();
-                            console.log("Filter set to All, count:", labelManager.labelCount);
-                        }
-                    }
-                    Button {
-                        id: filterPoisonButton
-                        text: "Poison"
-                        width: 50
-                        height: 40
-                        background: Rectangle {
-                            anchors.fill: parent
-                            color: "red"
-                            radius: 4
-                        }
-                        font.pixelSize: 12
-                        font.bold: true
-                        onClicked: {
-                            if (labelManager)
-                                labelView.model = labelManager.filterLabels(MapLabel.Poison);
-                            console.log("Filter set to Poison, count:", labelManager.filterLabels(MapLabel.Poison).length);
-                        }
-                    }
-                    Button {
-                        id: filterToxicButton
-                        text: "Toxic"
-                        width: 50
-                        height: 40
-                        background: Rectangle {
-                            anchors.fill: parent
-                            color: "red"
-                            radius: 4
-                        }
-                        font.pixelSize: 12
-                        font.bold: true
-                        onClicked: {
-                            if (labelManager)
-                                labelView.model = labelManager.filterLabels(MapLabel.Toxic);
-                            console.log("Filter set to Toxic, count:", labelManager.filterLabels(MapLabel.Toxic).length);
+                        currentIndex: 0
+                        model: ["All", "Poison", "Toxic", "Physical", "Damaged Line", "Ozone", "POI", "Hydrogen", "Damaged Rod", "Reactor"]
+
+                        onActivated: {
+                            console.log("current value: ", currentValue)
+                            switch (currentValue) {
+                            case "Poison":
+                                if (labelManager)
+                                    labelView.model = labelManager.filterLabels(MapLabel.Poison);
+                                console.log("Filter set to Poison, count:", labelManager.filterLabels(MapLabel.Poison).length);
+                                break;
+                            case "Toxic":
+                                if (labelManager)
+                                    labelView.model = labelManager.filterLabels(MapLabel.Toxic);
+                                console.log("Filter set to Toxic, count:", labelManager.filterLabels(MapLabel.Toxic).length);
+                                break;
+                            case "Physical":
+                                if (labelManager)
+                                    labelView.model = labelManager.filterLabels(MapLabel.Physical);
+                                console.log("Filter set to Physical, count:", labelManager.filterLabels(MapLabel.Physical).length);
+                                break;
+                            case "Damaged Line":
+                                if (labelManager)
+                                    labelView.model = labelManager.filterLabels(MapLabel.DamagedLine);
+                                console.log("Filter set to Poison, count:", labelManager.filterLabels(MapLabel.DamagedLine).length);
+                                break;
+                            case "Ozone":
+                                if (labelManager)
+                                    labelView.model = labelManager.filterLabels(MapLabel.Poison);
+                                console.log("Filter set to Ozone, count:", labelManager.filterLabels(MapLabel.Ozone).length);
+                                break;
+                            case "POI":
+                                if (labelManager)
+                                    labelView.model = labelManager.filterLabels(MapLabel.POI);
+                                console.log("Filter set to POI, count:", labelManager.filterLabels(MapLabel.POI).length);
+                                break;
+                            case "Hydrogen":
+                                if (labelManager)
+                                    labelView.model = labelManager.filterLabels(MapLabel.Poison);
+                                console.log("Filter set to Hydrogen, count:", labelManager.filterLabels(MapLabel.Hydrogen).length);
+                                break;
+                            case "Damaged Rod":
+                                if (labelManager)
+                                    labelView.model = labelManager.filterLabels(MapLabel.DamagedRod);
+                                console.log("Filter set to Damaged Rod, count:", labelManager.filterLabels(MapLabel.DamagedRod).length);
+                                break;
+                            case "Reactor":
+                                if (labelManager)
+                                    labelView.model = labelManager.filterLabels(MapLabel.Reactor);
+                                console.log("Filter set to Reactor, count:", labelManager.filterLabels(MapLabel.Reactor).length);
+                                break;
+                            case "All":
+                                if (labelManager)
+                                    labelView.model = labelManager.allLabels();
+                                console.log("Filter set to All, count: ", labelManager.count())
+                            }
                         }
                     }
                 }
