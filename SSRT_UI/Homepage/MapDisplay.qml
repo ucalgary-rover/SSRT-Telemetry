@@ -112,7 +112,28 @@ Item {
                     width: 20
                     height: 20
                     radius: 10
-                    color: modelData.type === MapLabel.Reactor ? "yellow" : "red"
+                    color: {
+                        switch (modelData.type) {
+                        case MapLabel.Poison:
+                            return "#7e055d";
+                        case MapLabel.Toxic:
+                            return "#1a7ce6";
+                        case MapLabel.Physical:
+                            return "#48d2fe";
+                        case MapLabel.DamagedLine:
+                            return "#15a672";
+                        case MapLabel.Ozone:
+                            return "#8bffc5";
+                        case MapLabel.POI:
+                            return "#8a8029";
+                        case MapLabel.Hydrogen:
+                            return "#cec24d";
+                        case MapLabel.DamagedRod:
+                            return "#faa836";
+                        case MapLabel.Reactor:
+                            return "#a93b43";
+                        }
+                    }
                 }
             }
         }
