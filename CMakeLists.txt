@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 find_package(Qt6 REQUIRED COMPONENTS Location)
 find_package(Qt6 REQUIRED COMPONENTS Positioning)
+find_package(Qt6 REQUIRED COMPONENTS Multimedia)
 
 qt_standard_project_setup(REQUIRES 6.5)
 

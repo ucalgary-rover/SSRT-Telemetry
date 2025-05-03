@@ -8,7 +8,7 @@ import QtQuick.Shapes 1.0
 
 Rectangle {
     id: application_Layout
-    width: 1920
+    width: parent.width
     height: 150
     color: "#f3d5b5"
     state: "property_1_Telemetry"
@@ -30,7 +30,7 @@ Rectangle {
             id: rectangle
             anchors.left: parent.left
             anchors.top: parent.bottom
-            width: 1920
+            width: parent.width
             height: 5
             color: "#7b664c"
         }

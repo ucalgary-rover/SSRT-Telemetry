@@ -1,11 +1,13 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtMultimedia
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+//import QtMultimedia
+
 
 Rectangle {
     id: camera_View_Layout
-    implicitWidth: 460
-    implicitHeight: 415
+    Layout.preferredWidth: 460
+    Layout.preferredHeight: 415
     color: "#00ffffff"
     border.color: "#8f4c34"
     border.width: 1
@@ -13,41 +15,41 @@ Rectangle {
     property int cameraIndex: 0
     property bool active: true
 
-    onActiveChanged: {
-        if(active)
-        {
-            cameraPlayer.play();
-        }
-        else
-        {
-            cameraPlayer.stop();
-        }
-    }
+    // onActiveChanged: {
+    //     if(active)
+    //     {
+    //         cameraPlayer.play();
+    //     }
+    //     else
+    //     {
+    //         cameraPlayer.stop();
+    //     }
+    // }
 
-    Item {
-        id: mediaContainer
-        anchors.fill: parent
+    // Item {
+    //     id: mediaContainer
+    //     anchors.fill: parent
 
-        MediaPlayer {
-            id: cameraPlayer
-            source: "http://127.0.0.1:5000/video_feed/" + cameraIndex // adjust URL as needed
-            videoOutput: videoOutput
-            autoPlay: false
-        }
+    //     MediaPlayer {
+    //         id: cameraPlayer
+    //         source: "" //"http://127.0.0.1:5000/video_feed/" + cameraIndex // adjust URL as needed
+    //         videoOutput: videoOutput
+    //         autoPlay: false
+    //     }
 
-        VideoOutput {
-            id: videoOutput
-            anchors.fill: parent
-            fillMode: VideoOutput.PreserveAspectFit
-        }
-    }
+    //     VideoOutput {
+    //         id: videoOutput
+    //         anchors.fill: parent
+    //         fillMode: VideoOutput.PreserveAspectFit
+    //     }
+    // }
 
-    // Start the feed when the component is completed and active is true.
-    Component.onCompleted: {
-        if (active) {
-            cameraPlayer.play()
-        }
-    }
+    // // Start the feed when the component is completed and active is true.
+    // Component.onCompleted: {
+    //     if (active) {
+    //         cameraPlayer.play()
+    //     }
+    // }
 
     Text {
         id: camera_
