@@ -1,6 +1,9 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtMultimedia
+import QtQuick
+import QtQuick.Layouts
+
 
 Rectangle {
     id: camera_View_Layout
@@ -12,6 +15,7 @@ Rectangle {
     property alias camera_Text: camera_.text
     property int cameraIndex: 0
     property bool active: true
+    visible: active
 
     onActiveChanged: {
         if(active)
