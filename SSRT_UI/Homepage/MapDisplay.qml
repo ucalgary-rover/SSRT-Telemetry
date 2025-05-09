@@ -326,6 +326,25 @@ Item {
                             }
                         }
                     }
+
+                    Button {
+                        id: saveTxt
+                        text: "Save"
+                        width: 100
+                        height: 40
+                        background: Rectangle {
+                            anchors.fill: parent
+                            color: "#c85428"
+                            radius: 4
+                        }
+                        font.pixelSize: 12
+                        font.bold: true
+                        onClicked: {
+                            if (labelManager) {
+                                labelManager.saveToTxt();
+                            }
+                        }
+                    }
                 }
             }
         }
