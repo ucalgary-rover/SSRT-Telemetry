@@ -25,14 +25,14 @@ Rectangle {
         }
         Rectangle {
             id: barContainer
-            width: 1193
+            width: parent.width
             height: 70
             color: "transparent"
 
             RowLayout {
                 id: checkBoxLayout
                 anchors.fill: parent
-                spacing: 45
+                spacing: 70
 
                 // Define aliases on the RowLayout itself
                 property alias camera1: camera1Checkbox

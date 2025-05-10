@@ -53,6 +53,7 @@ Rectangle {
         }
     }
 
+
     Text {
         id: camera_
         width: 112
@@ -61,7 +62,7 @@ Rectangle {
         text: qsTr("Camera #")
         anchors.left: parent.left
         anchors.top: parent.top
-        anchors.leftMargin: 347
+        anchors.leftMargin: 330
         anchors.topMargin: 383
         font.pixelSize: 24
         horizontalAlignment: Text.AlignLeft

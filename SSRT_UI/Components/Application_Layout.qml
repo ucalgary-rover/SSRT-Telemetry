@@ -85,6 +85,7 @@ Rectangle {
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
                     text: qsTr("Telemetry")
+
                     contentItem: Text {
                         id: telemetryLabel
                         color: "#390c00"
