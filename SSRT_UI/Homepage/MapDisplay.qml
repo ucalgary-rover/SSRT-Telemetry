@@ -329,7 +329,7 @@ Item {
 
                     Button {
                         id: saveTxt
-                        text: "Save"
+                        text: "Save Text"
                         width: 100
                         height: 40
                         background: Rectangle {

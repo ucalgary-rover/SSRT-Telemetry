@@ -33,29 +33,38 @@ void LabelManager::saveToTxt() const {
   timeString.replace(13, 1, 1, ',');
   timeString.replace(16, 1, 1, ',');
   timeString.append(".txt");
+  timeString = "saves/" + timeString;
 
   QString project_directory = QCoreApplication::applicationDirPath();
   QDir dir(project_directory);
-  if (dir.cdUp()) { // up to project root
-    QString filePath = dir.filePath(timeString.c_str());
-    QFile file(filePath);
-    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-      QTextStream out(&file);
-      out << "Lat, Long - Type (number)\n";
-      for (const QObject *labelObj : m_labels) {
-        const MapLabel *label = qobject_cast<const MapLabel *>(labelObj);
-        if (label) {
-          out << label->latitude() << "," << label->longitude() << " - "
-              << label->type() << "\n";
-        }
+  qDebug() << "Before path: " << dir << "\n";
+  if (dir.cdUp()) {
+    if (dir.cdUp()) {                // up to project root
+      if (!QDir("saves").exists()) { // ensure folder exists
+        QDir().mkdir("saves");
       }
-      file.close();
-      qDebug() << "Finished writing to file " << filePath;
+
+      QString filePath = dir.filePath(timeString.c_str());
+
+      QFile file(filePath);
+      if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream out(&file);
+        out << "Lat, Long - Type (number)\n";
+        for (const QObject *labelObj : m_labels) {
+          const MapLabel *label = qobject_cast<const MapLabel *>(labelObj);
+          if (label) {
+            out << label->latitude() << "," << label->longitude() << " - "
+                << label->type() << "\n";
+          }
+        }
+        file.close();
+        qDebug() << "Finished writing to file " << filePath;
+      } else {
+        qWarning() << "Failed to open file for writing: " << filePath;
+      }
     } else {
-      qWarning() << "Failed to open file for writing: " << filePath;
+      qWarning() << "Failed to find project directory\n";
     }
-  } else {
-    qWarning() << "Failed to find project directory\n";
   }
 }
 
