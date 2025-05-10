@@ -58,12 +58,13 @@ Rectangle {
         id: camera_
         width: 112
         height: 29
+        z: 1
         color: "#ffffff"
         text: qsTr("Camera #")
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.leftMargin: 330
-        anchors.topMargin: 383
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.rightMargin: 10
+        anchors.bottomMargin: 3
         font.pixelSize: 24
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignTop
