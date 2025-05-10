@@ -28,7 +28,8 @@ void LabelManager::saveToTxt() const {
   // current date & time
   time_t time = std::time(NULL);
   char timeChar[std::size("yyyy-mm-ddThh:mm:ssZ")];
-  strftime(std::data(timeChar), std::size(timeChar), "%FT%TZ", gmtime(&time));
+  strftime(std::data(timeChar), std::size(timeChar), "%FT%TZ",
+           localtime(&time));
   std::string timeString = timeChar;
   timeString.replace(13, 1, 1, ',');
   timeString.replace(16, 1, 1, ',');
