@@ -204,37 +204,11 @@ Item {
                         model: ["Poison", "Toxic", "Physical", "Damaged Line", "Ozone", "POI", "Hydrogen", "Damaged Rod", "Reactor"]
 
                         onActivated: {
-                            console.log("current value: ", currentValue)
-                            switch (currentValue) {
-                            case "Poison":
-                                parent.dropdownValue = MapLabel.Poison;
-                                break;
-                            case "Toxic":
-                                parent.dropdownValue = MapLabel.Toxic;
-                                break;
-                            case "Physical":
-                                parent.dropdownValue = MapLabel.Physical;
-                                break;
-                            case "Damaged Line":
-                                parent.dropdownValue = MapLabel.DamagedLine;
-                                break;
-                            case "Ozone":
-                                parent.dropdownValue = MapLabel.Ozone;
-                                break;
-                            case "POI":
-                                parent.dropdownValue = MapLabel.POI;
-                                break;
-                            case "Hydrogen":
-                                parent.dropdownValue = MapLabel.Hydrogen;
-                                break;
-                            case "Damaged Rod":
-                                parent.dropdownValue = MapLabel.DamagedRod;
-                                break;
-                            case "Reactor":
-                                parent.dropdownValue = MapLabel.Reactor;
-                                break;
-                            }
-                            console.log("Selected LabelType:", parent.dropdownValue);
+                            // console.log("current value: ", currentValue);
+                            var local_label = labelManager.createDummyMapLabel(); //dummy variable
+
+                            parent.dropdownValue = local_label.type_from_str(currentValue);
+                            // console.log("Selected LabelType:", parent.dropdownValue);
                         }
                     }
 
@@ -273,56 +247,12 @@ Item {
 
                         onActivated: {
                             console.log("current value: ", currentValue)
-                            switch (currentValue) {
-                            case "Poison":
-                                if (labelManager)
-                                    labelView.model = labelManager.filterLabels(MapLabel.Poison);
-                                console.log("Filter set to Poison, count:", labelManager.filterLabels(MapLabel.Poison).length);
-                                break;
-                            case "Toxic":
-                                if (labelManager)
-                                    labelView.model = labelManager.filterLabels(MapLabel.Toxic);
-                                console.log("Filter set to Toxic, count:", labelManager.filterLabels(MapLabel.Toxic).length);
-                                break;
-                            case "Physical":
-                                if (labelManager)
-                                    labelView.model = labelManager.filterLabels(MapLabel.Physical);
-                                console.log("Filter set to Physical, count:", labelManager.filterLabels(MapLabel.Physical).length);
-                                break;
-                            case "Damaged Line":
-                                if (labelManager)
-                                    labelView.model = labelManager.filterLabels(MapLabel.DamagedLine);
-                                console.log("Filter set to Poison, count:", labelManager.filterLabels(MapLabel.DamagedLine).length);
-                                break;
-                            case "Ozone":
-                                if (labelManager)
-                                    labelView.model = labelManager.filterLabels(MapLabel.Poison);
-                                console.log("Filter set to Ozone, count:", labelManager.filterLabels(MapLabel.Ozone).length);
-                                break;
-                            case "POI":
-                                if (labelManager)
-                                    labelView.model = labelManager.filterLabels(MapLabel.POI);
-                                console.log("Filter set to POI, count:", labelManager.filterLabels(MapLabel.POI).length);
-                                break;
-                            case "Hydrogen":
-                                if (labelManager)
-                                    labelView.model = labelManager.filterLabels(MapLabel.Poison);
-                                console.log("Filter set to Hydrogen, count:", labelManager.filterLabels(MapLabel.Hydrogen).length);
-                                break;
-                            case "Damaged Rod":
-                                if (labelManager)
-                                    labelView.model = labelManager.filterLabels(MapLabel.DamagedRod);
-                                console.log("Filter set to Damaged Rod, count:", labelManager.filterLabels(MapLabel.DamagedRod).length);
-                                break;
-                            case "Reactor":
-                                if (labelManager)
-                                    labelView.model = labelManager.filterLabels(MapLabel.Reactor);
-                                console.log("Filter set to Reactor, count:", labelManager.filterLabels(MapLabel.Reactor).length);
-                                break;
-                            case "All":
-                                if (labelManager)
-                                    labelView.model = labelManager.allLabels();
-                                console.log("Filter set to All, count: ", labelManager.count())
+                            if (currentValue === "All"  && labelManager) {
+                                labelView.model = labelManager.allLabels();
+                            }
+                            else if (labelManager) {
+                                var label_type = labelManager.createDummyMapLabel().type_from_str(currentValue);
+                                labelView.model = labelManager.filterLabels(label_type);
                             }
                         }
                     }

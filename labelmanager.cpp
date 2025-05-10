@@ -1,6 +1,4 @@
 #include "labelmanager.hpp"
-#include <QCoreApplication>
-#include <string>
 
 void LabelManager::addLabel(double latitude, double longitude,
                             MapLabel::LabelType type) {
@@ -55,7 +53,7 @@ void LabelManager::saveToTxt() const {
           const MapLabel *label = qobject_cast<const MapLabel *>(labelObj);
           if (label) {
             out << label->latitude() << "," << label->longitude() << " - "
-                << label->type() << "\n";
+                << label->str_type() << "\n";
           }
         }
         file.close();
@@ -67,6 +65,11 @@ void LabelManager::saveToTxt() const {
       qWarning() << "Failed to find project directory\n";
     }
   }
+}
+
+MapLabel *LabelManager::createDummyMapLabel() {
+  MapLabel *l = new MapLabel(0, 0, MapLabel::Poison, this);
+  return l;
 }
 
 int LabelManager::labelCount() const { return m_labels.count(); }

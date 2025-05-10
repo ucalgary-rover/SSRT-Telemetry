@@ -32,6 +32,8 @@ public:
   double latitude() const { return m_latitude; }
   double longitude() const { return m_longitude; }
   LabelType type() const { return m_type; }
+  QString str_type() const;
+  Q_INVOKABLE static LabelType type_from_str(QString &s);
 
   void setLatitude(double lat);
 
