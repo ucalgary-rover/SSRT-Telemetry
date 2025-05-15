@@ -15,7 +15,7 @@ class LabelManager : public QObject {
   Q_OBJECT
   Q_PROPERTY(int labelCount READ labelCount NOTIFY labelsUpdated)
 public:
-  explicit LabelManager(QObject *parent = nullptr) : QObject(parent) {}
+  explicit LabelManager(QObject *parent = nullptr);
 
   // Add a new label at the given coordinate with the specified type.
   Q_INVOKABLE void addLabel(double latitude, double longitude,
@@ -29,7 +29,9 @@ public:
 
   Q_INVOKABLE void saveToTxt() const;
 
-  Q_INVOKABLE MapLabel *createDummyMapLabel();
+  Q_INVOKABLE MapLabel *createDummyMapLabel() const;
+
+  Q_INVOKABLE QVariantMap getAllLabels() const;
 
   int labelCount() const;
 

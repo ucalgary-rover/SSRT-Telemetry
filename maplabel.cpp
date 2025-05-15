@@ -9,38 +9,37 @@
 #include <string>
 #include <unordered_map>
 
-QString MapLabel::str_type() const {
-  switch (m_type) {
-  case 0:
-    return QString("Poison");
-  case 1:
-    return QString("Toxic");
-  case 2:
-    return QString("Physical");
-  case 3:
-    return QString("Damaged Line");
-  case 4:
-    return QString("Ozone");
-  case 5:
-    return QString("POI");
-  case 6:
-    return QString("Hydrogen");
-  case 7:
-    return QString("Damaged Rod");
-  case 8:
-    return QString("Reactor");
+MapLabel::MapLabel(double lat, double lon, QStringList const &type,
+                   QObject *parent)
+    : QObject(parent), m_latitude(lat), m_longitude(lon),
+      m_labelTypes{
+          {"O3", QStringList{}},
+          {"H2", QStringList{}},
+          {"BMK-01",
+           QStringList{"CL-D", "CL-R", "CL-F", "CR-D", "CR-R", "CR-F"}},
+          {"BMK-05",
+           QStringList{"CL-D", "CL-R", "CL-F", "CR-D", "CR-R", "CR-F"}},
+          {"BMK-10",
+           QStringList{"CL-D", "CL-R", "CL-F", "CR-D", "CR-R", "CR-F"}},
+          {"BMK-25",
+           QStringList{"CL-D", "CL-R", "CL-F", "CR-D", "CR-R", "CR-F"}},
+          {"NavHazard", QStringList{}}},
+
+      m_labelColourMap{{"O3", "#BE7309"},       {"H2", "#BE7309"},
+                       {"BMK-01", "7D0F9C"},    {"BMK-5", "#11339A"},
+                       {"BMK-10", "#BE068D"},   {"BMK-25", "#890C0C"},
+                       {"NavHazard", "#0B9E12"}} {
+
+  if (type.size() != 2) {
+    // invalid number of arguments
+    return;
+  } else if (!m_labelTypes.count(type[0]) ||
+             !m_labelTypes[type[0]].contains(type[1])) {
+    // invalid arguments
+    return;
   }
-  return QString("N/A");
-}
 
-MapLabel::LabelType MapLabel::type_from_str(QString &s) {
-  std::unordered_map<std::string, int> translations = {
-      {"Poison", 0},       {"Toxic", 1},       {"Physical", 2},
-      {"Damaged Line", 3}, {"Ozone", 4},       {"POI", 5},
-      {"Hydrogen", 6},     {"Damaged Rod", 7}, {"Reactor", 8}};
-
-  int enum_int = translations[s.toStdString()];
-  return static_cast<MapLabel::LabelType>(enum_int);
+  m_type = type;
 }
 
 void MapLabel::setLatitude(double lat) {
@@ -57,9 +56,11 @@ void MapLabel::setLongitude(double lon) {
   }
 }
 
-void MapLabel::setType(LabelType type) {
+void MapLabel::setType(QStringList const &type) {
   if (m_type != type) {
     m_type = type;
     emit labelChanged();
   }
 }
+
+QMap<QString, QStringList> MapLabel::labelTypes() const { return m_labelTypes; }

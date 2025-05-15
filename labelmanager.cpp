@@ -1,5 +1,7 @@
 #include "labelmanager.hpp"
 
+LabelManager::LabelManager(QObject *parent) : QObject{parent} {}
+
 void LabelManager::addLabel(double latitude, double longitude,
                             MapLabel::LabelType type) {
   MapLabel *newLabel = new MapLabel(latitude, longitude, type, this);
@@ -67,9 +69,14 @@ void LabelManager::saveToTxt() const {
   }
 }
 
-MapLabel *LabelManager::createDummyMapLabel() {
-  MapLabel *l = new MapLabel(0, 0, MapLabel::Poison, this);
+MapLabel *LabelManager::createDummyMapLabel() const {
+  MapLabel *l = new MapLabel(0, 0, MapLabel::Poison, nullptr);
   return l;
+}
+
+QVariantMap LabelManager::getAllLabels() const {
+  MapLabel *l = createDummyMapLabel();
+  return l->labelTypes();
 }
 
 int LabelManager::labelCount() const { return m_labels.count(); }

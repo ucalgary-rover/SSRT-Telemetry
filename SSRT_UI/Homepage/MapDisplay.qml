@@ -199,27 +199,18 @@ Item {
                     Column {
                         id: dropdownMenusColumn
 
-                        // dropdown menu
+                        property var menuData: labelManager.getAllLabels()
 
-                        property var menuData: {
-                            "O3": [],
-                            "H2": [],
-                            "BMK-01": ["CL-D", "CL-R", "CL-F", "CR-D", "CR-R", "CR-F"],
-                            "BMK-05": ["CL-D", "CL-R", "CL-F", "CR-D", "CR-R", "CR-F"],
-                            "BMK-10": ["CL-D", "CL-R", "CL-F", "CR-D", "CR-R", "CR-F"],
-                            "BMK-25": ["CL-D", "CL-R", "CL-F", "CR-D", "CR-R", "CR-F"],
-                            "NavHazard": []
-                        }
-
-                        property string selectedTop: "O3"
+                        property string selectedTop: "O3"   // select property at first to have correct settings
                         property string selectedLower
 
                         // parent dropdown
                         ComboBox {
                             id: topDropdownMenu
                             height: 40
-                            currentIndex: 0
-                            model: Object.keys(parent.menuData)
+                            property var keys: Object.keys(parent.menuData)
+                            model: keys
+                            currentIndex: keys.indexOf("O3")
 
                             onActivated: {
                                 console.log("current value: ", currentValue);
