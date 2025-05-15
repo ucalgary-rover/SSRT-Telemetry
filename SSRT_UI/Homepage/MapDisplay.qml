@@ -172,13 +172,14 @@ Item {
             anchors.right: parent.right
             anchors.margins: 10
             width: 250
-            height: 150
+            height: dropdownMenusColumn.menuData[dropdownMenusColumn.selectedTop].length > 0 ? 190 : 150
             color: "#cba87f"
             border.color: "black"
             radius: 5
             z: 1
 
             Column {
+                id: menuColumn
                 spacing: 10
                 anchors.fill: parent
                 anchors.margins: 10
@@ -194,21 +195,55 @@ Item {
                 // Row for adding labels.
                 Row {
                     spacing: 10
-                    property int dropdownValue
 
-                    // dropdown menu
-                    ComboBox {
-                        id: dropdownMenu
-                        height: 40
-                        currentIndex: 0
-                        model: ["Poison", "Toxic", "Physical", "Damaged Line", "Ozone", "POI", "Hydrogen", "Damaged Rod", "Reactor"]
+                    Column {
+                        id: dropdownMenusColumn
 
-                        onActivated: {
-                            // console.log("current value: ", currentValue);
-                            var local_label = labelManager.createDummyMapLabel(); //dummy variable
+                        // dropdown menu
 
-                            parent.dropdownValue = local_label.type_from_str(currentValue);
-                            // console.log("Selected LabelType:", parent.dropdownValue);
+                        property var menuData: {
+                            "O3": [],
+                            "H2": [],
+                            "BMK-01": ["CL-D", "CL-R", "CL-F", "CR-D", "CR-R", "CR-F"],
+                            "BMK-05": ["CL-D", "CL-R", "CL-F", "CR-D", "CR-R", "CR-F"],
+                            "BMK-10": ["CL-D", "CL-R", "CL-F", "CR-D", "CR-R", "CR-F"],
+                            "BMK-25": ["CL-D", "CL-R", "CL-F", "CR-D", "CR-R", "CR-F"],
+                            "NavHazard": []
+                        }
+
+                        property string selectedTop: "O3"
+                        property string selectedLower
+
+                        // parent dropdown
+                        ComboBox {
+                            id: topDropdownMenu
+                            height: 40
+                            currentIndex: 0
+                            model: Object.keys(parent.menuData)
+
+                            onActivated: {
+                                console.log("current value: ", currentValue);
+                                parent.selectedTop = currentValue;
+                                // var local_label = labelManager.createDummyMapLabel(); //dummy variable
+
+                                // parent.dropdownValue = local_label.type_from_str(currentValue);
+                                // console.log("Selected LabelType:", parent.dropdownValue);
+                            }
+                        }
+
+                        // child dropdown
+                        ComboBox {
+                            id: lowerDropdownMenu
+                            height: 40
+                            currentIndex: 0
+                            visible: parent.menuData[parent.selectedTop].length > 0
+
+                            // width: 200
+                            model: parent.selectedTop !== "" ? parent.menuData[parent.selectedTop] : []
+
+                            onActivated: {
+                                console.log("lower value: ", currentValue);
+                            }
                         }
                     }
 
@@ -246,11 +281,10 @@ Item {
                         model: ["All", "Poison", "Toxic", "Physical", "Damaged Line", "Ozone", "POI", "Hydrogen", "Damaged Rod", "Reactor"]
 
                         onActivated: {
-                            console.log("current value: ", currentValue)
-                            if (currentValue === "All"  && labelManager) {
+                            console.log("current value: ", currentValue);
+                            if (currentValue === "All" && labelManager) {
                                 labelView.model = labelManager.allLabels();
-                            }
-                            else if (labelManager) {
+                            } else if (labelManager) {
                                 var label_type = labelManager.createDummyMapLabel().type_from_str(currentValue);
                                 labelView.model = labelManager.filterLabels(label_type);
                             }
