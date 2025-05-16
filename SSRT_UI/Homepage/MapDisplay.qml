@@ -80,6 +80,16 @@ Item {
                 radius: 10
                 border.color: "black"
                 border.width: 1
+
+                MouseArea {
+                    id: startMarkerMouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+
+                    ToolTip.visible: containsMouse
+                    ToolTip.delay: 0
+                    ToolTip.text: "Start Point\nLat: " + mapDisplay.startCoord.latitude + "    Lon: " + mapDisplay.startCoord.longitude
+                }
             }
         }
 
@@ -113,6 +123,21 @@ Item {
                     height: 20
                     radius: 10
                     color: modelData.getColour()
+
+                    MouseArea {
+                        id: markerMouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+
+                        ToolTip.visible:  containsMouse
+                        ToolTip.delay: 0
+                        ToolTip.text: {
+                            var subtype = (modelData.type && modelData.type.length > 1 && modelData.type[1].length > 0)
+                                    ? (modelData.type[0] + " / " + modelData.type[1])
+                                    : modelData.type[0];
+                           subtype +"\nLat: " + modelData.latitude.toFixed(6) + "    Lon: " + modelData.longitude.toFixed(6)
+
+                        }}
                 }
             }
         }
