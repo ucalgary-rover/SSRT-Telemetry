@@ -274,6 +274,10 @@ Item {
 
                 onActivated: {
                     parent.selectedTop = currentValue;
+
+                    if (parent.parent.menuData[currentValue].length > 1) {
+                        parent.selectedLower = "CL-D";
+                    }
                 }
             }
 
@@ -282,7 +286,7 @@ Item {
                 id: lowerDropdown
                 height: 40
                 currentIndex: 0
-                visible: parent.parent.menuData[parent.selectedTop].length > 0
+                visible: parent.parent.menuData[parent.selectedTop].length > 1
 
                 model: parent.selectedTop !== "" ? parent.parent.menuData[parent.selectedTop] : []
 
