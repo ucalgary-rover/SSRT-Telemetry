@@ -172,7 +172,7 @@ Item {
             anchors.right: parent.right
             anchors.margins: 10
             width: 250
-            height: dropdownMenusColumn.menuData[dropdownMenusColumn.selectedTop].length > 0 ? 190 : 150
+            height: 190 // addLabels.menuData[addLabels.dropdownCol.selectedTop].length > 0 ? 190 : 150
             color: "#cba87f"
             border.color: "black"
             radius: 5
@@ -192,70 +192,92 @@ Item {
                     width: parent.width
                 }
 
-                // Row for adding labels.
-                Row {
-                    spacing: 10
-
-                    Column {
-                        id: dropdownMenusColumn
-
-                        property var menuData: labelManager.getAllLabels()
-
-                        property string selectedTop: "O3"   // select property at first to have correct settings
-                        property string selectedLower
-
-                        // parent dropdown
-                        ComboBox {
-                            id: topDropdownMenu
-                            height: 40
-                            property var keys: Object.keys(parent.menuData)
-                            model: keys
-                            currentIndex: keys.indexOf("O3")
-
-                            onActivated: {
-                                console.log("current value: ", currentValue);
-                                parent.selectedTop = currentValue;
-                                // var local_label = labelManager.createDummyMapLabel(); //dummy variable
-
-                                // parent.dropdownValue = local_label.type_from_str(currentValue);
-                                // console.log("Selected LabelType:", parent.dropdownValue);
-                            }
-                        }
-
-                        // child dropdown
-                        ComboBox {
-                            id: lowerDropdownMenu
-                            height: 40
-                            currentIndex: 0
-                            visible: parent.menuData[parent.selectedTop].length > 0
-
-                            // width: 200
-                            model: parent.selectedTop !== "" ? parent.menuData[parent.selectedTop] : []
-
-                            onActivated: {
-                                console.log("lower value: ", currentValue);
-                            }
-                        }
-                    }
-
-                    Button {
-                        id: addLabel
-                        text: "Add"
-                        width: 100
-                        height: 40
-                        background: Rectangle {
-                            anchors.fill: parent
-                            color: "#c85428"
-                            radius: 4
-                        }
-                        font.pixelSize: 12
-                        font.bold: true
-                        onClicked: {
-                            if (labelManager)
-                                labelManager.addLabel(map.center.latitude, map.center.longitude, parent.dropdownValue);
+                TwoTieredDropdown {
+                    id: addLabels
+                    defaultSelect: "O3"
+                    buttonText: "Add"
+                    onButtonAction: {
+                        if (labelManager) {
+                            var labelList;
+                            if (menuData[selectedTop].length === 0)
+                                labelList = [selectedTop, ""];
+                            else
+                                labelList = [selectedTop, selectedLower];
+                            labelManager.addLabel(map.center.latitude, map.center.longitude, parent.dropdownValue);
                         }
                     }
                 }
+
+                // // Row for adding labels.
+                // Row {
+                //     spacing: 10
+
+                //     Column {
+                //         id: dropdownMenusColumn
+
+                //         property var menuData: labelManager.getAllLabels()
+
+                //         property string selectedTop: "O3"   // select property at first to have correct settings
+                //         property string selectedLower
+
+                //         // parent dropdown
+                //         ComboBox {
+                //             id: topDropdownMenu
+                //             height: 40
+                //             property var keys: Object.keys(parent.menuData)
+                //             model: keys
+                //             currentIndex: keys.indexOf("O3")
+
+                //             onActivated: {
+                //                 console.log("current value: ", currentValue);
+                //                 parent.selectedTop = currentValue;
+                //                 // var local_label = labelManager.createDummyMapLabel(); //dummy variable
+
+                //                 // parent.dropdownValue = local_label.type_from_str(currentValue);
+                //                 // console.log("Selected LabelType:", parent.dropdownValue);
+                //             }
+                //         }
+
+                //         // child dropdown
+                //         ComboBox {
+                //             id: lowerDropdownMenu
+                //             height: 40
+                //             currentIndex: 0
+                //             visible: parent.menuData[parent.selectedTop].length > 0
+
+                //             // width: 200
+                //             model: parent.selectedTop !== "" ? parent.menuData[parent.selectedTop] : []
+
+                //             onActivated: {
+                //                 console.log("lower value: ", currentValue);
+                //             }
+                //         }
+                //     }
+
+                //     Button {
+                //         id: addLabel
+                //         text: "Add"
+                //         width: 100
+                //         height: 40
+                //         background: Rectangle {
+                //             anchors.fill: parent
+                //             color: "#c85428"
+                //             radius: 4
+                //         }
+                //         font.pixelSize: 12
+                //         font.bold: true
+                //         onClicked: {
+                //             if (labelManager) {
+                //                 var labelList;
+                //                 if (menuData[selectedTop].length === 0)
+                //                     labelList = [selectedTop, ""];
+                //                 else
+                //                     labelList = [selectedTop, selectedLower];
+                //                 labelManager.addLabel(map.center.latitude, map.center.longitude, parent.dropdownValue);
+                //             }
+                //         }
+                //     }
+                // }
 
                 // Filtering controls.
                 Text {
@@ -305,4 +327,67 @@ Item {
         }
         // --- End of Control Panel ---
     } // End of Map
+
+    component TwoTieredDropdown: Row {
+        id: twoTieredDropdown
+
+        property alias buttonText: button.text
+        signal buttonAction
+        property alias defaultSelect: dropdownCol.selectedTop
+        property var menuData
+
+        spacing: 10
+
+        Column {
+            id: dropdownCol
+            height: 40
+
+            property string selectedTop
+            property string selectedLower: ""
+
+            // parent dropdown
+            ComboBox {
+                id: topDropdown
+                height: 40
+
+                property var keys: Object.keys(parent.parent.menuData)
+                model: keys
+                currentIndex: keys.indexOf(parent.parent.defaultSelect)
+
+                onActivated: {
+                    parent.selectedTop = currentValue;
+                }
+            }
+
+            // child dropdown
+            ComboBox {
+                id: lowerDropdown
+                height: 40
+                currentIndex: 0
+                visible: parent.parent.menuData[parent.selectedTop].length > 0
+
+                model: parent.selectedTop !== "" ? parent.parent.menuData[parent.selectedTop] : []
+
+                onActivated: {
+                    parent.selectedLower = currentValue;
+                }
+            }
+        }
+
+        Button {
+            id: button
+            width: 100
+            height: 40
+            background: Rectangle {
+                anchors.fill: parent
+                color: "#c85428"
+                radius: 4
+            }
+
+            font.pixelSize: 12
+            font.bold: true
+
+            onClicked: parent.parent.buttonAction()
+        }
+    }
 }

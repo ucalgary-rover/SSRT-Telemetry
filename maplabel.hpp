@@ -11,9 +11,9 @@ class MapLabel : public QObject {
   Q_PROPERTY(
       double longitude READ longitude WRITE setLongitude NOTIFY labelChanged)
   Q_PROPERTY(QStringList type READ type WRITE setType NOTIFY labelChanged)
-  Q_PROPERTY(QMap labelTypes READ labelTypes CONSTANT FINAL)
+  Q_PROPERTY(QVariantMap labelTypes READ labelTypes CONSTANT FINAL)
 public:
-  explicit MapLabel(double lat, double lon, const QStringList &type,
+  explicit MapLabel(double lat, double lon, const QVariantList &type,
                     QObject *parent = nullptr);
 
   double latitude() const { return m_latitude; }
@@ -26,7 +26,7 @@ public:
 
   void setType(const QStringList &type);
 
-  QMap<QString, QStringList> labelTypes() const;
+  QVariantMap labelTypes() const;
 
 signals:
   void labelChanged();
@@ -35,7 +35,7 @@ private:
   double m_latitude;
   double m_longitude;
   QStringList m_type;
-  QMap<QString, QStringList> m_labelTypes;
+  QVariantMap m_labelTypes;
   std::map<std::string, std::string> m_labelColourMap;
 };
 

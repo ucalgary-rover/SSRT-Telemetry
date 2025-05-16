@@ -19,10 +19,10 @@ public:
 
   // Add a new label at the given coordinate with the specified type.
   Q_INVOKABLE void addLabel(double latitude, double longitude,
-                            MapLabel::LabelType type);
+                            QStringList type);
 
   // Returns a list of labels filtered by type.
-  Q_INVOKABLE QList<QObject *> filterLabels(MapLabel::LabelType type) const;
+  Q_INVOKABLE QList<QObject *> filterLabels(QStringList type) const;
 
   // Returns all labels.
   Q_INVOKABLE QList<QObject *> allLabels() const;
