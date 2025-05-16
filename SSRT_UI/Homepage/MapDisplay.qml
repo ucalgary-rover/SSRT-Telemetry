@@ -196,14 +196,19 @@ Item {
                     id: addLabels
                     defaultSelect: "O3"
                     buttonText: "Add"
+                    menuData: labelManager.getAllLabels()
                     onButtonAction: {
                         if (labelManager) {
                             var labelList;
-                            if (menuData[selectedTop].length === 0)
-                                labelList = [selectedTop, ""];
-                            else
-                                labelList = [selectedTop, selectedLower];
-                            labelManager.addLabel(map.center.latitude, map.center.longitude, parent.dropdownValue);
+                            if (menuData[addLabels.selectedTop].length === 0) {
+                                labelList = [addLabels.selectedTop, ""];
+                            }
+                            else {
+                                labelList = [addLabels.selectedTop, addLabels.selectedLower];
+                            }
+
+
+                            labelManager.addLabel(map.center.latitude, map.center.longitude, labelList);
                         }
                     }
                 }
@@ -333,8 +338,10 @@ Item {
 
         property alias buttonText: button.text
         signal buttonAction
-        property alias defaultSelect: dropdownCol.selectedTop
+        property string defaultSelect
         property var menuData
+        property alias selectedTop: dropdownCol.selectedTop
+        property alias selectedLower: dropdownCol.selectedLower
 
         spacing: 10
 
@@ -342,8 +349,11 @@ Item {
             id: dropdownCol
             height: 40
 
-            property string selectedTop
+            property string selectedTop: parent.defaultSelect
             property string selectedLower: ""
+
+            onSelectedTopChanged: parent.selectedTop = selectedTop
+            onSelectedLowerChanged: parent.selectedLower = selectedLower
 
             // parent dropdown
             ComboBox {
@@ -352,7 +362,7 @@ Item {
 
                 property var keys: Object.keys(parent.parent.menuData)
                 model: keys
-                currentIndex: keys.indexOf(parent.parent.defaultSelect)
+                currentIndex: keys.indexOf(parent.selectedTop)
 
                 onActivated: {
                     parent.selectedTop = currentValue;
@@ -387,7 +397,7 @@ Item {
             font.pixelSize: 12
             font.bold: true
 
-            onClicked: parent.parent.buttonAction()
+            onClicked: parent.buttonAction()
         }
     }
 }
