@@ -14,11 +14,11 @@ void LabelManager::addLabel(double latitude, double longitude,
   emit labelsUpdated();
 }
 
-QList<QObject *> LabelManager::filterLabels(QStringList type) const {
+QList<QObject *> LabelManager::filterLabels(const QString &type) const {
   QList<QObject *> filtered;
   for (QObject *obj : m_labels) {
     MapLabel *label = qobject_cast<MapLabel *>(obj);
-    if (label && label->type()[0] == type[0] && label->type()[1] == type[1])
+    if (label && label->type()[0] == type)
       filtered.append(label);
   }
   return filtered;

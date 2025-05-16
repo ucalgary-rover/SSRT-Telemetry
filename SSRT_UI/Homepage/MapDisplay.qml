@@ -151,7 +151,7 @@ Item {
             anchors.right: parent.right
             anchors.margins: 10
             width: 250
-            height: 190 // addLabels.menuData[addLabels.dropdownCol.selectedTop].length > 0 ? 190 : 150
+            height: addLabels.menuData[addLabels.selectedTop].length > 1 ? 190 : 150
             color: "#cba87f"
             border.color: "black"
             radius: 5
@@ -164,11 +164,13 @@ Item {
                 anchors.margins: 10
 
                 Text {
+                    id: headingText
                     text: "Label Controls"
                     font.bold: true
                     color: "black"
                     horizontalAlignment: Text.AlignHCenter
                     width: parent.width
+                    anchors.top: parent.top
                 }
 
                 TwoTieredDropdown {
@@ -176,6 +178,7 @@ Item {
                     defaultSelect: "O3"
                     buttonText: "Add"
                     menuData: labelManager.getAllLabels()
+                    anchors.top: headingText.bottom
                     onButtonAction: {
                         if (labelManager) {
                             var labelList;
@@ -194,25 +197,33 @@ Item {
 
                 // Filtering controls.
                 Text {
+                    id: filterText
                     text: "Filter Labels:"
                     font.bold: true
                     color: "black"
+                    anchors.top: addLabels.bottom
+                    anchors.topMargin: 10
                 }
+
                 Row {
                     spacing: 10
+                    anchors.top: filterText.bottom
                     ComboBox {
-                        id: filterDropdownMenu
+                        id: filterLabels
                         height: 40
                         currentIndex: 0
-                        model: ["All", "Poison", "Toxic", "Physical", "Damaged Line", "Ozone", "POI", "Hydrogen", "Damaged Rod", "Reactor"]
+                        model: {
+                            var labels = Object.keys(labelManager.getAllLabels());
+                            labels.unshift("All");
+                            return labels;
+                        }
 
                         onActivated: {
                             console.log("current value: ", currentValue);
                             if (currentValue === "All" && labelManager) {
                                 labelView.model = labelManager.allLabels();
                             } else if (labelManager) {
-                                var label_type = labelManager.createDummyMapLabel().type_from_str(currentValue);
-                                labelView.model = labelManager.filterLabels(label_type);
+                                labelView.model = labelManager.filterLabels(currentValue);
                             }
                         }
                     }
@@ -236,10 +247,11 @@ Item {
                         }
                     }
                 }
+                }
             }
         }
         // --- End of Control Panel ---
-    } // End of Map
+     // End of Map
 
     component TwoTieredDropdown: Row {
         id: twoTieredDropdown
@@ -250,6 +262,8 @@ Item {
         property var menuData
         property alias selectedTop: dropdownCol.selectedTop
         property alias selectedLower: dropdownCol.selectedLower
+
+        height: menuData[selectedTop].length > 1 ? 80 : 40
 
         spacing: 10
 

@@ -22,7 +22,7 @@ public:
                             QStringList type);
 
   // Returns a list of labels filtered by type.
-  Q_INVOKABLE QList<QObject *> filterLabels(QStringList type) const;
+  Q_INVOKABLE QList<QObject *> filterLabels(const QString &type) const;
 
   // Returns all labels.
   Q_INVOKABLE QList<QObject *> allLabels() const;
