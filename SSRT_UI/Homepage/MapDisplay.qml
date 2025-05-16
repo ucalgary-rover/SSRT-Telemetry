@@ -112,28 +112,7 @@ Item {
                     width: 20
                     height: 20
                     radius: 10
-                    color: {
-                        switch (modelData.type) {
-                        case MapLabel.Poison:
-                            return "#7e055d";
-                        case MapLabel.Toxic:
-                            return "#1a7ce6";
-                        case MapLabel.Physical:
-                            return "#48d2fe";
-                        case MapLabel.DamagedLine:
-                            return "#15a672";
-                        case MapLabel.Ozone:
-                            return "#8bffc5";
-                        case MapLabel.POI:
-                            return "#8a8029";
-                        case MapLabel.Hydrogen:
-                            return "#cec24d";
-                        case MapLabel.DamagedRod:
-                            return "#faa836";
-                        case MapLabel.Reactor:
-                            return "#a93b43";
-                        }
-                    }
+                    color: modelData.getColour()
                 }
             }
         }
@@ -212,77 +191,6 @@ Item {
                         }
                     }
                 }
-
-                // // Row for adding labels.
-                // Row {
-                //     spacing: 10
-
-                //     Column {
-                //         id: dropdownMenusColumn
-
-                //         property var menuData: labelManager.getAllLabels()
-
-                //         property string selectedTop: "O3"   // select property at first to have correct settings
-                //         property string selectedLower
-
-                //         // parent dropdown
-                //         ComboBox {
-                //             id: topDropdownMenu
-                //             height: 40
-                //             property var keys: Object.keys(parent.menuData)
-                //             model: keys
-                //             currentIndex: keys.indexOf("O3")
-
-                //             onActivated: {
-                //                 console.log("current value: ", currentValue);
-                //                 parent.selectedTop = currentValue;
-                //                 // var local_label = labelManager.createDummyMapLabel(); //dummy variable
-
-                //                 // parent.dropdownValue = local_label.type_from_str(currentValue);
-                //                 // console.log("Selected LabelType:", parent.dropdownValue);
-                //             }
-                //         }
-
-                //         // child dropdown
-                //         ComboBox {
-                //             id: lowerDropdownMenu
-                //             height: 40
-                //             currentIndex: 0
-                //             visible: parent.menuData[parent.selectedTop].length > 0
-
-                //             // width: 200
-                //             model: parent.selectedTop !== "" ? parent.menuData[parent.selectedTop] : []
-
-                //             onActivated: {
-                //                 console.log("lower value: ", currentValue);
-                //             }
-                //         }
-                //     }
-
-                //     Button {
-                //         id: addLabel
-                //         text: "Add"
-                //         width: 100
-                //         height: 40
-                //         background: Rectangle {
-                //             anchors.fill: parent
-                //             color: "#c85428"
-                //             radius: 4
-                //         }
-                //         font.pixelSize: 12
-                //         font.bold: true
-                //         onClicked: {
-                //             if (labelManager) {
-                //                 var labelList;
-                //                 if (menuData[selectedTop].length === 0)
-                //                     labelList = [selectedTop, ""];
-                //                 else
-                //                     labelList = [selectedTop, selectedLower];
-                //                 labelManager.addLabel(map.center.latitude, map.center.longitude, parent.dropdownValue);
-                //             }
-                //         }
-                //     }
-                // }
 
                 // Filtering controls.
                 Text {

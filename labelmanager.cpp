@@ -4,9 +4,20 @@ LabelManager::LabelManager(QObject *parent) : QObject{parent} {}
 
 void LabelManager::addLabel(double latitude, double longitude,
                             QStringList type) {
-  MapLabel *newLabel = new MapLabel(
-      latitude, longitude, QVariantList(type.begin(), type.end()), this);
+  QVariantList varList;
+  for (QString str : type) {
+    varList.append(str);
+  }
+
+  qDebug() << "varList size: " << varList.length();
+
+  MapLabel *newLabel = new MapLabel(latitude, longitude, varList, this);
   // qDebug("Map label: ", type);
+  qDebug() << "lat " << newLabel->latitude()
+           << " long: " << newLabel->longitude();
+  for (auto i : newLabel->type()) {
+    qDebug() << "asd: " << i << ", ";
+  }
   m_labels.append(newLabel);
   emit labelsUpdated();
 }

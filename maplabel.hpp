@@ -26,6 +26,8 @@ public:
 
   void setType(const QStringList &type);
 
+  Q_INVOKABLE QString getColour() const;
+
   QVariantMap labelTypes() const;
 
 signals:
