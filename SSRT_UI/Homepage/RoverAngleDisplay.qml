@@ -106,7 +106,7 @@ ColumnLayout {
             }
 
             // Reset flags when accepted OR rejected
-            onAccepted: {r
+            onAccepted: {
                 angleController.set_x_danger(false)
                 angleController.set_y_danger(false)
 

@@ -1,12 +1,17 @@
 import QtQuick
 import QtLocation 5.15
 import QtPositioning 5.15
+import SSRTelemetry
 
 Map {
     id: map
     width: parent.width * 0.75
     height: parent.height
     anchors.left: parent.left
+
+    RoverTracker {
+        id: roverTracker
+    }
 
     plugin: Plugin {
         name: "osm"
