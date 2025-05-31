@@ -14,11 +14,11 @@ CheckBox {
         id: indicatorRectangle
         implicitWidth: 26
         implicitHeight: 26
+        x: control.leftPadding
+        y: parent.height / 2 - height / 2
         color: "#8f4c34"
         radius: 3
         border.color: "#7b664c"
-        anchors.horizontalCenter: parent.horizontalCenter
-
         Rectangle {
             id: rectangle
             width: 14
@@ -39,12 +39,9 @@ CheckBox {
         font: control.font
         opacity: enabled ? 1.0 : 0.3
         color: "#000000"
-        text: cameraNum
-        anchors.top: indicatorRectangle.bottom
-        anchors.topMargin: 0
+        text: control.cameraNum
         verticalAlignment: Text.AlignVCenter
-        leftPadding: 0
-        anchors.horizontalCenter: parent.horizontalCenter
+        leftPadding: control.indicator.width + control.spacing
     }
     states: [
         State {
