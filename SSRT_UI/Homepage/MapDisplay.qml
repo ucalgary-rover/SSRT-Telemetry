@@ -52,6 +52,7 @@ Item {
         id: map
         anchors.fill: parent
 
+
         plugin: Plugin {
             name: "osm"
             PluginParameter {
