@@ -317,6 +317,9 @@ Item {
                     if (parent.parent.menuData[currentValue].length > 1) {
                         parent.selectedLower = "CL-D";
                     }
+                    else {
+                        parent.selectedLower = "";
+                    }
                 }
             }
 
