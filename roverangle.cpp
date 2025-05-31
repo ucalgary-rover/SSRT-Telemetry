@@ -1,4 +1,3 @@
-
 #include "roverangle.hpp"
 
 // constructor
@@ -84,14 +83,14 @@ void RoverAngle::monitorData() {
     // y_danger());
 
     if (x_in_danger && y_in_danger) {
-      qDebug("Both angles of the rover are in danger of tipping!");
+      // qDebug("Both angles of the rover are in danger of tipping!");
       set_x_danger(true);
       set_y_danger(true);
     } else if (x_in_danger) {
-      qDebug("X angle in danger of tipping ");
+      // qDebug("X angle in danger of tipping ");
       set_x_danger(true);
     } else if (y_in_danger) {
-      qDebug("Y angle in danger of tipping");
+      // qDebug("Y angle in danger of tipping");
       set_y_danger(true);
     }
 

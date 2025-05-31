@@ -1,0 +1,44 @@
+#ifndef MAPLABEL_H
+#define MAPLABEL_H
+
+#include <QObject>
+#include <QVariantMap>
+
+class MapLabel : public QObject {
+  Q_OBJECT
+  Q_PROPERTY(
+      double latitude READ latitude WRITE setLatitude NOTIFY labelChanged)
+  Q_PROPERTY(
+      double longitude READ longitude WRITE setLongitude NOTIFY labelChanged)
+  Q_PROPERTY(QStringList type READ type WRITE setType NOTIFY labelChanged)
+  Q_PROPERTY(QVariantMap labelTypes READ labelTypes CONSTANT FINAL)
+public:
+  explicit MapLabel(double lat, double lon, const QVariantList &type,
+                    QObject *parent = nullptr);
+
+  double latitude() const { return m_latitude; }
+  double longitude() const { return m_longitude; }
+  QStringList type() const { return m_type; }
+
+  void setLatitude(double lat);
+
+  void setLongitude(double lon);
+
+  void setType(const QStringList &type);
+
+  Q_INVOKABLE QString getColour() const;
+
+  QVariantMap labelTypes() const;
+
+signals:
+  void labelChanged();
+
+private:
+  double m_latitude;
+  double m_longitude;
+  QStringList m_type;
+  QVariantMap m_labelTypes;
+  std::map<std::string, std::string> m_labelColourMap;
+};
+
+#endif // MAPLABEL_H
