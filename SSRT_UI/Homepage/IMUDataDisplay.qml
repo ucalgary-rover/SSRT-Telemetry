@@ -2,11 +2,16 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Shapes 1.15
+import SSRTelemetry;
 
 Item {
     id: compass
     width: 200
     height: 250
+
+    IMUData {
+        id: imuDataController
+    }
 
     // Public properties to bind to
     property real heading: 0        // Degrees, 0–360
@@ -60,11 +65,11 @@ Item {
         color: "red"
         radius: 3
         anchors.horizontalCenter: compassBackground.horizontalCenter
-        anchors.verticalCenter: compassBackground.verticalCenter
+        anchors.bottom: compassBackground.verticalCenter
         transform: Rotation {
             origin.x: needle.width / 2
             origin.y: needle.height
-            angle: heading
+            angle: imuDataController.heading_angle
         }
     }
 
@@ -75,14 +80,14 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
 
         Text {
-            text: heading.toFixed(1) + "°"
+            text: imuDataController.heading_angle.toFixed(1) + "°"
             font.pointSize: 16
             font.bold: true
             horizontalAlignment: Text.AlignHCenter
         }
 
         Text {
-            text: direction
+            text: imuDataController.heading_cardinal
             font.pointSize: 14
             horizontalAlignment: Text.AlignHCenter
         }
