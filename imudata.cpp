@@ -24,7 +24,7 @@ void IMUData::setHeadingAngle(qreal new_angle) {
   emit headingAngleChanged();
 }
 
-void IMUData::setHeadingCardinal(QString &new_heading) {
+void IMUData::setHeadingCardinal(const QString &new_heading) {
   if (m_heading_cardinal == new_heading) {
     return;
   }
@@ -56,7 +56,8 @@ void IMUData::streamData() {
     float heading =
         computeHeading(accel_x, accel_y, accel_z, mag_x, mag_y, mag_z);
     setHeadingAngle(heading);
-    setHeadingCardinal(getCardinalDirection(heading));
+    QString cardinal = getCardinalDirection(heading);
+    setHeadingCardinal(cardinal);
 
     std::this_thread::sleep_for(std::chrono::milliseconds(updateTimeMs));
   }

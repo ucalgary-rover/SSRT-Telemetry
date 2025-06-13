@@ -22,7 +22,7 @@ public:
   void setHeadingAngle(qreal new_angle);
 
   QString heading_cardinal() const;
-  void setHeadingCardinal(QString new_heading);
+  void setHeadingCardinal(const QString &new_heading);
 
 private:
   qreal m_heading_angle;
