@@ -71,14 +71,14 @@ ColumnLayout {
 
     // X angle view
     SingleAngleView {
-        text: qsTr("Front (Roll)")
+        text: qsTr("Roll")
         imagePath: "../assets/rover-front-view.png"
         angle: angleController.x_angle
     }
 
     // Y angle view
     SingleAngleView {
-        text: qsTr("Side (Pitch)")
+        text: qsTr("Pitch")
         imagePath: "../assets/rover-side-view.png"
         angle: angleController.y_angle
     }
