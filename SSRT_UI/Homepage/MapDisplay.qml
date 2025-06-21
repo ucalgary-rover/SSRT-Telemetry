@@ -3,7 +3,6 @@ import QtQuick 2.15
 import QtLocation 5.15
 import QtPositioning 5.15
 import QtQuick.Controls 2.15
-import com.example 1.0
 import SSRTelemetry
 
 Item {
@@ -274,10 +273,16 @@ Item {
                     }
                 }
                 }
-            }
+            }// --- End of Control Panel ---
+
+        // --- Compass Display ---
+        IMUDataDisplay {
+            id: compassDisplay
+            anchors.top: controlPanelTest.bottom
+            anchors.topMargin: 15
+            anchors.right: parent.right
         }
-        // --- End of Control Panel ---
-     // End of Map
+    }  // End of Map
 
     component TwoTieredDropdown: Row {
         id: twoTieredDropdown
