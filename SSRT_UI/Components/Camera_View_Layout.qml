@@ -1,9 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtMultimedia
-import QtQuick
-import QtQuick.Layouts
-
 
 Rectangle {
     id: camera_View_Layout
@@ -12,29 +9,46 @@ Rectangle {
     color: "#00ffffff"
     border.color: "#8f4c34"
     border.width: 1
+
+    // no focus here, so CameraPage keeps it
+    focus: false
+
     property alias camera_Text: camera_.text
     property int cameraIndex: 0
+
+    // track whether ArUco detection is on (bound by parent)
+    property bool detectionEnabled: true
+
+    property string feedUrl:
+        "http://127.0.0.1:5000/video_feed/"
+        + cameraIndex
+        + "?detect="
+        + (detectionEnabled ? "1" : "0")
+
+    // when parent flips `detectionEnabled`, reload
+    onFeedUrlChanged: {
+        if (active) {
+            cameraPlayer.stop()
+            cameraPlayer.source = feedUrl
+            cameraPlayer.play()
+        }
+    }
+
+    // — show / hide the whole view —
     property bool active: true
     visible: active
 
     onActiveChanged: {
-        if(active)
-        {
-            cameraPlayer.play();
-        }
-        else
-        {
-            cameraPlayer.stop();
-        }
+        if (active) cameraPlayer.play()
+        else          cameraPlayer.stop()
     }
 
     Item {
-        id: mediaContainer
         anchors.fill: parent
 
         MediaPlayer {
             id: cameraPlayer
-            source: "http://127.0.0.1:5000/video_feed/" + cameraIndex // adjust URL as needed
+            source: feedUrl
             videoOutput: videoOutput
             autoPlay: false
         }
@@ -46,13 +60,9 @@ Rectangle {
         }
     }
 
-    // Start the feed when the component is completed and active is true.
     Component.onCompleted: {
-        if (active) {
-            cameraPlayer.play()
-        }
+        if (active) cameraPlayer.play()
     }
-
 
     Text {
         id: camera_
