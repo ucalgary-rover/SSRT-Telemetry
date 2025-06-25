@@ -51,6 +51,26 @@ Item {
     Map {
         id: map
         anchors.fill: parent
+        zoomLevel: 18
+        minimumZoomLevel: 15
+        maximumZoomLevel: 20
+
+        // handle mouse scrolls
+        WheelHandler {
+            id: wheelHandler
+            property real zoomStep: 0.5
+
+            onWheel: (event) => {
+                const direction = event.angleDelta.y > 0 ? 1: -1
+                const newZoom = target.zoomLevel + direction * zoomStep
+                parent.zoomLevel = Math.max(target.minimumZoomLevel, Math.min(target.maximumZoomLevel, newZoom))
+                console.log("NEW ZOOM " + newZoom);
+            }
+        }
+
+        onZoomLevelChanged: {
+            console.log("Zoom level now:", zoomLevel)
+        }
 
 
         plugin: Plugin {
@@ -64,7 +84,6 @@ Item {
                 value: true
             }
         }
-        zoomLevel: 15
 
         // Start point marker.
         MapQuickItem {
