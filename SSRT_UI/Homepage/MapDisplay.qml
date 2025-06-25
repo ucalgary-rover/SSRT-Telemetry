@@ -53,6 +53,16 @@ Item {
         zoomLevel: 18
         minimumZoomLevel: 15
         maximumZoomLevel: 20
+        property bool centerChanged: false;
+
+        onCenterChanged: {
+            console.log("Changed center");
+            console.log("new center " + center);
+            if(center !== QtPositioning.coordinate(0, 0)){
+                centerChanged = true;
+                console.log("new center " + center);
+            }
+        }
 
         // handle mouse scrolls
         WheelHandler {
@@ -107,7 +117,37 @@ Item {
         }
 
         // Center the map on the rover's current position.
-        center: roverTracker ? QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude) : QtPositioning.coordinate(0, 0)
+        center: {
+            if(!centerChanged) return roverTracker ? QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude) : QtPositioning.coordinate(0, 0);
+
+            var roverCoord = QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude);
+            var roverScreenPos = map.fromCoordinate(roverCoord);
+
+            var insideBoundary =
+                    roverScreenPos.x >= roverBoundarySpace.x && //left bound
+                    roverScreenPos.x < roverBoundarySpace.x + roverBoundarySpace.width && //right bound
+                    roverScreenPos.y >= roverBoundarySpace.y && //bottom bound
+                    roverScreenPos.y < roverBoundarySpace.y + roverBoundarySpace.height; //top bound
+
+            if(!insideBoundary) {
+                return roverCoord;
+            }
+
+            return center;
+        }
+
+        // region rover can move within before changing map position
+        Rectangle {
+            id: roverBoundarySpace
+            width: parent.width * 0.7
+            height: parent.height * 0.7
+
+            anchors.horizontalCenter:  parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+
+            color: "red"
+            opacity: 0.5
+        }
 
         // Rover marker.
         MapQuickItem {
