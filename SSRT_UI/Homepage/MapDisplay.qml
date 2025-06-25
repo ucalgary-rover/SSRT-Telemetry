@@ -145,8 +145,8 @@ Item {
             anchors.horizontalCenter:  parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
 
-            color: "red"
-            opacity: 0.5
+            // color: "red"
+            // opacity: 0.5
         }
 
         // Rover marker.
