@@ -3,7 +3,6 @@ import QtQuick 2.15
 import QtLocation 5.15
 import QtPositioning 5.15
 import QtQuick.Controls 2.15
-import com.example 1.0
 import SSRTelemetry
 
 Item {
@@ -64,14 +63,8 @@ Item {
                 const direction = event.angleDelta.y > 0 ? 1: -1
                 const newZoom = target.zoomLevel + direction * zoomStep
                 parent.zoomLevel = Math.max(target.minimumZoomLevel, Math.min(target.maximumZoomLevel, newZoom))
-                console.log("NEW ZOOM " + newZoom);
             }
         }
-
-        onZoomLevelChanged: {
-            console.log("Zoom level now:", zoomLevel)
-        }
-
 
         plugin: Plugin {
             name: "osm"
