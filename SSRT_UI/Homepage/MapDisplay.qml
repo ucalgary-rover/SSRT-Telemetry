@@ -56,11 +56,7 @@ Item {
         center: currentCenter
 
         property var goalCenter: null
-        property var currentCenter: goalCenter == null ?
-                                        roverTracker ?
-                                            QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude) :
-                                            QtPositioning.coordinate(0, 0) :
-                                    QtPositioning.coordinate(0, 0)
+        property var currentCenter: null
 
         onCenterChanged: {
             console.log("Changed center");
@@ -124,12 +120,16 @@ Item {
 
         // Center the map on the rover's current position.
         Timer {
-            interval: 1000
+            interval: 50
             running: true
             repeat: true
 
             onTriggered: {
-                if(!map.goalCenter) {
+                if(!map.currentCenter && roverTracker) {
+                    map.currentCenter = QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude);
+                }
+
+                if (!map.goalCenter && map.center !== QtPositioning.coordinate(0,0)) {
                     map.goalCenter = map.center;
                     return;
                 }
@@ -143,35 +143,36 @@ Item {
                 roverScreenPos.y >= roverBoundarySpace.y && //bottom bound
                 roverScreenPos.y < roverBoundarySpace.y + roverBoundarySpace.height; //top bound
 
-                if (!insideBoundary) {
+                if (!insideBoundary && map.goalCenter == map.center) {
                     map.goalCenter = roverCoord;
+                    console.log("NEW CENTRE GOAL " + map.goalCenter);
                 }
 
                 // take incremental step towards goal
-                if (map.currentCenter !== map.goalCenter) {
-                    var currLat = roverTracker.latitude;
-                    var currLon = roverTracker.longitude;
+                if (map.currentCenter !== map.goalCenter && map.goalCenter !== QtPositioning.coordinate(0,0)) {
+                    var currLat = map.currentCenter.latitude;
+                    var currLon = map.currentCenter.longitude;
                     var goalLat = map.goalCenter.latitude;
                     var goalLon = map.goalCenter.longitude;
-
                     var dLat = goalLat - currLat;
                     var dLon = goalLon - currLon;
                     var dist = Math.sqrt(dLat * dLat + dLon * dLon);
 
-                    if (dist < 0.00001) {
-                        // close enough, stop
+                    var step = 0.00005;
+
+                    // close enough
+                    if (dist < step) {
                         map.currentCenter = map.goalCenter;
                         return;
                     }
 
-                    var step = 0.00001; // adjust for step size (degrees)
+                    // move towards new goal
                     var ratio = step / dist;
                     if (ratio > 1)
                         ratio = 1;
-
                     var newLat = currLat + dLat * ratio;
                     var newLon = currLon + dLon * ratio;
-                    map.currentCenter =  QtPositioning.coordinate(newLat, newLon);
+                    map.currentCenter = QtPositioning.coordinate(newLat, newLon);
                 }
             }
         }
@@ -185,8 +186,9 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
 
-            color: "red"
-            opacity: 0.5
+            // make the rectangle visible for debugging
+            // color: "red"
+            // opacity: 0.5
         }
 
         // Rover marker.

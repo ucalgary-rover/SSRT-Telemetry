@@ -9,10 +9,7 @@ RoverTracker::RoverTracker(QObject *parent)
 
 void RoverTracker::simulateMovement() {
   // Increase movement delta for more noticeable changes.
-  // m_latitude += (QRandomGenerator::global()->bounded(0.001) - 0.0005);
-  // m_longitude += (QRandomGenerator::global()->bounded(0.001) - 0.0005);
-
-  m_latitude += 0.002;
-  m_longitude += 0.002;
+  m_latitude += (QRandomGenerator::global()->bounded(0.001) - 0.0005);
+  m_longitude += (QRandomGenerator::global()->bounded(0.001) - 0.0005);
   emit positionChanged();
 }
