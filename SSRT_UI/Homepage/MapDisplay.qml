@@ -53,16 +53,52 @@ Item {
         zoomLevel: 18
         minimumZoomLevel: 15
         maximumZoomLevel: 20
-        center: currentCenter
+        // center: agreatcurrentCenter
 
         property var goalCenter: null
         property var currentCenter: null
 
-        onCenterChanged: {
-            console.log("Changed center");
-            console.log("new center " + center);
-            if (center !== QtPositioning.coordinate(0, 0)) {
-                console.log("new center " + center);
+        property bool userDragging: false
+
+        // onCenterChanged: {
+        //     console.log("CENTER CHANGED TO " + center);
+        // }
+
+        DragHandler {
+            id: mapDragHandler
+            target: map
+
+            property var startCenter
+            property var startCoord: QtPositioning.coordinate(0, 0)
+            property double scale: 0.25
+
+            onActiveChanged: {
+                map.userDragging = active;
+                if (active) {
+                    startCenter = map.center;
+                }
+            }
+
+            onTranslationChanged: {
+                if (!active)
+                    return;
+
+                // calculate offset in pixels
+                var delta = mapDragHandler.translation;
+
+                // convert to screen center
+                var screenCenter = Qt.point(map.width / 2, map.height / 2);
+                var centerCoord = map.toCoordinate(screenCenter);
+                var offsetCoord = map.toCoordinate(Qt.point(screenCenter.x - delta.x * scale, screenCenter.y - delta.y * scale));
+
+                var dx = offsetCoord.longitude - centerCoord.longitude;
+                var dy = offsetCoord.latitude - centerCoord.latitude;
+
+                // move center
+                var newCenter = QtPositioning.coordinate(map.center.latitude + dy, map.center.longitude + dx);
+                map.center = newCenter;
+                map.goalCenter = newCenter;
+                map.currentCenter = newCenter;
             }
         }
 
@@ -125,31 +161,22 @@ Item {
             repeat: true
 
             onTriggered: {
-                if(!map.currentCenter && roverTracker) {
+                if (!map.currentCenter && roverTracker) {
                     map.currentCenter = QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude);
+                    map.center = map.currentCenter;
                 }
 
-                if (!map.goalCenter && map.center !== QtPositioning.coordinate(0,0)) {
+                if (!map.goalCenter && map.center !== QtPositioning.coordinate(0, 0)) {
                     map.goalCenter = map.center;
                     return;
                 }
 
-                // check if rover is within screen bounds
-                var roverCoord = QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude);
-                var roverScreenPos = map.fromCoordinate(roverCoord);
-
-                var insideBoundary = roverScreenPos.x >= roverBoundarySpace.x && //left bound
-                roverScreenPos.x < roverBoundarySpace.x + roverBoundarySpace.width && //right bound
-                roverScreenPos.y >= roverBoundarySpace.y && //bottom bound
-                roverScreenPos.y < roverBoundarySpace.y + roverBoundarySpace.height; //top bound
-
-                if (!insideBoundary && map.goalCenter == map.center) {
-                    map.goalCenter = roverCoord;
-                    console.log("NEW CENTRE GOAL " + map.goalCenter);
-                }
+                // only auto move if user is not dragging
+                if (map.userDragging)
+                    return;
 
                 // take incremental step towards goal
-                if (map.currentCenter !== map.goalCenter && map.goalCenter !== QtPositioning.coordinate(0,0)) {
+                if (map.currentCenter !== map.goalCenter && map.goalCenter !== QtPositioning.coordinate(0, 0)) {
                     var currLat = map.currentCenter.latitude;
                     var currLon = map.currentCenter.longitude;
                     var goalLat = map.goalCenter.latitude;
@@ -158,11 +185,12 @@ Item {
                     var dLon = goalLon - currLon;
                     var dist = Math.sqrt(dLat * dLat + dLon * dLon);
 
-                    var step = 0.00005;
+                    var step = 0.00015;
 
                     // close enough
                     if (dist < step) {
                         map.currentCenter = map.goalCenter;
+                        map.center = map.currentCenter;
                         return;
                     }
 
@@ -173,6 +201,22 @@ Item {
                     var newLat = currLat + dLat * ratio;
                     var newLon = currLon + dLon * ratio;
                     map.currentCenter = QtPositioning.coordinate(newLat, newLon);
+                    map.center = map.currentCenter;
+                } else {
+                    // check if rover is within screen bounds
+                    var roverCoord = QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude);
+                    var screenCenter = Qt.point(map.width / 2, map.height / 2);
+                    var roverScreenPos = map.fromCoordinate(roverCoord);
+                    var dx = roverScreenPos.x - screenCenter.x;
+                    var dy = roverScreenPos.y - screenCenter.y;
+                    var halfWidth = roverBoundarySpace.width / 2;
+                    var halfHeight = roverBoundarySpace.height / 2;
+
+                    var insideBoundary = Math.abs(dx) < halfWidth && Math.abs(dy) < halfHeight;
+
+                    if (!insideBoundary && map.goalCenter == map.center) {
+                        map.goalCenter = roverCoord;
+                    }
                 }
             }
         }
@@ -189,6 +233,7 @@ Item {
             // make the rectangle visible for debugging
             // color: "red"
             // opacity: 0.5
+            color: "transparent"
         }
 
         // Rover marker.
