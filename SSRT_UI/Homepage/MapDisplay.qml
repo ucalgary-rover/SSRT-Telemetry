@@ -53,13 +53,19 @@ Item {
         zoomLevel: 18
         minimumZoomLevel: 15
         maximumZoomLevel: 20
-        property bool centerChanged: false;
+        center: currentCenter
+
+        property var goalCenter: null
+        property var currentCenter: goalCenter == null ?
+                                        roverTracker ?
+                                            QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude) :
+                                            QtPositioning.coordinate(0, 0) :
+                                    QtPositioning.coordinate(0, 0)
 
         onCenterChanged: {
             console.log("Changed center");
             console.log("new center " + center);
-            if(center !== QtPositioning.coordinate(0, 0)){
-                centerChanged = true;
+            if (center !== QtPositioning.coordinate(0, 0)) {
                 console.log("new center " + center);
             }
         }
@@ -69,10 +75,10 @@ Item {
             id: wheelHandler
             property real zoomStep: 0.5
 
-            onWheel: (event) => {
-                const direction = event.angleDelta.y > 0 ? 1: -1
-                const newZoom = target.zoomLevel + direction * zoomStep
-                parent.zoomLevel = Math.max(target.minimumZoomLevel, Math.min(target.maximumZoomLevel, newZoom))
+            onWheel: event => {
+                const direction = event.angleDelta.y > 0 ? 1 : -1;
+                const newZoom = target.zoomLevel + direction * zoomStep;
+                parent.zoomLevel = Math.max(target.minimumZoomLevel, Math.min(target.maximumZoomLevel, newZoom));
             }
         }
 
@@ -117,23 +123,57 @@ Item {
         }
 
         // Center the map on the rover's current position.
-        center: {
-            if(!centerChanged) return roverTracker ? QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude) : QtPositioning.coordinate(0, 0);
+        Timer {
+            interval: 1000
+            running: true
+            repeat: true
 
-            var roverCoord = QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude);
-            var roverScreenPos = map.fromCoordinate(roverCoord);
+            onTriggered: {
+                if(!map.goalCenter) {
+                    map.goalCenter = map.center;
+                    return;
+                }
 
-            var insideBoundary =
-                    roverScreenPos.x >= roverBoundarySpace.x && //left bound
-                    roverScreenPos.x < roverBoundarySpace.x + roverBoundarySpace.width && //right bound
-                    roverScreenPos.y >= roverBoundarySpace.y && //bottom bound
-                    roverScreenPos.y < roverBoundarySpace.y + roverBoundarySpace.height; //top bound
+                // check if rover is within screen bounds
+                var roverCoord = QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude);
+                var roverScreenPos = map.fromCoordinate(roverCoord);
 
-            if(!insideBoundary) {
-                return roverCoord;
+                var insideBoundary = roverScreenPos.x >= roverBoundarySpace.x && //left bound
+                roverScreenPos.x < roverBoundarySpace.x + roverBoundarySpace.width && //right bound
+                roverScreenPos.y >= roverBoundarySpace.y && //bottom bound
+                roverScreenPos.y < roverBoundarySpace.y + roverBoundarySpace.height; //top bound
+
+                if (!insideBoundary) {
+                    map.goalCenter = roverCoord;
+                }
+
+                // take incremental step towards goal
+                if (map.currentCenter !== map.goalCenter) {
+                    var currLat = roverTracker.latitude;
+                    var currLon = roverTracker.longitude;
+                    var goalLat = map.goalCenter.latitude;
+                    var goalLon = map.goalCenter.longitude;
+
+                    var dLat = goalLat - currLat;
+                    var dLon = goalLon - currLon;
+                    var dist = Math.sqrt(dLat * dLat + dLon * dLon);
+
+                    if (dist < 0.00001) {
+                        // close enough, stop
+                        map.currentCenter = map.goalCenter;
+                        return;
+                    }
+
+                    var step = 0.00001; // adjust for step size (degrees)
+                    var ratio = step / dist;
+                    if (ratio > 1)
+                        ratio = 1;
+
+                    var newLat = currLat + dLat * ratio;
+                    var newLon = currLon + dLon * ratio;
+                    map.currentCenter =  QtPositioning.coordinate(newLat, newLon);
+                }
             }
-
-            return center;
         }
 
         // region rover can move within before changing map position
@@ -142,11 +182,11 @@ Item {
             width: parent.width * 0.7
             height: parent.height * 0.7
 
-            anchors.horizontalCenter:  parent.horizontalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
 
-            // color: "red"
-            // opacity: 0.5
+            color: "red"
+            opacity: 0.5
         }
 
         // Rover marker.
@@ -182,15 +222,13 @@ Item {
                         anchors.fill: parent
                         hoverEnabled: true
 
-                        ToolTip.visible:  containsMouse
+                        ToolTip.visible: containsMouse
                         ToolTip.delay: 0
                         ToolTip.text: {
-                            var subtype = (modelData.type && modelData.type.length > 1 && modelData.type[1].length > 0)
-                                    ? (modelData.type[0] + " / " + modelData.type[1])
-                                    : modelData.type[0];
-                           subtype +"\nLat: " + modelData.latitude.toFixed(6) + "    Lon: " + modelData.longitude.toFixed(6)
-
-                        }}
+                            var subtype = (modelData.type && modelData.type.length > 1 && modelData.type[1].length > 0) ? (modelData.type[0] + " / " + modelData.type[1]) : modelData.type[0];
+                            subtype + "\nLat: " + modelData.latitude.toFixed(6) + "    Lon: " + modelData.longitude.toFixed(6);
+                        }
+                    }
                 }
             }
         }
@@ -262,11 +300,9 @@ Item {
                             var labelList;
                             if (menuData[addLabels.selectedTop].length === 0) {
                                 labelList = [addLabels.selectedTop, ""];
-                            }
-                            else {
+                            } else {
                                 labelList = [addLabels.selectedTop, addLabels.selectedLower];
                             }
-
 
                             labelManager.addLabel(map.center.latitude, map.center.longitude, labelList);
                         }
@@ -325,11 +361,11 @@ Item {
                         }
                     }
                 }
-                }
             }
         }
-        // --- End of Control Panel ---
-     // End of Map
+    }
+    // --- End of Control Panel ---
+    // End of Map
 
     component TwoTieredDropdown: Row {
         id: twoTieredDropdown
@@ -369,8 +405,7 @@ Item {
 
                     if (parent.parent.menuData[currentValue].length > 1) {
                         parent.selectedLower = "CL-D";
-                    }
-                    else {
+                    } else {
                         parent.selectedLower = "";
                     }
                 }
