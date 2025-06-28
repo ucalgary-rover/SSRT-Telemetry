@@ -65,34 +65,6 @@ Item {
         }
         zoomLevel: 15
 
-        // Start point marker.
-        MapQuickItem {
-            id: startPointMarker
-            visible: mapDisplay.startSet
-            coordinate: mapDisplay.startCoord
-            anchorPoint.x: startIcon.width / 2
-            anchorPoint.y: startIcon.height / 2
-            sourceItem: Rectangle {
-                id: startIcon
-                width: 20
-                height: 20
-                color: "green"
-                radius: 10
-                border.color: "black"
-                border.width: 1
-
-                MouseArea {
-                    id: startMarkerMouseArea
-                    anchors.fill: parent
-                    hoverEnabled: true
-
-                    ToolTip.visible: containsMouse
-                    ToolTip.delay: 0
-                    ToolTip.text: "Start Point\nLat: " + mapDisplay.startCoord.latitude + "    Lon: " + mapDisplay.startCoord.longitude
-                }
-            }
-        }
-
         // Center the map on the rover's current position.
         center: roverTracker ? QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude) : QtPositioning.coordinate(0, 0)
 
@@ -200,7 +172,7 @@ Item {
 
                 TwoTieredDropdown {
                     id: addLabels
-                    defaultSelect: "O3"
+                    defaultSelect: "Start"
                     buttonText: "Add"
                     menuData: labelManager.getAllLabels()
                     anchors.top: headingText.bottom

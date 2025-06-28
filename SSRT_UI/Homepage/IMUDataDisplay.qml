@@ -74,7 +74,7 @@ Item {
     }
 
     // Text labels
-    Column {
+    Row {
         spacing: 4
         anchors.top: compassBackground.bottom
         anchors.horizontalCenter: parent.horizontalCenter
