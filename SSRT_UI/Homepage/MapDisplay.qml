@@ -5,6 +5,8 @@ import QtPositioning 5.15
 import QtQuick.Controls 2.15
 import com.example 1.0
 import SSRTelemetry
+import "."
+import "../assets"
 
 Item {
     id: mapDisplay
@@ -14,6 +16,7 @@ Item {
     // Internal properties
     property bool startSet: false
     property var startCoord: QtPositioning.coordinate(0, 0)
+    property var mouseCoord: QtPositioning.coordinate(0, 0)
 
     // Internal component instances
     LabelManager {
@@ -65,6 +68,38 @@ Item {
         }
         zoomLevel: 15
 
+        MouseArea {
+            id: coord_mouse_fetch
+            anchors.fill: parent
+
+            onDoubleClicked: {
+                mouse.accepted = true;
+                mapDisplay.mouseCoord = map.toCoordinate(Qt.point(mouse.x,mouse.y));
+                console.log('latitude = '+ (map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude), 'longitude = '+ (map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude));
+            }
+        }
+
+        MapQuickItem {
+                id:mouseMarker
+                sourceItem: Rectangle {
+                    width: 20
+                    height: 20
+                    color: "cyan"
+                    radius: 10
+                }
+
+                coordinate: mapDisplay.mouseCoord
+                MouseArea {
+                    id: mouseMarkerMouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+
+                    ToolTip.visible: containsMouse
+                    ToolTip.delay: 0
+                    ToolTip.text: "Last Clicked Coorindate\nLat: " + mapDisplay.mouseCoord.latitude + "    Lon: " + mapDisplay.mouseCoord.longitude
+                }
+            }
+
         // Start point marker.
         MapQuickItem {
             id: startPointMarker
@@ -101,11 +136,11 @@ Item {
             anchorPoint.x: 10
             anchorPoint.y: 10
             coordinate: roverTracker ? QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude) : QtPositioning.coordinate(0, 0)
-            sourceItem: Rectangle {
-                width: 20
-                height: 20
-                color: "blue"
-                radius: 10
+            sourceItem: Image  {
+                id: roverIcon
+                source: "../assets/rover-side-view.png"
+                width: 75
+                height: 75
             }
         }
 
@@ -276,6 +311,26 @@ Item {
             }
         }
         // --- End of Control Panel ---
+
+        Rectangle {
+            id: locationInfoPanel
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.margins: 10
+            color: "#f3d5b5"
+            border.color: "black"
+            implicitWidth: mapDisplay.width - controlPanelTest.width - 30
+            implicitHeight: 50
+            radius: 5
+            z: 1
+
+            LocationInfo {
+                anchors.verticalCenter: parent.verticalCenter
+                coordinate: roverTracker.latitude + "|" + roverTracker.longitude
+                mouseCoordinate: mapDisplay.mouseCoord.latitude + " | " + mapDisplay.mouseCoord.longitude
+                width: locationInfoPanel.width
+            }
+        }
      // End of Map
 
     component TwoTieredDropdown: Row {

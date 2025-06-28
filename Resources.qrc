@@ -32,5 +32,6 @@
         <file>SSRT_UI/assets/rover-side-view.png</file>
         <file>SSRT_UI/Homepage/MapDisplay.qml</file>
         <file>SSRT_UI/Homepage/ScienceSensorDisplay.qml</file>
+        <file>SSRT_UI/Homepage/LocationInfo.qml</file>
     </qresource>
 </RCC>
