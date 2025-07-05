@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 REQUIRED COMPONENTS Location)
 find_package(Qt6 REQUIRED COMPONENTS Positioning)
 find_package(Qt6 6.8.1 REQUIRED COMPONENTS Quick Mqtt)
+set(CMAKE_AUTOMOC ON)
+
 qt_standard_project_setup(REQUIRES 6.5)
 
 qt_add_resources(RESOURCE_SOURCES
@@ -31,6 +33,7 @@ qt_add_qml_module(appSSRTelemetry
         SOURCES labelmanager.hpp
         SOURCES labelmanager.cpp
         SOURCES maplabel.cpp
+        SOURCES LocationInfo.hpp
         SOURCES imudata.hpp imudata.cpp
 )
 

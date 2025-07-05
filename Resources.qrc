@@ -33,6 +33,7 @@
         <file>SSRT_UI/CameraPage/CameraPage.qml</file>
         <file>SSRT_UI/CameraPage/CameraCheckboxes.qml</file>
         <file>SSRT_UI/Homepage/ScienceSensorDisplay.qml</file>
+        <file>SSRT_UI/Homepage/LocationInfo.qml</file>
         <file>SSRT_UI/Homepage/IMUDataDisplay.qml</file>
     </qresource>
 </RCC>
