@@ -1,3 +1,4 @@
+#include "imudata.hpp"
 #include "labelmanager.hpp"
 #include "maplabel.hpp"
 #include "roverTracker.hpp"
@@ -22,6 +23,7 @@ int main(int argc, char *argv[]) {
   qmlRegisterUncreatableType<MapLabel>(
       "SSRTelemetry", 1, 0, "LabelType",
       "LabelType is an enum and cannot be created");
+  qmlRegisterType<IMUData>("SSRTelemetry", 1, 0, "IMUData");
 
   QQmlApplicationEngine engine;
   QObject::connect(
