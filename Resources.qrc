@@ -20,9 +20,8 @@
         <file>SSRT_UI/assets/sSRT_Logo.png</file>
         <file>SSRT_UI/assets/sSRT_Logo_property_1_Camera.png</file>
         <file>SSRT_UI/assets/sSRT_Logo_property_1_Telemetry.png</file>
-        <file>SSRT_UI/CameraPage/Camera_Frame.ui.qml</file>
-        <file>SSRT_UI/Components/Application_Layout.ui.qml</file>
-        <file>SSRT_UI/Components/Camera_View_Layout.ui.qml</file>
+        <file>SSRT_UI/Components/Application_Layout.qml</file>
+        <file>SSRT_UI/Components/Camera_View_Layout.qml</file>
         <file>SSRT_UI/Homepage/Homepage.ui.qml</file>
         <file>SSRT_UI/LoadingPage/Loading_Page.ui.qml</file>
         <file>SSRT_UI/Homepage/BasePage.qml</file>
@@ -31,7 +30,10 @@
         <file>SSRT_UI/assets/rover-front-view.png</file>
         <file>SSRT_UI/assets/rover-side-view.png</file>
         <file>SSRT_UI/Homepage/MapDisplay.qml</file>
+        <file>SSRT_UI/CameraPage/CameraPage.qml</file>
+        <file>SSRT_UI/CameraPage/CameraCheckboxes.qml</file>
         <file>SSRT_UI/Homepage/ScienceSensorDisplay.qml</file>
         <file>SSRT_UI/Homepage/LocationInfo.qml</file>
+        <file>SSRT_UI/Homepage/IMUDataDisplay.qml</file>
     </qresource>
 </RCC>

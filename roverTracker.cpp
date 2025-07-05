@@ -3,13 +3,13 @@
 
 RoverTracker::RoverTracker(QObject *parent)
     : QObject(parent), m_latitude(43.6532), m_longitude(-79.3832) {
-    connect(&timer, &QTimer::timeout, this, &RoverTracker::simulateMovement);
-    timer.start(1000);
+  connect(&timer, &QTimer::timeout, this, &RoverTracker::simulateMovement);
+  timer.start(1000);
 }
 
 void RoverTracker::simulateMovement() {
-    // Increase movement delta for more noticeable changes.
-    m_latitude += (QRandomGenerator::global()->bounded(0.001) - 0.0005);
-    m_longitude += (QRandomGenerator::global()->bounded(0.001) - 0.0005);
-    emit positionChanged();
+  // Increase movement delta for more noticeable changes.
+  m_latitude += (QRandomGenerator::global()->bounded(0.001) - 0.0005);
+  m_longitude += (QRandomGenerator::global()->bounded(0.001) - 0.0005);
+  emit positionChanged();
 }
