@@ -46,10 +46,7 @@ set_target_properties(appSSRTelemetry PROPERTIES
 )
 
 target_link_libraries(appSSRTelemetry
-    PRIVATE Qt6::Quick
-    PRIVATE Qt6::Location
-    PRIVATE Qt6::Positioning
-    PRIVATE Qt6::Mqtt
+    PRIVATE Qt6::Quick Qt6::Location Qt6::Positioning Qt6::Mqtt
 )
 target_link_libraries(appSSRTelemetry PRIVATE Qt6::Core)
 

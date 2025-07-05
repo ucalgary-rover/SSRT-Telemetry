@@ -141,25 +141,25 @@ Item {
         }
 
         MapQuickItem {
-                id:mouseMarker
-                sourceItem: Rectangle {
-                    width: 20
-                    height: 20
-                    color: "cyan"
-                    radius: 10
-                }
-
-                coordinate: mapDisplay.mouseCoord
-                MouseArea {
-                    id: mouseMarkerMouseArea
-                    anchors.fill: parent
-                    hoverEnabled: true
-
-                    ToolTip.visible: containsMouse
-                    ToolTip.delay: 0
-                    ToolTip.text: "Last Clicked Coorindate\nLat: " + mapDisplay.mouseCoord.latitude + "    Lon: " + mapDisplay.mouseCoord.longitude
-                }
+            id:mouseMarker
+            sourceItem: Rectangle {
+                width: 20
+                height: 20
+                color: "cyan"
+                radius: 10
             }
+
+            coordinate: mapDisplay.mouseCoord
+            MouseArea {
+                id: mouseMarkerMouseArea
+                anchors.fill: parent
+                hoverEnabled: true
+
+                ToolTip.visible: containsMouse
+                ToolTip.delay: 0
+                ToolTip.text: "Last Clicked Coorindate\nLat: " + mapDisplay.mouseCoord.latitude + "    Lon: " + mapDisplay.mouseCoord.longitude
+            }
+        }
 
         // Start point marker.
         MapQuickItem {
@@ -176,68 +176,70 @@ Item {
                 radius: 10
                 border.color: "black"
                 border.width: 1
-        // Center the map on the rover's current position.
-        Timer {
-            interval: 50
-            running: true
-            repeat: true
+            }
+                // Center the map on the rover's current position.
+                Timer {
+                interval: 50
+                running: true
+                repeat: true
 
-            onTriggered: {
-                if (!map.currentCenter && roverTracker) {
-                    map.currentCenter = QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude);
-                    map.center = map.currentCenter;
-                }
-
-                if (!map.goalCenter && map.center !== QtPositioning.coordinate(0, 0)) {
-                    map.goalCenter = map.center;
-                    return;
-                }
-
-                // only auto move if user is not dragging
-                if (map.userDragging)
-                    return;
-
-                // take incremental step towards goal
-                if (map.currentCenter !== map.goalCenter && map.goalCenter !== QtPositioning.coordinate(0, 0)) {
-                    var currLat = map.currentCenter.latitude;
-                    var currLon = map.currentCenter.longitude;
-                    var goalLat = map.goalCenter.latitude;
-                    var goalLon = map.goalCenter.longitude;
-                    var dLat = goalLat - currLat;
-                    var dLon = goalLon - currLon;
-                    var dist = Math.sqrt(dLat * dLat + dLon * dLon);
-
-                    var step = 0.00015;
-
-                    // close enough
-                    if (dist < step) {
-                        map.currentCenter = map.goalCenter;
+                onTriggered: {
+                    if (!map.currentCenter && roverTracker) {
+                        map.currentCenter = QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude);
                         map.center = map.currentCenter;
+                    }
+
+                    if (!map.goalCenter && map.center !== QtPositioning.coordinate(0, 0)) {
+                        map.goalCenter = map.center;
                         return;
                     }
 
-                    // move towards new goal
-                    var ratio = step / dist;
-                    if (ratio > 1)
-                        ratio = 1;
-                    var newLat = currLat + dLat * ratio;
-                    var newLon = currLon + dLon * ratio;
-                    map.currentCenter = QtPositioning.coordinate(newLat, newLon);
-                    map.center = map.currentCenter;
-                } else {
-                    // check if rover is within screen bounds
-                    var roverCoord = QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude);
-                    var screenCenter = Qt.point(map.width / 2, map.height / 2);
-                    var roverScreenPos = map.fromCoordinate(roverCoord);
-                    var dx = roverScreenPos.x - screenCenter.x;
-                    var dy = roverScreenPos.y - screenCenter.y;
-                    var halfWidth = roverBoundarySpace.width / 2;
-                    var halfHeight = roverBoundarySpace.height / 2;
+                    // only auto move if user is not dragging
+                    if (map.userDragging)
+                        return;
 
-                    var insideBoundary = Math.abs(dx) < halfWidth && Math.abs(dy) < halfHeight;
+                    // take incremental step towards goal
+                    if (map.currentCenter !== map.goalCenter && map.goalCenter !== QtPositioning.coordinate(0, 0)) {
+                        var currLat = map.currentCenter.latitude;
+                        var currLon = map.currentCenter.longitude;
+                        var goalLat = map.goalCenter.latitude;
+                        var goalLon = map.goalCenter.longitude;
+                        var dLat = goalLat - currLat;
+                        var dLon = goalLon - currLon;
+                        var dist = Math.sqrt(dLat * dLat + dLon * dLon);
 
-                    if (!insideBoundary && map.goalCenter == map.center) {
-                        map.goalCenter = roverCoord;
+                        var step = 0.00015;
+
+                        // close enough
+                        if (dist < step) {
+                            map.currentCenter = map.goalCenter;
+                            map.center = map.currentCenter;
+                            return;
+                        }
+
+                        // move towards new goal
+                        var ratio = step / dist;
+                        if (ratio > 1)
+                            ratio = 1;
+                        var newLat = currLat + dLat * ratio;
+                        var newLon = currLon + dLon * ratio;
+                        map.currentCenter = QtPositioning.coordinate(newLat, newLon);
+                        map.center = map.currentCenter;
+                    } else {
+                        // check if rover is within screen bounds
+                        var roverCoord = QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude);
+                        var screenCenter = Qt.point(map.width / 2, map.height / 2);
+                        var roverScreenPos = map.fromCoordinate(roverCoord);
+                        var dx = roverScreenPos.x - screenCenter.x;
+                        var dy = roverScreenPos.y - screenCenter.y;
+                        var halfWidth = roverBoundarySpace.width / 2;
+                        var halfHeight = roverBoundarySpace.height / 2;
+
+                        var insideBoundary = Math.abs(dx) < halfWidth && Math.abs(dy) < halfHeight;
+
+                        if (!insideBoundary && map.goalCenter == map.center) {
+                            map.goalCenter = roverCoord;
+                        }
                     }
                 }
             }
@@ -430,8 +432,9 @@ Item {
                         }
                     }
                 }
-                
+
             }// --- End of Control Panel ---
+        }
 
         // --- Compass Display ---
         IMUDataDisplay {
@@ -462,6 +465,7 @@ Item {
             }
         }
     }
+
     // End of Map
     component TwoTieredDropdown: Row {
         id: twoTieredDropdown
