@@ -3,7 +3,6 @@ import QtQuick 2.15
 import QtLocation 5.15
 import QtPositioning 5.15
 import QtQuick.Controls 2.15
-import com.example 1.0
 import SSRTelemetry
 
 Item {
@@ -65,34 +64,6 @@ Item {
             }
         }
         zoomLevel: 15
-
-        // Start point marker.
-        MapQuickItem {
-            id: startPointMarker
-            visible: mapDisplay.startSet
-            coordinate: mapDisplay.startCoord
-            anchorPoint.x: startIcon.width / 2
-            anchorPoint.y: startIcon.height / 2
-            sourceItem: Rectangle {
-                id: startIcon
-                width: 20
-                height: 20
-                color: "green"
-                radius: 10
-                border.color: "black"
-                border.width: 1
-
-                MouseArea {
-                    id: startMarkerMouseArea
-                    anchors.fill: parent
-                    hoverEnabled: true
-
-                    ToolTip.visible: containsMouse
-                    ToolTip.delay: 0
-                    ToolTip.text: "Start Point\nLat: " + mapDisplay.startCoord.latitude + "    Lon: " + mapDisplay.startCoord.longitude
-                }
-            }
-        }
 
         // Center the map on the rover's current position.
         center: roverTracker ? QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude) : QtPositioning.coordinate(0, 0)
@@ -201,7 +172,7 @@ Item {
 
                 TwoTieredDropdown {
                     id: addLabels
-                    defaultSelect: "O3"
+                    defaultSelect: "Start"
                     buttonText: "Add"
                     menuData: labelManager.getAllLabels()
                     anchors.top: headingText.bottom
@@ -274,10 +245,16 @@ Item {
                     }
                 }
                 }
-            }
+            }// --- End of Control Panel ---
+
+        // --- Compass Display ---
+        IMUDataDisplay {
+            id: compassDisplay
+            anchors.top: controlPanelTest.bottom
+            anchors.topMargin: 15
+            anchors.right: parent.right
         }
-        // --- End of Control Panel ---
-     // End of Map
+    }  // End of Map
 
     component TwoTieredDropdown: Row {
         id: twoTieredDropdown

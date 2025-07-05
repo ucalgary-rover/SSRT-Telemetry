@@ -31,6 +31,7 @@ qt_add_qml_module(appSSRTelemetry
         SOURCES labelmanager.hpp
         SOURCES labelmanager.cpp
         SOURCES maplabel.cpp
+        SOURCES imudata.hpp imudata.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
