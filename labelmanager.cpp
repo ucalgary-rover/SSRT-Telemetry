@@ -10,6 +10,19 @@ void LabelManager::addLabel(double latitude, double longitude,
   }
 
   MapLabel *newLabel = new MapLabel(latitude, longitude, varList, this);
+
+  if (varList[0].toString() == "Start") {
+    // remove existing start marker
+
+    for (int i = 0; i < m_labels.size(); ++i) {
+      MapLabel *label = qobject_cast<MapLabel *>(m_labels[i]);
+      if (label && label->type().size() > 0 && label->type()[0] == "Start") {
+        m_labels.removeAt(i);
+        break;
+      }
+    }
+  }
+
   m_labels.append(newLabel);
   emit labelsUpdated();
 }
