@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=SSRTTelemetry
+Comment=SSRT's Telemetry Application
+Exec=/home/youssef/Desktop/SSRTRepo/SSRT-Telemetry/build/SSRTKit-Release/SSRTTelemetry %U
+Icon=/home/youssef/Desktop/SSRTRepo/SSRT-Telemetry/SSRT_UI/assets/sSRT_Logo.png
+Terminal=false
+Categories=Utility;
+
