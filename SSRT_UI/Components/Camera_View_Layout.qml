@@ -72,24 +72,32 @@ Rectangle {
             transformOrigin: Item.Center
         }
 
-        Text {
-            id: camera_
-            width: 112
-            height: 29
+        Rectangle {
+            id: camera_rectangle
+            width: 120
+            height: 35
             z: 1
-            color: "#ffffff"
-            text: qsTr("Camera #")
+            color: "#c85428"
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             anchors.rightMargin: 10
             anchors.bottomMargin: 40
-            font.pixelSize: 24
-            horizontalAlignment: Text.AlignLeft
-            verticalAlignment: Text.AlignTop
-            wrapMode: Text.NoWrap
-            font.weight: Font.Normal
-            font.family: "Inter"
+            radius: 4
+
+
+            Text {
+                id: camera_
+                width: 112
+                height: 29
+                color: "#ffffff"
+                text: qsTr("Camera #")
+                font.pixelSize: 24
+                horizontalAlignment: Text.AlignLeft
+                wrapMode: Text.NoWrap
+                font.weight: Font.Normal
+            }
         }
+
 
         // Rotate button, bottom-left corner, styled like Add button
         Button {
