@@ -51,7 +51,7 @@ Page {
             // Camera 2
             Camera_View_Layout {
                 camera_Text: "Camera 2"
-                cameraIndex: 2
+                cameraIndex: 4
                 active: cameraCheckboxes.camera2Checkbox.checked
                 visible: active
                 Layout.fillWidth: active
@@ -62,7 +62,7 @@ Page {
             // Camera 3
             Camera_View_Layout {
                 camera_Text: "Camera 3"
-                cameraIndex: 0
+                cameraIndex: 8
                 active: cameraCheckboxes.camera3Checkbox.checked
                 visible: active
                 Layout.fillWidth: active
@@ -73,7 +73,7 @@ Page {
             // Camera 4
             Camera_View_Layout {
                 camera_Text: "Camera 4"
-                cameraIndex: 0
+                cameraIndex: 12
                 active: cameraCheckboxes.camera4Checkbox.checked
                 visible: active
                 Layout.fillWidth: active
@@ -84,7 +84,7 @@ Page {
             // Camera 5
             Camera_View_Layout {
                 camera_Text: "Camera 5"
-                cameraIndex: 0
+                cameraIndex: 16
                 active: cameraCheckboxes.camera5Checkbox.checked
                 visible: active
                 Layout.fillWidth: active
@@ -95,7 +95,7 @@ Page {
             // Camera 6
             Camera_View_Layout {
                 camera_Text: "Camera 6"
-                cameraIndex: 0
+                cameraIndex: 20
                 active: cameraCheckboxes.camera6Checkbox.checked
                 visible: active
                 Layout.fillWidth: active
@@ -106,7 +106,7 @@ Page {
             // Camera 7
             Camera_View_Layout {
                 camera_Text: "Camera 7"
-                cameraIndex: 0
+                cameraIndex: 24
                 active: cameraCheckboxes.camera7Checkbox.checked
                 visible: active
                 Layout.fillWidth: active
@@ -117,7 +117,7 @@ Page {
             // Camera 8
             Camera_View_Layout {
                 camera_Text: "Camera 8"
-                cameraIndex: 0
+                cameraIndex: 28
                 active: cameraCheckboxes.camera8Checkbox.checked
                 visible: active
                 Layout.fillWidth: active

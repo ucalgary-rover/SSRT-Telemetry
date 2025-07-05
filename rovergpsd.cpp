@@ -26,6 +26,7 @@ void RoverGPSD::disconnect()
 
 void RoverGPSD::onConnected()
 {
+    qDebug() << "Succesfully connected to gps";
     // Enable JSON output from gpsd
     m_socket.write("?WATCH={\"enable\":true,\"json\":true}\n");
 }
@@ -53,7 +54,6 @@ void RoverGPSD::onReadyRead()
             else {
                 qWarning() << "Missing data from GNSS device";
             }
-
         }
     }
 }

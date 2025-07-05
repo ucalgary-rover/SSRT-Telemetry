@@ -15,7 +15,7 @@ RoverTracker::RoverTracker(QObject *parent)
     connect(gps, &RoverGPSD::errorOccurred, this, [](const QString& err){
         qWarning() << "GPS error:" << err;
     });
-    gps->connectToGpsd();
+    gps->connectToGpsd("192.168.1.100");
 }
 
 void RoverTracker::simulateMovement() {
