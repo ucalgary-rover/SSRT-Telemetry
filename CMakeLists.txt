@@ -46,7 +46,7 @@ set_target_properties(SSRTTelemetry PROPERTIES
 )
 
 
-target_link_libraries(appSSRTelemetry
+target_link_libraries(SSRTelemetry
     PRIVATE Qt6::Quick Qt6::Location Qt6::Positioning Qt6::Mqtt Qt6::Core)
 
 include(GNUInstallDirs)
