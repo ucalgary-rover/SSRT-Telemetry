@@ -14,6 +14,7 @@ public:
 
     double latitude() const { return m_latitude; }
     double longitude() const { return m_longitude; }
+    void setCoordinate(double lat, double lon);
 
 signals:
     void positionChanged();

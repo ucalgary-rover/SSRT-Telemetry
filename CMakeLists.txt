@@ -3,11 +3,9 @@ cmake_minimum_required(VERSION 3.16)
 project(SSRTelemetry VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-find_package(Qt6 REQUIRED COMPONENTS Location)
-find_package(Qt6 REQUIRED COMPONENTS Positioning)
-find_package(Qt6 6.8.1 REQUIRED COMPONENTS Quick Mqtt)
-qt_standard_project_setup(REQUIRES 6.5)
+find_package(Qt6 6.8.1 REQUIRED COMPONENTS Location Positioning Quick Mqtt Core) 
+set(CMAKE_AUTOMOC ON)
+qt_standard_project_setup(REQUIRES 6.8)
 
 qt_add_resources(RESOURCE_SOURCES
     Resources.qrc
@@ -31,6 +29,9 @@ qt_add_qml_module(SSRTTelemetry
         SOURCES labelmanager.hpp
         SOURCES labelmanager.cpp
         SOURCES maplabel.cpp
+        SOURCES rovergpsd.h rovergpsd.cpp
+        SOURCES LocationInfo.hpp
+        SOURCES imudata.hpp imudata.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -44,12 +45,9 @@ set_target_properties(SSRTTelemetry PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-target_link_libraries(SSRTTelemetry
-    PRIVATE Qt6::Quick
-    PRIVATE Qt6::Location
-    PRIVATE Qt6::Positioning
-    PRIVATE Qt6::Mqtt
-)
+
+target_link_libraries(appSSRTelemetry
+    PRIVATE Qt6::Quick Qt6::Location Qt6::Positioning Qt6::Mqtt Qt6::Core)
 
 include(GNUInstallDirs)
 install(TARGETS SSRTTelemetry
