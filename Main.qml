@@ -55,11 +55,27 @@ ApplicationWindow {
                     }
                 }
 
+                Connections {
+                    target: RoverMQTT
+                    function onMessageReceived() {
+                        var data = JSON.parse(message);
+                        if (data.lat !== undefined && data.lon !== undefined) {
+                            RoverTracker.setCoordinate(data.lat, data.lon);
+                        }
+                    }
+
+                    // connect to the broker and susbscribe to the topic once on startup
+                    Component.onCompleted: {
+                        RoverMQTT.connectToBroker("HOST NAME", 111);    // replace with host name and port
+                        RoverMQTT.subscribeTopic("TOPIC NAME");     // replaced with actual topic name
+                    }
+                }
+
                 // Connections for handling nav bar signals
                 Connections {
                     target: navLoader.item
-                    onTelemetryClicked: pageLoader.source = "qrc:/SSRT_UI/Homepage/BasePage.qml"
-                    onCameraClicked: pageLoader.source = "qrc:/SSRT_UI/CameraPage/CameraPage.qml"
+                    function onTelemetryClicked() {pageLoader.source = "qrc:/SSRT_UI/Homepage/BasePage.qml";}
+                    function onCameraClicked(){ pageLoader.source = "qrc:/SSRT_UI/CameraPage/CameraPage.qml";}
                 }
             }
         }

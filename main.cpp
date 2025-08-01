@@ -8,14 +8,25 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+// register the cpp classes as singletons to be used throughout the app
+static QObject *roverMqttSingletonProvider(QQmlEngine *, QJSEngine *) {
+  return new RoverMQTT();
+}
+
+static QObject *roverTrackerSingletonProvider(QQmlEngine *, QJSEngine *) {
+  return new RoverTracker();
+}
+
 int main(int argc, char *argv[]) {
   QGuiApplication app(argc, argv);
 
   // add the RoverAngle type
   qmlRegisterType<RoverAngle>("SSRTelemetry", 1, 0, "RoverAngle");
-  qmlRegisterType<RoverTracker>("SSRTelemetry", 1, 0, "RoverTracker");
+  qmlRegisterSingletonType<RoverTracker>("SSRTelemetry", 1, 0, "RoverTracker",
+                                         roverTrackerSingletonProvider);
   qmlRegisterType<ScienceSensors>("SSRTelemetry", 1, 0, "ScienceSensors");
-  qmlRegisterType<RoverMQTT>("SSRTelemetry", 1, 0, "RoverMQTT");
+  qmlRegisterSingletonType<RoverMQTT>("SSRTelemetry", 1, 0, "RoverMQTT",
+                                      roverMqttSingletonProvider);
   qmlRegisterUncreatableType<MapLabel>(
       "SSRTelemetry", 1, 0, "MapLabel",
       "MapLabel cannot be created directly in QML");

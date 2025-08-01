@@ -1,21 +1,20 @@
 #include "roverTracker.hpp"
 #include "rovergpsd.h"
-#include <QRandomGenerator>
 #include <QDebug>
+#include <QRandomGenerator>
 
 RoverTracker::RoverTracker(QObject *parent)
     : QObject(parent), m_latitude(43.6532), m_longitude(-79.3832) {
-    // Setup gpsd client to fetch gps data over tcp
-    auto gps = new RoverGPSD(this);
-    // Set update trigger
-    connect(gps, &RoverGPSD::locationUpdated, this, [this](double lat, double lon, double alt){
-        setCoordinate(lat, lon);
-    });
-    // Set erorr
-    connect(gps, &RoverGPSD::errorOccurred, this, [](const QString& err){
-        qWarning() << "GPS error:" << err;
-    });
-    gps->connectToGpsd();
+  // Setup gpsd client to fetch gps data over tcp
+  auto gps = new RoverGPSD(this);
+  // Set update trigger
+  connect(
+      gps, &RoverGPSD::locationUpdated, this,
+      [this](double lat, double lon, double alt) { setCoordinate(lat, lon); });
+  // Set erorr
+  connect(gps, &RoverGPSD::errorOccurred, this,
+          [](const QString &err) { qWarning() << "GPS error:" << err; });
+  gps->connectToGpsd();
 }
 
 void RoverTracker::simulateMovement() {
@@ -26,6 +25,9 @@ void RoverTracker::simulateMovement() {
 }
 
 void RoverTracker::setCoordinate(double lat, double lon) {
+  if (m_latitude != lat || m_longitude != lon) {
     m_latitude = lat;
     m_longitude = lon;
+    emit positionChanged();
+  }
 }

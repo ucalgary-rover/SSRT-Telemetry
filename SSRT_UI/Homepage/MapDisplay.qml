@@ -22,8 +22,8 @@ Item {
         id: labelManager
     }
 
-    RoverTracker {
-        id: roverTracker
+    Connections {
+        target: RoverTracker
         onPositionChanged: {
             if (!mapDisplay.startSet) {
                 mapDisplay.startCoord = QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude);
@@ -33,21 +33,16 @@ Item {
         }
     }
 
-    RoverMQTT {
-        id: mqttClient
-        onStatusChanged: {
-            console.log("MQTT Status:", status);
-            if (status === "Connected") {
-                mqttClient.subscribeTopic("rover/sensor");
-            }
-        }
-        onMessageReceived: {
-            console.log("Received Message on", topic, ":", message);
-        }
-        Component.onCompleted: {
-            mqttClient.connectToBroker("localhost", 1883);
-        }
-    }
+    // RoverTracker {
+    //     id: roverTracker
+    //     onPositionChanged: {
+    //         if (!mapDisplay.startSet) {
+    //             mapDisplay.startCoord = QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude);
+    //             mapDisplay.startSet = true;
+    //             console.log("Start point set at", roverTracker.latitude, roverTracker.longitude);
+    //         }
+    //     }
+    // }
 
     // The Map and its children.
     Map {
@@ -135,13 +130,13 @@ Item {
 
             onDoubleClicked: {
                 mouse.accepted = true;
-                mapDisplay.mouseCoord = map.toCoordinate(Qt.point(mouse.x,mouse.y));
-                console.log('latitude = '+ (map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude), 'longitude = '+ (map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude));
+                mapDisplay.mouseCoord = map.toCoordinate(Qt.point(mouse.x, mouse.y));
+                console.log('latitude = ' + (map.toCoordinate(Qt.point(mouse.x, mouse.y)).latitude), 'longitude = ' + (map.toCoordinate(Qt.point(mouse.x, mouse.y)).longitude));
             }
         }
 
         MapQuickItem {
-            id:mouseMarker
+            id: mouseMarker
             sourceItem: Rectangle {
                 width: 20
                 height: 20
@@ -177,15 +172,15 @@ Item {
                 border.color: "black"
                 border.width: 1
             }
-                // Center the map on the rover's current position.
-                Timer {
+            // Center the map on the rover's current position.
+            Timer {
                 interval: 50
                 running: true
                 repeat: true
 
                 onTriggered: {
-                    if (!map.currentCenter && roverTracker) {
-                        map.currentCenter = QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude);
+                    if (!map.currentCenter && RoverTracker) {
+                        map.currentCenter = QtPositioning.coordinate(RoverTracker.latitude, RoverTracker.longitude);
                         map.center = map.currentCenter;
                     }
 
@@ -227,7 +222,7 @@ Item {
                         map.center = map.currentCenter;
                     } else {
                         // check if rover is within screen bounds
-                        var roverCoord = QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude);
+                        var roverCoord = QtPositioning.coordinate(RoverTracker.latitude, RoverTracker.longitude);
                         var screenCenter = Qt.point(map.width / 2, map.height / 2);
                         var roverScreenPos = map.fromCoordinate(roverCoord);
                         var dx = roverScreenPos.x - screenCenter.x;
@@ -264,8 +259,8 @@ Item {
         MapQuickItem {
             anchorPoint.x: 10
             anchorPoint.y: 10
-            coordinate: roverTracker ? QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude) : QtPositioning.coordinate(0, 0)
-            sourceItem: Image  {
+            coordinate: RoverTracker ? QtPositioning.coordinate(RoverTracker.latitude, RoverTracker.longitude) : QtPositioning.coordinate(0, 0)
+            sourceItem: Image {
                 id: roverIcon
                 source: "../assets/rover-side-view.png"
                 width: 75
@@ -325,7 +320,7 @@ Item {
                 if (!mapDisplay.startSet) {
                     return "Start not set";
                 }
-                var currentCoord = roverTracker ? QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude) : QtPositioning.coordinate(0, 0);
+                var currentCoord = RoverTracker ? QtPositioning.coordinate(RoverTracker.latitude, RoverTracker.longitude) : QtPositioning.coordinate(0, 0);
                 var d = currentCoord.distanceTo(mapDisplay.startCoord);
                 return "Distance: " + d.toFixed(2) + " m";
             }
@@ -432,7 +427,6 @@ Item {
                         }
                     }
                 }
-
             }// --- End of Control Panel ---
         }
 
@@ -443,7 +437,6 @@ Item {
             anchors.topMargin: 15
             anchors.right: parent.right
         }
-
 
         Rectangle {
             id: locationInfoPanel
@@ -459,7 +452,7 @@ Item {
 
             LocationInfo {
                 anchors.verticalCenter: parent.verticalCenter
-                coordinate: roverTracker.latitude + "|" + roverTracker.longitude
+                coordinate: RoverTracker.latitude + "|" + RoverTracker.longitude
                 mouseCoordinate: mapDisplay.mouseCoord.latitude + " | " + mapDisplay.mouseCoord.longitude
                 width: locationInfoPanel.width
             }
