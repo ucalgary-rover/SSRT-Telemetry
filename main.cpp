@@ -17,6 +17,10 @@ static QObject *roverTrackerSingletonProvider(QQmlEngine *, QJSEngine *) {
   return new RoverTracker();
 }
 
+static QObject *scienceSensorsSingletonProvider(QQmlEngine *, QJSEngine *) {
+  return new ScienceSensors();
+}
+
 int main(int argc, char *argv[]) {
   QGuiApplication app(argc, argv);
 
@@ -24,7 +28,8 @@ int main(int argc, char *argv[]) {
   qmlRegisterType<RoverAngle>("SSRTelemetry", 1, 0, "RoverAngle");
   qmlRegisterSingletonType<RoverTracker>("SSRTelemetry", 1, 0, "RoverTracker",
                                          roverTrackerSingletonProvider);
-  qmlRegisterType<ScienceSensors>("SSRTelemetry", 1, 0, "ScienceSensors");
+  qmlRegisterSingletonType<ScienceSensors>(
+      "SSRTelemetry", 1, 0, "ScienceSensors", scienceSensorsSingletonProvider);
   qmlRegisterSingletonType<RoverMQTT>("SSRTelemetry", 1, 0, "RoverMQTT",
                                       roverMqttSingletonProvider);
   qmlRegisterUncreatableType<MapLabel>(

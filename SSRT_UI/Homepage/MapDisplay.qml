@@ -22,6 +22,7 @@ Item {
         id: labelManager
     }
 
+    // initialize position
     Connections {
         target: RoverTracker
         onPositionChanged: {

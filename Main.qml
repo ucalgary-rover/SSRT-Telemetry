@@ -62,6 +62,18 @@ ApplicationWindow {
                         if (data.lat !== undefined && data.lon !== undefined) {
                             RoverTracker.setCoordinate(data.lat, data.lon);
                         }
+
+                        if(data.h2_1 !== undefined) {
+                            ScienceSensors.setH21PPM(data.h2_1);
+                        }
+
+                        if(data.h2_2 !== undefined) {
+                            ScienceSensors.setH22PPM(data.h2_1);
+                        }
+
+                        if(data.ozone !== undefined) {
+                            ScienceSensors.setOzonePPM(data.ozone);
+                        }
                     }
 
                     // connect to the broker and susbscribe to the topic once on startup
