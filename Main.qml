@@ -78,8 +78,8 @@ ApplicationWindow {
 
                     // connect to the broker and susbscribe to the topic once on startup
                     Component.onCompleted: {
-                        RoverMQTT.connectToBroker("HOST NAME", 111);    // replace with host name and port
-                        RoverMQTT.subscribeTopic("TOPIC NAME");     // replaced with actual topic name
+                        RoverMQTT.connectToBroker("192.168.1.100", 1883);    // replace with host name and port
+                        RoverMQTT.subscribeTopic("sensors_1");     // replaced with actual topic name
                     }
                 }
 
