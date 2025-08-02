@@ -11,7 +11,7 @@ RoverMQTT::RoverMQTT(QObject *parent)
   connect(m_client, &QMqttClient::messageReceived, this,
           &RoverMQTT::onMessageReceived);
 
-  subscribeTopic("FILL IN STRING HERE");
+  // subscribeTopic("FILL IN STRING HERE");
 }
 
 void RoverMQTT::connectToBroker(const QString &host, int port) {
