@@ -57,7 +57,7 @@ ApplicationWindow {
 
                 Connections {
                     target: RoverMQTT
-                    function onMessageReceived() {
+                    function onMessageReceived(topic, message) {
                         console.log("IN MESSAGE RECEIVED");
                         var data = JSON.parse(message);
                         console.log("Raw JSON data: ", data);
@@ -70,7 +70,7 @@ ApplicationWindow {
                         }
 
                         if(data.h2_2 !== undefined) {
-                            ScienceSensors.setH22PPM(data.h2_1);
+                            ScienceSensors.setH22PPM(data.h2_2);
                         }
 
                         if(data.ozone !== undefined) {

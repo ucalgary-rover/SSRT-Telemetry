@@ -44,19 +44,19 @@ public:
   void setUncertainty(qreal newUncertainty);
 
   qreal ozone_ppm() const;
-  void setOzonePPM(qreal newOzone_ppm);
+  Q_INVOKABLE void setOzonePPM(qreal newOzone_ppm);
 
   qreal atomic_radius() const;
   void setAtomicRadius(qreal newAtomic_radius);
 
   qreal radioactivity() const;
-  void setRadioactivity(qreal newRadioactivity);
+  Q_INVOKABLE void setRadioactivity(qreal newRadioactivity);
 
   qreal h2_1_ppm() const;
-  void setH21PPM(qreal newH2_1_ppm);
+  Q_INVOKABLE void setH21PPM(qreal newH2_1_ppm);
 
   qreal h2_2_ppm() const;
-  void setH22PPM(qreal newH2_2_ppm);
+  Q_INVOKABLE void setH22PPM(qreal newH2_2_ppm);
 
 signals:
   void delayCoeffChanged();
