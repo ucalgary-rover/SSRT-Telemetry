@@ -4,7 +4,7 @@
 ScienceSensors::ScienceSensors(QObject *parent)
     : QObject{parent}, m_decay_coeff(0), m_half_life(0), m_total_energy(0),
       m_uncertainty(0), m_ozone_ppm(0), m_atomic_radius(0), m_radioactivity(0),
-      m_h2_1_ppm(0), m_h2_2_ppm(0), m_stream_running(true) {
+      m_h2_1_ppm(0), m_h2_2_ppm(0), m_stream_running(false) {
   srand(time(0));
 
   // m_get_data_thread = std::thread(&ScienceSensors::streamData, this);
@@ -85,23 +85,23 @@ void ScienceSensors::setRadioactivity(qreal newRadioactivity) {
 // this function will connect to the stream of data coming from the IMU
 // currently it creates dummy data to simulate a stream (all between 0-100)
 void ScienceSensors::streamData() {
-  const int updateTimeMs = 500;
+  // const int updateTimeMs = 500;
 
-  while (m_stream_running) {
-    // generate new values
-    setDelayCoeff(rand() % 101);
-    setHalfLife(rand() % 101);
-    setTotalEnergy(rand() % 101);
-    setOzonePPM(rand() % 101);
-    setH21PPM(rand() % 101);
-    setH22PPM(rand() % 101);
-    setAtomicRadius(rand() % 101);
-    setRadioactivity(rand() % 101);
-    setUncertainty(rand() % 101);
+  // while (m_stream_running) {
+  //   // generate new values
+  //   setDelayCoeff(rand() % 101);
+  //   setHalfLife(rand() % 101);
+  //   setTotalEnergy(rand() % 101);
+  //   setOzonePPM(rand() % 101);
+  //   setH21PPM(rand() % 101);
+  //   setH22PPM(rand() % 101);
+  //   setAtomicRadius(rand() % 101);
+  //   setRadioactivity(rand() % 101);
+  //   setUncertainty(rand() % 101);
 
-    // wait for 0.5s
-    std::this_thread::sleep_for(std::chrono::milliseconds(updateTimeMs));
-  }
+  //   // wait for 0.5s
+  //   std::this_thread::sleep_for(std::chrono::milliseconds(updateTimeMs));
+  // }
 }
 
 qreal ScienceSensors::h2_1_ppm() const { return m_h2_1_ppm; }

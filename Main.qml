@@ -58,7 +58,9 @@ ApplicationWindow {
                 Connections {
                     target: RoverMQTT
                     function onMessageReceived() {
+                        console.log("IN MESSAGE RECEIVED");
                         var data = JSON.parse(message);
+                        console.log("Raw JSON data: ", data);
                         if (data.lat !== undefined && data.lon !== undefined) {
                             RoverTracker.setCoordinate(data.lat, data.lon);
                         }
@@ -77,10 +79,11 @@ ApplicationWindow {
                     }
 
                     // connect to the broker and susbscribe to the topic once on startup
-                    Component.onCompleted: {
-                        RoverMQTT.connectToBroker("192.168.1.100", 1883);    // replace with host name and port
-                        RoverMQTT.subscribeTopic("sensors_1");     // replaced with actual topic name
-                    }
+                    //Component.onCompleted: {
+                    //    console.log("i AM HERE");
+                    //    RoverMQTT.connectToBroker("192.168.1.100", 1883);    // replace with host name and port
+                    //    RoverMQTT.subscribeTopic("sensors/sensor_1");     // replaced with actual topic name
+                    //}
                 }
 
                 // Connections for handling nav bar signals
