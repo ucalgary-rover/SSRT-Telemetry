@@ -58,7 +58,9 @@ ApplicationWindow {
                 Connections {
                     target: RoverMQTT
                     function onMessageReceived() {
+                        qDebug("MESSAGE RECEIVED");
                         var data = JSON.parse(message);
+                        qDebug("MESSAGE ", data);
                         if (data.lat !== undefined && data.lon !== undefined) {
                             RoverTracker.setCoordinate(data.lat, data.lon);
                         }
