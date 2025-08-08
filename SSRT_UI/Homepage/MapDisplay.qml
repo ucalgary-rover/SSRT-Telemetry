@@ -27,9 +27,11 @@ Item {
         target: RoverTracker
         onPositionChanged: {
             if (!mapDisplay.startSet) {
-                mapDisplay.startCoord = QtPositioning.coordinate(roverTracker.latitude, roverTracker.longitude);
+                var lat = RoverTracker.latitude;
+                var lon = RoverTracker.longitude;
+                mapDisplay.startCoord = QtPositioning.coordinate(lat, lon);
                 mapDisplay.startSet = true;
-                console.log("Start point set at", roverTracker.latitude, roverTracker.longitude);
+                console.log("Start point set at", lat, lon);
             }
         }
     }

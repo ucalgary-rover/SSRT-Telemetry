@@ -15,9 +15,13 @@ RoverTracker::RoverTracker(QObject *parent)
   connect(gps, &RoverGPSD::errorOccurred, this,
           [](const QString &err) { qWarning() << "GPS error:" << err; });
   gps->connectToGpsd();
+
+  connect(&timer, &QTimer::timeout, this, &RoverTracker::simulateMovement);
+  timer.start(1000);
 }
 
 void RoverTracker::simulateMovement() {
+
   // Increase movement delta for more noticeable changes.
   m_latitude += (QRandomGenerator::global()->bounded(0.001) - 0.0005);
   m_longitude += (QRandomGenerator::global()->bounded(0.001) - 0.0005);
