@@ -65,15 +65,15 @@ ApplicationWindow {
                             RoverTracker.setCoordinate(data.lat, data.lon);
                         }
 
-                        if(data.h2_1 !== undefined) {
+                        if (data.h2_1 !== undefined) {
                             ScienceSensors.setH21PPM(data.h2_1);
                         }
 
-                        if(data.h2_2 !== undefined) {
-                            ScienceSensors.setH22PPM(data.h2_2);
+                        if (data.h2_2 !== undefined) {
+                            ScienceSensors.setH22PPM(data.h2_1);
                         }
 
-                        if(data.ozone !== undefined) {
+                        if (data.ozone !== undefined) {
                             ScienceSensors.setOzonePPM(data.ozone);
                         }
                     }
@@ -86,11 +86,24 @@ ApplicationWindow {
                     //}
                 }
 
+                Timer {
+                    id: delayTimer
+                    interval: 5000    // milliseconds (1 second)
+                    repeat: false
+                    onTriggered: {
+                        RoverMQTT.subscribeTopic("sensors_1");
+                    }
+                }
+
                 // Connections for handling nav bar signals
                 Connections {
                     target: navLoader.item
-                    function onTelemetryClicked() {pageLoader.source = "qrc:/SSRT_UI/Homepage/BasePage.qml";}
-                    function onCameraClicked(){ pageLoader.source = "qrc:/SSRT_UI/CameraPage/CameraPage.qml";}
+                    function onTelemetryClicked() {
+                        pageLoader.source = "qrc:/SSRT_UI/Homepage/BasePage.qml";
+                    }
+                    function onCameraClicked() {
+                        pageLoader.source = "qrc:/SSRT_UI/CameraPage/CameraPage.qml";
+                    }
                 }
             }
         }
