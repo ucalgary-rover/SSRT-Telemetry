@@ -5,6 +5,7 @@ MapLabel::MapLabel(double lat, double lon, QVariantList const &type,
     : QObject(parent), m_latitude(lat), m_longitude(lon),
       m_labelTypes{
           {"Start", QVariantList{""}},
+          {"Last Clicked", QVariantList{""}},
           {"O3",
            QVariantList{""}}, // need to have empty string to check contains
           {"H2", QVariantList{""}},
@@ -18,10 +19,11 @@ MapLabel::MapLabel(double lat, double lon, QVariantList const &type,
            QVariantList{"CL-D", "CL-R", "CL-F", "CR-D", "CR-R", "CR-F"}},
           {"NavHazard", QVariantList{""}}},
 
-      m_labelColourMap{{"Start", "#008000"},  {"O3", "#BE7309"},
-                       {"H2", "#BE7309"},     {"BMK-01", "7D0F9C"},
-                       {"BMK-05", "#11339A"}, {"BMK-10", "#BE068D"},
-                       {"BMK-25", "#0B9E12"}, {"NavHazard", "#890C0C"}} {
+      m_labelColourMap{{"Start", "#008000"},    {"Last Clicked", "#27F5EE"},
+                       {"O3", "#BE7309"},       {"H2", "#BE7309"},
+                       {"BMK-01", "7D0F9C"},    {"BMK-05", "#11339A"},
+                       {"BMK-10", "#BE068D"},   {"BMK-25", "#0B9E12"},
+                       {"NavHazard", "#890C0C"}} {
 
   qDebug() << m_labelTypes.contains(type[0].toString());
 
