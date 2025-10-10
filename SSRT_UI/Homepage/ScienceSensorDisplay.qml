@@ -6,9 +6,9 @@ import SSRTelemetry
 ColumnLayout {
     id: scienceSensorDisplay
 
-    ScienceSensors {
-        id: scienceSensorData
-    }
+    // ScienceSensors {
+    //     id: scienceSensorData
+    // }
 
     // component for a single sensor display
     component SingleDisplay: Rectangle {
@@ -43,49 +43,55 @@ ColumnLayout {
 
     // decay coefficient
     SingleDisplay {
-        name: qsTr("Decay Coefficient")
-        value: scienceSensorData.decay_coeff
+        name: qsTr("Decay Coeff")
+        value: ScienceSensors.decay_coeff
     }
 
     // half life
     SingleDisplay {
         name: qsTr("Half Life")
-        value: scienceSensorData.half_life
+        value: ScienceSensors.half_life
     }
 
     // total energy
     SingleDisplay {
         name: qsTr("Total Energy")
-        value: scienceSensorData.total_energy
+        value: ScienceSensors.total_energy
     }
 
     // uncertainty
     SingleDisplay {
         name: qsTr("Uncertainty")
-        value: scienceSensorData.uncertainty
+        value: ScienceSensors.uncertainty
     }
 
     // ozone ppm
     SingleDisplay {
         name: qsTr("Ozone PPM")
-        value: scienceSensorData.ozone_ppm
+        value: ScienceSensors.ozone_ppm
     }
 
     // h2 ppm
     SingleDisplay {
-        name: qsTr("H2 PPM")
-        value: scienceSensorData.h2_ppm
+        name: qsTr("H2 PPM #1")
+        value: ScienceSensors.h2_1_ppm
     }
 
-    // atomic radius
+    // h2 ppm
     SingleDisplay {
-        name: qsTr("Atomic Radius")
-        value: scienceSensorData.atomic_radius
+        name: qsTr("H2 PPM #2")
+        value: ScienceSensors.h2_2_ppm
     }
+
+    // // atomic radius
+    // SingleDisplay {
+    //     name: qsTr("Atomic Radius")
+    //     value: ScienceSensors.atomic_radius
+    // }
 
     // radioactivity
     SingleDisplay {
         name: qsTr("Radioactivity")
-        value: scienceSensorData.radioactivity
+        value: ScienceSensors.radioactivity
     }
 }

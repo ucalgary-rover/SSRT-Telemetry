@@ -55,11 +55,55 @@ ApplicationWindow {
                     }
                 }
 
+                Connections {
+                    target: RoverMQTT
+                    function onMessageReceived(topic, message) {
+                        console.log("IN MESSAGE RECEIVED");
+                        var data = JSON.parse(message);
+                        console.log("Raw JSON data: ", data);
+                        if (data.lat !== undefined && data.lon !== undefined) {
+                            RoverTracker.setCoordinate(data.lat, data.lon);
+                        }
+
+                        if (data.h2_1 !== undefined) {
+                            ScienceSensors.setH21PPM(data.h2_1);
+                        }
+
+                        if (data.h2_2 !== undefined) {
+                            ScienceSensors.setH22PPM(data.h2_1);
+                        }
+
+                        if (data.ozone !== undefined) {
+                            ScienceSensors.setOzonePPM(data.ozone);
+                        }
+                    }
+
+                    // connect to the broker and susbscribe to the topic once on startup
+                    //Component.onCompleted: {
+                    //    console.log("i AM HERE");
+                    //    RoverMQTT.connectToBroker("192.168.1.100", 1883);    // replace with host name and port
+                    //    RoverMQTT.subscribeTopic("sensors/sensor_1");     // replaced with actual topic name
+                    //}
+                }
+
+                Timer {
+                    id: delayTimer
+                    interval: 5000    // milliseconds (1 second)
+                    repeat: false
+                    onTriggered: {
+                        RoverMQTT.subscribeTopic("sensors_1");
+                    }
+                }
+
                 // Connections for handling nav bar signals
                 Connections {
                     target: navLoader.item
-                    onTelemetryClicked: pageLoader.source = "qrc:/SSRT_UI/Homepage/BasePage.qml"
-                    onCameraClicked: pageLoader.source = "qrc:/SSRT_UI/CameraPage/CameraPage.qml"
+                    function onTelemetryClicked() {
+                        pageLoader.source = "qrc:/SSRT_UI/Homepage/BasePage.qml";
+                    }
+                    function onCameraClicked() {
+                        pageLoader.source = "qrc:/SSRT_UI/CameraPage/CameraPage.qml";
+                    }
                 }
             }
         }
