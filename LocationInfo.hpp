@@ -1,4 +1,0 @@
-#ifndef LOCATIONINFO_HPP
-#define LOCATIONINFO_HPP
-
-#endif // LOCATIONINFO_HPP
