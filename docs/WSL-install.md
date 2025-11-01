@@ -16,7 +16,7 @@ On Windows, this distribution is now accessible as an application.
 ## Installing Python with WSL
 
 Update distribution:
-```sudo apt get-update```
+```sudo apt-get update```
 
 Install Git:
 ```sudo apt-get install git```
