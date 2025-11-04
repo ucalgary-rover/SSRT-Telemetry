@@ -4,19 +4,28 @@ repos:
     hooks:
     -   id: check-yaml
     -   id: end-of-file-fixer
-    -   id: trailing-whitespace
-    -   id: mixed-line-ending
+    -   id: trailing-whitespace # remove trailing whitespace
+    -   id: check-ast   # make sure it's valid python code
+    -   id: check-docstring-first   # make sure there's no code before a docstring
+    -   id: check-merge-conflict    # make sure there's no merge conflict strings
+    -   id: mixed-line-ending       # make sure all line endings are only \n NOT \r\n
         args:
         -   --fix=auto
     -   id: check-json
     -   id: pretty-format-json
-        args: [--autofix, --indent=4, --no-ensure-ascii, --no-sort-keys]
--   repo: https://github.com/pocc/pre-commit-hooks
-    rev: v1.3.5
+        args: [--autofix, --indent=4]
+-   repo: https://github.com/asottile/reorder-python-imports
+    rev: v3.16.0
     hooks:
-      - id: clang-format
-        args: [--style=llvm, -i]
-      - id: cppcheck
-        args: [--library=qt, --enable=all, --inconclusive,
-        --suppress=unmatchedSuppression, --suppress=missingIncludeSystem,
-        --suppress=unusedStructMember, --suppress=unusedFunction]
+    -   id: reorder-python-imports  # reorder python imports
+        args: [--py310-plus]
+-   repo: https://github.com/PyCQA/autoflake
+    rev: v2.3.1
+    hooks:
+    -   id: autoflake   # remove unused imports
+        args: [--remove-all-unused-imports, --in-place]
+
+-   repo: https://github.com/psf/black
+    rev: 22.10.0
+    hooks:
+    -   id: black   # reformat and make things pretty
