@@ -1,0 +1,6 @@
+[theme]
+primaryColor = "#c95323"
+backgroundColor = "#e4c8a6ff"  # This only affects some components, not the entire page
+secondaryBackgroundColor = "#e4c8a6"
+textColor = "#291e1cff"
+font = "sans serif"
