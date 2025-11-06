@@ -66,6 +66,9 @@ Press Enter to open https://github.com/login/device in your browser...
 ✓ Logged in as <USERNAME>
 ```
 
+## Logging into GitHub (Alternative)
+https://github.com/git-ecosystem/git-credential-manager/blob/release/docs/credstores.md
+
 ## Starting Resources
 
 [Streamlit Getting Started](https://docs.streamlit.io/get-started)
