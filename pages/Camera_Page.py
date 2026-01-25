@@ -1,6 +1,8 @@
 import streamlit as st
 
-VIDEO_URL = "http://127.0.0.1:8995/video_feed/"
+from src.utils.read_env import read_env_variable
+
+VIDEO_URL = f"http://{read_env_variable('ROVER_IP')}:{read_env_variable('CAMERA_FEED_PORT')}/video_feed/"
 
 
 def camera_view(cam_id: int):
