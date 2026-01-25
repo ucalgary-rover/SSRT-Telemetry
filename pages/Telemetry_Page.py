@@ -1,37 +1,36 @@
-import time
+import pathlib
 
 import streamlit as st
 
 from src.utils.read_env import read_env_variable
-from src.utils.shared import *
 
 # defining refresh delay here since it won't change at runtime
 REFRESH_DELAY = float(read_env_variable("REFRESH_DELAY"))
 
 
 def main():
-    st.title("Live Temperature Monitor")
+    st.html(pathlib.Path("src/styles/streamlit_styles.css"))
+    st.set_page_config(layout="wide")
 
-    if "latest_temp" not in st.session_state:
-        st.session_state.latest_temp = "Waiting..."
+    # main container
+    with st.container(border=True):
+        map_col, cam_col, sci_col = st.columns(3, border=True)
 
-    # Display
-    slot = st.empty()
-    slot.metric("Temperature", st.session_state.latest_temp)
+        # map
+        with map_col:
+            st.text("Map")
 
-    while True:
-        updated = False
+        # camera preview
+        with cam_col:
+            st.text("Camera Preview")
 
-        # wait for new message from MQTT server
-        while not message_queue.empty():
-            st.session_state.latest_temp = message_queue.get_nowait()
-            updated = True
+        # science data
+        with sci_col:
+            st.text("Science")
 
-        if updated:
-            slot.metric("Temperature", st.session_state.latest_temp)
-
-        # wait before checking for a new update
-        time.sleep(REFRESH_DELAY)
+        # rover status
+        with st.container(border=True):
+            st.text("Rover")
 
 
 if __name__ == "__main__":
