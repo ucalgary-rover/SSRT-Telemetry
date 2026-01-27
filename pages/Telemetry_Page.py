@@ -1,6 +1,7 @@
 import pathlib
 
 import streamlit as st
+from sections import map, camera, rover, science
 
 from src.utils.read_env import read_env_variable
 
@@ -18,19 +19,19 @@ def main():
 
         # map
         with map_col:
-            st.text("Map")
+            map.col()
 
         # camera preview
         with cam_col:
-            st.text("Camera Preview")
+            camera.col()
 
         # science data
         with sci_col:
-            st.text("Science")
+            science.col()
 
         # rover status
         with st.container(border=True):
-            st.text("Rover")
+            rover.col()
 
 
 if __name__ == "__main__":
