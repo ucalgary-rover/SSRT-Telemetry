@@ -45,11 +45,11 @@ source "${VENV_DIR}/bin/activate"
 echo "Upgrading pip, setuptools, wheel..."
 pip install --upgrade pip setuptools wheel
 
-echo "Installing dependencies: opencv-python, opencv-contrib-python, psutil, flask"
-pip install opencv-python opencv-contrib-python psutil flask
+echo "Installing dependencies: from requirements.txt"
+pip install -r requirements.txt
 
 echo
-echo ":white_check_mark: Setup complete!"
-echo ":point_right: To start using your venv:"
+echo "✅ Setup complete!"
+echo "👉 To start using your venv:"
 echo "     source ${VENV_DIR}/bin/activate"
 echo "     streamlit run app.py"
