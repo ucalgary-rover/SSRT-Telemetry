@@ -1,8 +1,10 @@
 import pathlib
 
 import streamlit as st
-from sections import map, camera, rover, science
 
+from sections import camera
+from sections import map
+from sections import rover
 from src.utils.read_env import read_env_variable
 
 # defining refresh delay here since it won't change at runtime
@@ -10,28 +12,20 @@ REFRESH_DELAY = float(read_env_variable("REFRESH_DELAY"))
 
 
 def main():
+    st.set_page_config(page_title="SSRT Telemetry", layout="wide")
+
     st.html(pathlib.Path("src/styles/streamlit_styles.css"))
-    st.set_page_config(layout="wide")
+    st.html(pathlib.Path("src/styles/telemetry_styles.css"))
+    map_col, cam_col = st.columns(2)
 
-    # main container
-    with st.container(border=True):
-        map_col, cam_col, sci_col = st.columns(3, border=True)
+    with map_col:
+        map.display()
 
-        # map
-        with map_col:
-            map.col()
+    with cam_col:
+        camera.display()
 
-        # camera preview
-        with cam_col:
-            camera.col()
-
-        # science data
-        with sci_col:
-            science.col()
-
-        # rover status
-        with st.container(border=True):
-            rover.col()
+    with st.container(key="rover-health"):
+        rover.display()
 
 
 if __name__ == "__main__":

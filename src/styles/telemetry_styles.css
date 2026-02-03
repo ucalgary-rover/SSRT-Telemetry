@@ -1,0 +1,8 @@
+/* Styles for the boxes surrounding the different telemetry page components */
+.st-key-rover-health, .st-key-map-container, .st-key-camera-container {
+    border-width: 3px;
+    border-radius: 0.3rem;
+    border-color: #72351E;
+    border-style: solid;
+    padding: 1rem;
+}
