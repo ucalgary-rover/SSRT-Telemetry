@@ -21,6 +21,10 @@ def init():
 def main():
     init()
 
+    st.set_page_config(
+        page_title="SSRT Telemetry", layout="wide", initial_sidebar_state="collapsed"
+    )
+
     st.title("Live Temperature Monitor")
 
     if "latest_temp" not in st.session_state:
