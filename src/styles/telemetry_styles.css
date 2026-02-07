@@ -6,3 +6,18 @@
     border-style: solid;
     padding: 1rem;
 }
+
+.st-key-rover-wheels {
+    max-height: 450px;
+    max-width: 50%;
+}
+
+.st-key-rover-pitch {
+    max-height: 450px;
+    max-width: 75%;
+}
+
+.st-key-rover-roll {
+    max-height: 450px;
+    max-width: 75%;
+}
