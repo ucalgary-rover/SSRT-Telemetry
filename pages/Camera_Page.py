@@ -20,6 +20,8 @@ def camera_view(cam_id: int):
 
     deg = st.session_state[k]
 
+    st.write(f"Camera {cam_id}")
+
     with st.container():
         st.html(
             f"""
@@ -34,12 +36,67 @@ def camera_view(cam_id: int):
         """
         )
 
+        col_left, col_right = st.columns(2)
+
+        with col_left:
+            if st.button(
+                "Screenshot",
+                key=f"screenshot_{cam_id}",
+                type="secondary",
+                width="stretch",
+            ):
+                take_screenshot(cam_id)
+
+        a = f"rec_{cam_id}"
+        if a not in st.session_state:
+            st.session_state[a] = False
+
+        with col_right:
+            if st.button(
+                "Record", key=f"record_{cam_id}", type="primary", width="stretch"
+            ):
+
+                st.session_state[a] = not st.session_state[a]
+
+                if st.session_state[a]:
+                    start_record(cam_id)
+                else:
+                    stop_record(cam_id)
+
+
+def take_screenshot(cam_id: int):
+    st.toast(f"took screenshot on camera {cam_id}")
+
+
+def start_record(cam_id: int):
+    st.toast(f"recording on camera {cam_id}")
+
+
+def stop_record(cam_id: int):
+    st.toast(f"stopped recording on camera {cam_id}")
+
+
+def check_availability(cam_id: int):
+    return True
+
 
 st.title("Camera Feed Test Page")
-col1, col2 = st.columns(2)
 
-with col1:
-    camera_view(0)
+NUM_CAMERAS = 6
+if "available_cameras" not in st.session_state:
+    st.session_state["available_cameras"] = []
 
-with col2:
-    camera_view(2)
+st.session_state["available_cameras"] = []
+
+for i in range(NUM_CAMERAS):
+    if check_availability(i):
+        st.session_state["available_cameras"].append(i)
+
+COLS = 3
+for i in range(len(st.session_state["available_cameras"])):
+    if i % COLS == 0:
+        new_row = st.columns(COLS, border=True)
+
+    with new_row[i % COLS]:
+        cam_id = st.session_state["available_cameras"][i]
+        camera_view(cam_id)
