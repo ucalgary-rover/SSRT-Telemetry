@@ -7,17 +7,61 @@
     padding: 1rem;
 }
 
+/* CSS styling for the rover images. For customizing size and alignment */
 .st-key-rover-wheels {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     max-height: 450px;
     max-width: 50%;
 }
 
 .st-key-rover-pitch {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     max-height: 450px;
     max-width: 75%;
 }
 
 .st-key-rover-roll {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     max-height: 450px;
     max-width: 75%;
+}
+
+.st-key-rover-arm {
+    max-height: 450px;
+    max-width: 90%;
+}
+
+/* CSS styling for the text below the rover images. For customizing size, font, and alignment */
+.st-key-rover-pitch-text [data-testid="stMarkdownContainer"] p {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 100%;
+}
+
+.st-key-rover-roll-text [data-testid="stMarkdownContainer"] p  {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 100%;
+}
+
+.st-key-rover-wheels-text [data-testid="stMarkdownContainer"] p {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 100%;
+}
+
+.st-key-rover-arm-text [data-testid="stMarkdownContainer"] p {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 100%;
 }
