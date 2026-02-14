@@ -77,6 +77,9 @@
     font-size: 1.2rem;
     font-weight: bold;
     width: 100%;
+
+    margin-top: -10%;
+    padding-bottom: 0px;
 }
 
 .st-key-power-text [data-testid="stMarkdownContainer"] p {
@@ -84,6 +87,9 @@
     font-size: 1.2rem;
     font-weight: bold;
     width: 100%;
+
+    margin-top: 0%;
+    padding-bottom: 0px;
 }
 
 .st-key-battery-temp [data-testid="stMarkdownContainer"] p {
@@ -91,6 +97,9 @@
     font-weight: bold;
     text-align: center;
     width: 100%;
+
+    margin-top: -15%;
+    padding-bottom: 0px;
 }
 
 .st-key-power [data-testid="stMarkdownContainer"] p {
@@ -98,4 +107,7 @@
     font-weight: bold;
     text-align: center;
     width: 100%;
+
+    margin-top: -15%;
+    padding-bottom: 0px;
 }
