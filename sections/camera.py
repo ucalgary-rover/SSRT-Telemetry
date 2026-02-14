@@ -1,6 +1,6 @@
 import streamlit as st
 
-from src.components import horizontal_divider
+from src.utils.components import horizontal_divider
 
 # placeholder images for now
 CAMERA_FEEDS = {
