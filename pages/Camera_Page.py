@@ -80,23 +80,32 @@ def check_availability(cam_id: int):
     return True
 
 
-st.title("Camera Feed Test Page")
+def main():
+    st.set_page_config(
+        page_title="SSRT Camera Feed", layout="wide", initial_sidebar_state="collapsed"
+    )
 
-NUM_CAMERAS = 6
-if "available_cameras" not in st.session_state:
+    st.title("Camera Feed Test Page")
+
+    NUM_CAMERAS = 6
+    if "available_cameras" not in st.session_state:
+        st.session_state["available_cameras"] = []
+
     st.session_state["available_cameras"] = []
 
-st.session_state["available_cameras"] = []
+    for i in range(NUM_CAMERAS):
+        if check_availability(i):
+            st.session_state["available_cameras"].append(i)
 
-for i in range(NUM_CAMERAS):
-    if check_availability(i):
-        st.session_state["available_cameras"].append(i)
+    COLS = 3
+    for i in range(len(st.session_state["available_cameras"])):
+        if i % COLS == 0:
+            new_row = st.columns(COLS, border=True)
 
-COLS = 3
-for i in range(len(st.session_state["available_cameras"])):
-    if i % COLS == 0:
-        new_row = st.columns(COLS, border=True)
+        with new_row[i % COLS]:
+            cam_id = st.session_state["available_cameras"][i]
+            camera_view(cam_id)
 
-    with new_row[i % COLS]:
-        cam_id = st.session_state["available_cameras"][i]
-        camera_view(cam_id)
+
+if __name__ == "__main__":
+    main()
