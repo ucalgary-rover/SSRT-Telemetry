@@ -6,25 +6,25 @@ def display():
 
     with pitch:
         with st.container(key="rover-pitch"):
-            st.image("assets/rover-side-view.png", use_container_width=False)
+            st.image("assets/rover-side-view.png", width="content")
         with st.container(key="rover-pitch-text"):
             st.markdown("Pitch")
 
     with roll:
         with st.container(key="rover-roll"):
-            st.image("assets/rover-front-view.png", use_container_width=False)        
+            st.image("assets/rover-front-view.png", width="content")
         with st.container(key="rover-roll-text"):
             st.markdown("Roll")
 
     with wheels:
         with st.container(key="rover-wheels"):
-            st.image("assets/rover-wheels.png", use_container_width=False)
+            st.image("assets/rover-wheels.png", width="content")
         with st.container(key="rover-wheels-text"):
             st.markdown("Wheels")
 
     with arm:
         with st.container(key="rover-arm"):
-            st.image("assets/rover-arm.png", use_container_width=False)
+            st.image("assets/rover-arm.png", width="content")
         with st.container(key="rover-arm-text"):
             st.markdown("Arm")
 
