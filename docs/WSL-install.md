@@ -33,6 +33,20 @@ Stop WSL using `wsl --shutdown`
 
 Wait 10 seconds then restart WSL
 
+## Install `usbipd`
+
+Install `usbipd` from [this](https://github.com/dorssel/usbipd-win/releases) link.
+
+List all USB devices with `usbipd list`
+
+In an **administrator** command prompt, attach the device using `usbipd bind --busid 4-4`, replacing the bus ID with the one matching your desired device
+
+Attach the device to WSL using `usbipd attach --wsl --busid 4-4`
+
+In WSL, you should now see the device when you run `lsusb`.
+
+Instructions are also available [here](https://learn.microsoft.com/en-us/windows/wsl/connect-usb)
+
 ## Installing Python with WSL
 
 Update distribution:

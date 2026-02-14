@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-from src.components import horizontal_divider
+from src.utils.components import horizontal_divider
 
 
 def display():
