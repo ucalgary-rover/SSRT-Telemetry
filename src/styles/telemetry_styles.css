@@ -22,6 +22,9 @@
     margin-right: auto;
     max-height: 450px;
     max-width: 75%;
+    
+    transform: rotate(var(--pitch-deg));
+    transition: transform 0.5s ease-in-out;
 }
 
 .st-key-rover-roll {
@@ -30,6 +33,9 @@
     margin-right: auto;
     max-height: 450px;
     max-width: 75%;
+
+    transform: rotate(var(--roll-deg));
+    transition: transform 0.5s ease-in-out;
 }
 
 .st-key-rover-arm {
@@ -63,5 +69,33 @@
     text-align: center;
     font-size: 1.2rem;
     font-weight: bold;
+    width: 100%;
+}
+
+.st-key-battery-temp-text [data-testid="stMarkdownContainer"] p {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 100%;
+}
+
+.st-key-power-text [data-testid="stMarkdownContainer"] p {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 100%;
+}
+
+.st-key-battery-temp [data-testid="stMarkdownContainer"] p {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+
+.st-key-power [data-testid="stMarkdownContainer"] p {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
     width: 100%;
 }
