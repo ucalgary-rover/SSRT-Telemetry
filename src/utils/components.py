@@ -19,6 +19,9 @@ def horizontal_divider(colour="#72351E", thickness=2, full_width=True):
     st.markdown(
         f"""<hr
                 style='border:none;
-                border-top:{thickness}px solid {colour}; {full_width_css}'>""",
+                border-top:{thickness}px solid {colour};
+                margin-top: 0;
+                margin-bottom: 0;
+                {full_width_css}'>""",
         unsafe_allow_html=True,
     )
