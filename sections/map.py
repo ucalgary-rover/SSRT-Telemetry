@@ -26,41 +26,44 @@ def _get_tile_url():
     return f'http://localhost:{read_env_variable("MAPTILE_SERVER_PORT")}/api/tiles/{read_env_variable("TILE_NAME")}/{{z}}/{{x}}/{{y}}'
 
 
-def display():
-    # data to be replaced with real data later
-    st.session_state.gnss_data = {
-        "latitude": 51.45404,
-        "longitude": -112.67683,
-    }
-    st.session_state.imu_data = {
-        "speed": 10,  # km/h
-        "heading": 0,  # degrees
-    }
+def handle_poi_button_click():
     st.session_state.pois = [
         {
             "latitude": st.session_state.gnss_data["latitude"],
             "longitude": st.session_state.gnss_data["longitude"],
-            "colour": "#AE620B",
-            "text": "CURRENT LOCATION",
-        },
-        {
-            "latitude": 51.46942,
-            "longitude": -112.71909,
-            "colour": "#418092",
-            "text": "TEST POI",
-        },
-    ]
+            "colour": "#160BAE",
+            "text": "NEW POI",
+        }
+    ] + st.session_state.pois
+
+
+def display():
+    if "gnss_data" not in st.session_state:
+        st.session_state.gnss_data = {
+            "latitude": 51.45404,
+            "longitude": -112.67683,
+        }
+    if "imu_data" not in st.session_state:
+        st.session_state.imu_data = {
+            "speed": 10,
+            "heading": 0,
+        }
+    if "pois" not in st.session_state:
+        st.session_state.pois = [
+            {
+                "latitude": 51.46942,
+                "longitude": -112.71909,
+                "colour": "#418092",
+                "text": "TEST POI",
+            },
+        ]
 
     with st.container(key="map-container"):
         map_column, status_column = st.columns([0.75, 0.25])
 
         # add the actual map tile here and draw the path on top
         with map_column:
-            map_display(
-                st.session_state.gnss_data["latitude"],
-                st.session_state.gnss_data["longitude"],
-                st.session_state.pois,
-            )
+            map_display()
 
         # put the status information to the side
         with status_column:
@@ -68,8 +71,8 @@ def display():
                 "https://www.shutterstock.com/image-vector/architectural-north-arrow-compass-outline-260nw-2635030447.jpg"
             )
             with st.container():
-                st.write(f"SPEED: {st.session_state.imu_data['speed']}")
-                st.text("Add POI Button")
+                st.write(f"SPEED: {st.session_state.imu_data['speed']} km/h")
+                st.button("Add POI", on_click=handle_poi_button_click)
 
         horizontal_divider()
 
@@ -82,14 +85,14 @@ def display():
             st.write(f"LONG: {st.session_state.gnss_data['longitude']}")
 
 
-def map_display(latitude: float, longitude: float, pois: list[dict], zoom: float = 12):
+def map_display(zoom: float = 12):
     scripts = _load_scripts()
 
     js_data = {
-        "lat": latitude,
-        "long": longitude,
+        "lat": st.session_state.gnss_data["latitude"],
+        "long": st.session_state.gnss_data["longitude"],
         "zoom": zoom,
-        "pois": pois,
+        "pois": st.session_state.pois,
         "tileUrl": _get_tile_url(),
     }
 
@@ -114,4 +117,7 @@ def map_display(latitude: float, longitude: float, pois: list[dict], zoom: float
     </html>
     """
 
-    streamlit.components.v1.html(html, height=405)
+    with st.container(
+        key=f"map_{len(st.session_state.pois)}_{st.session_state.gnss_data}"
+    ):
+        streamlit.components.v1.html(html, height=405)
