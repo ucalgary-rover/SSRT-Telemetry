@@ -4,6 +4,13 @@ import streamlit.components.v1
 
 from src.utils.components import horizontal_divider
 
+with open("src/scripts/leaflet.js") as f:
+    leaflet_js = f.read()
+with open("src/styles/leaflet.css") as f:
+    leaflet_css = f.read()
+with open("src/scripts/vectorgrid.js") as f:
+    vectorgrid_js = f.read()
+
 
 def display():
     data = {
@@ -44,20 +51,18 @@ def display():
 
 
 def map_display():
-    html = """
-    <!DOCTYPE html>
-    <html>
-    <head>
+    head = f"""<head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
-        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
-        <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+        <style>{leaflet_css}</style>
+        <script>{leaflet_js}</script>
+        <script>{vectorgrid_js}</script>
         <style>
-            html, body, #map { height: 100%; margin: 0; padding: 0; }
+            html, body, #map {{ height: 100%; margin: 0; padding: 0; }}
         </style>
-    </head>
-    <body>
+    </head>"""
+
+    body = """
         <div id="map"></div>
         <script>
             var map = L.map('map').setView([51.45404, -112.67683], 12);
@@ -98,6 +103,14 @@ def map_display():
             }
         ).addTo(map);
         </script>
+    """
+
+    html = f"""
+    <!DOCTYPE html>
+    <html>
+    {head}
+    <body>
+        {body}
     </body>
     </html>
     """
