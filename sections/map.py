@@ -38,16 +38,16 @@ def display():
     }
     st.session_state.pois = [
         {
-            "latitude": 51.45404,
-            "longitude": -112.67683,
-            "colour": "#7E4192",
-            "text": "TEST POI",
+            "latitude": st.session_state.gnss_data["latitude"],
+            "longitude": st.session_state.gnss_data["longitude"],
+            "colour": "#AE620B",
+            "text": "CURRENT LOCATION",
         },
         {
             "latitude": 51.46942,
             "longitude": -112.71909,
             "colour": "#418092",
-            "text": "TEST POI 2",
+            "text": "TEST POI",
         },
     ]
 
