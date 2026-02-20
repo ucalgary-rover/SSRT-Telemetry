@@ -11,6 +11,8 @@
         tertiary: { color: "#ffffff", weight: 1.5 },
     };
 
+    const hidden = { stroke: false, fill: false };
+
     L.vectorGrid
         .protobuf(tileUrl, {
             rendererFactory: L.canvas.tile,
@@ -26,6 +28,13 @@
                 transportation: function (props) {
                     return roadStyles[props.class] || { color: "#dddddd", weight: 0.8, fill: false };
                 },
+                // hidden layers
+                place: hidden, poi: hidden, mountain_peak: hidden,
+                aeroway: hidden, runway: hidden, aerodrome_label: hidden,
+                transportation_name: hidden, water_name: hidden,
+                housenumber: hidden, highway: hidden, admin: hidden,
+                road: hidden, tunnel: hidden, bridge: hidden, path: hidden, transit: hidden,
+
             },
             maxNativeZoom: 14,
             maxZoom: 18,

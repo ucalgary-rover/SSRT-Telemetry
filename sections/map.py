@@ -38,18 +38,18 @@ def display():
 
     pois = [{"lat": data["Latitude"], "long": data["Longitude"]}]
     with st.container(key="map-container"):
-        map, status = st.columns([0.75, 0.25])
+        map_column, status_column = st.columns([0.75, 0.25])
 
         # add the actual map tile here and draw the path on top
-        with map:
+        with map_column:
             map_display(data["Latitude"], data["Longitude"], data["MapZoom"], pois)
 
         # put the status information to the side
-        with status:
+        with status_column:
             st.image(
                 "https://www.shutterstock.com/image-vector/architectural-north-arrow-compass-outline-260nw-2635030447.jpg"
             )
-            with st.empty().container():
+            with st.container():
                 st.write(f"SPEED: {data['Speed']}")
                 st.text("Add POI Button")
 
@@ -74,7 +74,6 @@ def map_display(latitude: float, longitude: float, zoom: float, pois: list[dict]
         "pois": pois,
         "tileUrl": _get_tile_url(),
     }
-    print(scripts["map_js"][0:50])
 
     html = f"""
     <!DOCTYPE html>
