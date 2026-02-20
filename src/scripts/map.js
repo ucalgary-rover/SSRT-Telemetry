@@ -45,17 +45,16 @@
         })
         .addTo(map);
 
-
     pois.forEach(function (poi) {
-        L.circleMarker([poi.lat, poi.long], {
+        L.circleMarker([poi.latitude, poi.longitude], {
             radius: 8,
-            fillColor: "#e63946",
+            fillColor: poi.colour,
             color: "#ffffff",
             weight: 2,
             fillOpacity: 1,
             stroke: true,
         })
             .addTo(map)
-            .bindPopup("<b>TEST POI</b><br>");
+            .bindPopup("<b>" + poi.text + "</b><br>");
     });
 })();

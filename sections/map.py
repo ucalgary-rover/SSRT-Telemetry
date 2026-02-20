@@ -27,22 +27,40 @@ def _get_tile_url():
 
 
 def display():
-    data = {
-        "Latitude": 51.45404,
-        "Longitude": -112.67683,
-        "MapZoom": 12,
-        "Speed": 8.33,
-        "POI": 53234,
-        "Heading": "random",
+    # data to be replaced with real data later
+    st.session_state.gnss_data = {
+        "latitude": 51.45404,
+        "longitude": -112.67683,
     }
+    st.session_state.imu_data = {
+        "speed": 10,  # km/h
+        "heading": 0,  # degrees
+    }
+    st.session_state.pois = [
+        {
+            "latitude": 51.45404,
+            "longitude": -112.67683,
+            "colour": "#7E4192",
+            "text": "TEST POI",
+        },
+        {
+            "latitude": 51.46942,
+            "longitude": -112.71909,
+            "colour": "#418092",
+            "text": "TEST POI 2",
+        },
+    ]
 
-    pois = [{"lat": data["Latitude"], "long": data["Longitude"]}]
     with st.container(key="map-container"):
         map_column, status_column = st.columns([0.75, 0.25])
 
         # add the actual map tile here and draw the path on top
         with map_column:
-            map_display(data["Latitude"], data["Longitude"], data["MapZoom"], pois)
+            map_display(
+                st.session_state.gnss_data["latitude"],
+                st.session_state.gnss_data["longitude"],
+                st.session_state.pois,
+            )
 
         # put the status information to the side
         with status_column:
@@ -50,7 +68,7 @@ def display():
                 "https://www.shutterstock.com/image-vector/architectural-north-arrow-compass-outline-260nw-2635030447.jpg"
             )
             with st.container():
-                st.write(f"SPEED: {data['Speed']}")
+                st.write(f"SPEED: {st.session_state.imu_data['speed']}")
                 st.text("Add POI Button")
 
         horizontal_divider()
@@ -58,13 +76,13 @@ def display():
         lat, long = st.columns(2)
 
         with lat:
-            st.write(f"LAT: {data['Latitude']}")
+            st.write(f"LAT: {st.session_state.gnss_data['latitude']}")
 
         with long:
-            st.write(f"LONG: {data['Longitude']}")
+            st.write(f"LONG: {st.session_state.gnss_data['longitude']}")
 
 
-def map_display(latitude: float, longitude: float, zoom: float, pois: list[dict]):
+def map_display(latitude: float, longitude: float, pois: list[dict], zoom: float = 12):
     scripts = _load_scripts()
 
     js_data = {
