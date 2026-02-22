@@ -14,9 +14,7 @@ def display():
     with st.container(key="camera-container"):
         dropdown_select, blank, popout = st.columns([0.4, 0.2, 0.1])
 
-        # dropdown menu, does not show label 'camera'
         with dropdown_select:
-            # st.text("Camera dropdown select")
             selected_camera = st.selectbox(
                 "Camera",
                 options=list(CAMERA_FEEDS.keys()),
@@ -27,10 +25,6 @@ def display():
         with popout:
             if st.button("↗", width="stretch"):
                 st.switch_page("pages/Camera_Page.py")
-            # st.text("Popout")
 
         horizontal_divider()
         st.image(CAMERA_FEEDS[selected_camera], width="stretch")
-        # box changes size depending on image, maybe fix w/ css aspect ratio?
-
-        # st.text("Camera Display")
