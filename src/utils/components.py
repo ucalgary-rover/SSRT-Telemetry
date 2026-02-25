@@ -1,7 +1,7 @@
 import streamlit as st
 
 
-def horizontal_divider(colour="#72351E", thickness=2, full_width=True):
+def horizontal_divider(colour=None, thickness=2, full_width=True):
     """
     Divider to vertically separate the contents of a container. Will stretch the entire width of the container it's placed in
 
@@ -9,6 +9,9 @@ def horizontal_divider(colour="#72351E", thickness=2, full_width=True):
     :param thicknes: How thick the divider should be (px)
     :param full_width: If the divider bar should take up the width of its container. NOTE: This assumes this method is being called in an `st.container()` NOT an `st.column()`
     """
+
+    if colour is None:
+        colour = st.get_option("theme.textColor")
 
     full_width_css = (
         "margin-left: -1rem; margin-right: -1rem; width: calc(100% + 2rem);"

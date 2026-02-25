@@ -60,7 +60,7 @@ def display():
         ]
 
     with st.container(key="map-container"):
-        map_column, status_column = st.columns([0.75, 0.25])
+        map_column, status_column = st.columns([0.75, 0.2])
 
         # add the actual map tile here and draw the path on top
         with map_column:

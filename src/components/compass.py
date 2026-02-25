@@ -1,4 +1,5 @@
 import math
+import pathlib
 
 import streamlit as st
 
@@ -24,10 +25,16 @@ def _get_direction_from_angle(angle) -> str:
         return "NW"
 
 
-def compass_svg(angle: float, width: int = 120, height: int = 140):
+def compass_svg(
+    angle: float,
+    needle_colour: str,
+    compass_colour: str,
+    width: int = 120,
+    height: int = 140,
+):
     angle_rad = math.radians(angle)
 
-    centre_x, centre_y = 60, 60
+    centre_x, centre_y = 50, 50
     radius = 45
 
     # tip of the compass
@@ -39,9 +46,6 @@ def compass_svg(angle: float, width: int = 120, height: int = 140):
     tail_y = centre_y + (radius * 0.7) * math.cos(angle_rad)
 
     # middle wide part of compass
-    perp_x = math.cos(angle_rad)
-    perp_y = math.sin(angle_rad)
-
     width_left_x = centre_x - (radius * 0.1) * math.cos(angle_rad)
     width_left_y = centre_y - (radius * 0.1) * math.sin(angle_rad)
 
@@ -49,23 +53,32 @@ def compass_svg(angle: float, width: int = 120, height: int = 140):
     width_right_y = centre_y + (radius * 0.1) * math.sin(angle_rad)
 
     compass_svg = f"""
-        <svg width="{width}" height="{height}" xmlns="http://www.w3.org/2000/svg">
-            <!-- needle -->
-            <polygon points="{tip_x},{tip_y} {width_left_x},{width_left_y} {width_right_x},{width_right_y}" fill="#c95323" stroke-width="1" stroke="#c95323"/>
-            <polygon points="{tail_x},{tail_y} {width_left_x},{width_left_y} {width_right_x},{width_right_y}" stroke="#c95323" stroke-width="1" fill="none"/>
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
             <!-- outer circle -->
-            <circle cx="{centre_x}" cy="{centre_y}" r="{radius}" stroke="#72351E" stroke-width="3" fill="none" />
+            <circle cx="{centre_x}" cy="{centre_y}" r="{radius}" stroke="{compass_colour}" stroke-width="3" fill="{compass_colour}33" />
+            <!-- needle -->
+            <polygon points="{tip_x},{tip_y} {width_left_x},{width_left_y} {width_right_x},{width_right_y}" fill="{needle_colour}" stroke-width="1" stroke="{needle_colour}"/>
+            <polygon points="{tail_x},{tail_y} {width_left_x},{width_left_y} {width_right_x},{width_right_y}" stroke="{needle_colour}" stroke-width="1" fill="none"/>
         </svg>
     """
     return compass_svg
 
 
 def display_compass():
-    st.session_state.imu_data["heading"] = st.slider("Heading (°)", 0, 359, 45)
+    # st.session_state.imu_data["heading"] = st.slider("Heading (°)", 0, 359, 45)
+
+    st.html(pathlib.Path("src/styles/map_styles.css"))
 
     st.markdown(
-        compass_svg(st.session_state.imu_data["heading"]), unsafe_allow_html=True
+        compass_svg(
+            st.session_state.imu_data["heading"],
+            needle_colour=st.get_option("theme.primaryColor"),
+            compass_colour=st.get_option("theme.textColor"),
+        ),
+        unsafe_allow_html=True,
     )
-    st.text(
-        f"{_get_direction_from_angle(st.session_state.imu_data['heading'])}, {st.session_state.imu_data['heading']}°"
-    )
+
+    with st.container(key="heading-label"):
+        st.text(
+            f"{_get_direction_from_angle(st.session_state.imu_data['heading'])}, {st.session_state.imu_data['heading']}°"
+        )
