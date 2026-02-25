@@ -3,6 +3,7 @@ import json
 import streamlit as st
 import streamlit.components.v1
 
+from src.components.compass import display_compass
 from src.utils.components import horizontal_divider
 from src.utils.read_env import read_env_variable
 
@@ -67,9 +68,10 @@ def display():
 
         # put the status information to the side
         with status_column:
-            st.image(
-                "https://www.shutterstock.com/image-vector/architectural-north-arrow-compass-outline-260nw-2635030447.jpg"
-            )
+            display_compass()
+            # st.image(
+            #     "https://www.shutterstock.com/image-vector/architectural-north-arrow-compass-outline-260nw-2635030447.jpg"
+            # )
             with st.container():
                 st.write(f"SPEED: {st.session_state.imu_data['speed']} km/h")
                 st.button("Add POI", on_click=handle_poi_button_click)
