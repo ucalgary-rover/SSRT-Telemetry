@@ -22,7 +22,7 @@
     margin-right: auto;
     max-height: 450px;
     max-width: 75%;
-    
+
     transform: rotate(var(--pitch-deg));
     transition: transform 0.5s ease-in-out;
 }
