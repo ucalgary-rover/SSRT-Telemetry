@@ -19,9 +19,7 @@ def display():
         unsafe_allow_html=True,
     )
 
-    pitch_col, roll_col, wheels_col, arm_col, power_col = st.columns(
-        5, vertical_alignment="top"
-    )
+    pitch_col, roll_col, wheels_col, arm_col = st.columns(4, vertical_alignment="top")
 
     with pitch_col:
         with st.container(key="rover-pitch"):
@@ -47,12 +45,12 @@ def display():
         with st.container(key="rover-arm-text"):
             st.markdown("Arm")
 
-    with power_col:
-        with st.container(key="battery-temp-text"):
-            st.markdown("Battery Temperature")
-        with st.container(key="battery-temp"):
-            st.markdown("%0.2f°C" % battery_temp)
-        with st.container(key="power-text"):
-            st.markdown("Power")
-        with st.container(key="power"):
-            st.markdown("%0.2f%%" % power)
+    # with power_col:
+    #     with st.container(key="battery-temp-text"):
+    #         st.markdown("Battery Temperature")
+    #     with st.container(key="battery-temp"):
+    #         st.markdown("%0.2f°C" % battery_temp)
+    #     with st.container(key="power-text"):
+    #         st.markdown("Power")
+    #     with st.container(key="power"):
+    #         st.markdown("%0.2f%%" % power)
