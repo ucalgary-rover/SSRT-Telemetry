@@ -6,3 +6,9 @@
     border-style: solid;
     padding: 1rem;
 }
+
+div[data-testid="stImage"] img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
