@@ -6,8 +6,10 @@ from threading import Thread
 import os
 from datetime import datetime
 import numpy as np
+import time
 
-VIDEO_URL = f"http://{read_env_variable('ROVER_IP')}:{read_env_variable('CAMERA_FEED_PORT')}/video_feed/"
+BASE_URL = "http://localhost:8995"
+VIDEO_URL = f"{BASE_URL}/video_feed/"
 
 def camera_html(cam_id: int, deg: int) -> str:
     return f"""
@@ -67,7 +69,58 @@ def camera_view(cam_id: int):
 
 
 def take_screenshot(cam_id: int):
-    st.toast(f"took screenshot on camera {cam_id}")
+    """
+    Prototype implementation:
+    Pulls a single frame from the MJPEG stream and saves it
+    locally on the machine running Streamlit.
+    
+    TODO: Replace with rover-side snapshot endpoint for production.
+    """
+
+    url = f"{VIDEO_URL}{cam_id}"
+
+    try:
+        response = requests.get(url, stream=True, timeout=3)
+
+        bytes_data = b""
+        jpg = None
+
+        for chunk in response.iter_content(chunk_size=4096):
+            bytes_data += chunk
+
+            # JPEG start and end markers
+            start = bytes_data.find(b"\xff\xd8")
+            end = bytes_data.find(b"\xff\xd9")
+
+            if start != -1 and end != -1 and end > start:
+                jpg = bytes_data[start:end+2]
+                break
+
+            # Prevent excessive memory growth
+            if len(bytes_data) > 500000:
+                bytes_data = bytes_data[-200000:]
+
+        response.close()
+
+        if jpg is None:
+            st.toast(f"Camera {cam_id}: Failed to capture frame")
+            return
+
+        # Create screenshots folder locally
+        os.makedirs("screenshots", exist_ok=True)
+
+        timestamp = time.strftime("%Y%m%d_%H%M%S")
+        filename = f"screenshots/cam_{cam_id}_{timestamp}.jpg"
+
+        with open(filename, "wb") as f:
+            f.write(jpg)
+
+        st.toast(f"Camera {cam_id}: Screenshot saved")
+
+    except requests.exceptions.RequestException:
+        st.toast(f"Camera {cam_id}: Unable to connect to stream")
+    except Exception as e:
+        st.toast(f"Camera {cam_id}: Screenshot failed")
 
 @st.cache_resource
 def get_recording_state():
@@ -151,10 +204,10 @@ def video_capture(cam_id: int, recording_state: dict):
 
 def get_available_cameras():
     try:
-        resp = requests.get(f"{VIDEO_URL}valid_cameras", timeout=3)
+        resp = requests.get(f"{BASE_URL}/available_cameras", timeout=3)
         return resp.json()["cameras"]
     except Exception as e:
-        st.warning(f"Could not reach camera server: {e}")
+        print(f"Could not reach camera server: {e}")
         return []
 
 def main():
@@ -170,8 +223,12 @@ def main():
     
     if "available_cameras" not in st.session_state:
         st.session_state["available_cameras"] = get_available_cameras()
-        st.toast(f"available cameras: {st.session_state['available_cameras']}")
-        
+        if (len(st.session_state["available_cameras"])>0):
+            st.toast(f"available cameras: {st.session_state['available_cameras']}")
+        else:
+            st.toast(f"no cameras detcted")
+            st.error("No cameras available")
+
     cameras = st.session_state["available_cameras"]
 
     COLS = 3
