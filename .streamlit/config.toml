@@ -1,6 +1,13 @@
 [theme]
 primaryColor = "#c95323"
-backgroundColor = "#e4c8a6ff"  # This only affects some components, not the entire page
-secondaryBackgroundColor = "#e4c8a6"
-textColor = "#291e1cff"
+backgroundColor = "#e4c8a6"
+secondaryBackgroundColor = "#72351E"  # actually used as a secondary colour
+textColor = "#351c19"
 font = "sans serif"
+baseRadius = "10"
+borderColor = "#351c19"
+showSidebarBorder = true
+
+[theme.sidebar]
+backgroundColor = "#e4c8a6"
+textColor = "#351c19"
