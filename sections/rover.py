@@ -4,6 +4,8 @@ import streamlit as st
 def display():
     if "imu_data" not in st.session_state:
         st.session_state.imu_data = {
+            "speed": 10,
+            "heading": 0,
             "pitch": 0,
             "roll": 0,
             "battery_temp": 0,
@@ -48,12 +50,12 @@ def display():
         with st.container(key="rover-arm-text"):
             st.markdown("Arm")
 
-    with power_col:
-        with st.container(key="battery-temp-text"):
-            st.markdown("Battery Temperature")
-        with st.container(key="battery-temp"):
-            st.markdown("%0.2f°C" % st.session_state.imu_data["battery_temp"])
-        with st.container(key="power-text"):
-            st.markdown("Power")
-        with st.container(key="power"):
-            st.markdown("%0.2f%%" % st.session_state.imu_data["power"])
+    # with power_col:
+    #     with st.container(key="battery-temp-text"):
+    #         st.markdown("Battery Temperature")
+    #     with st.container(key="battery-temp"):
+    #         st.markdown("%0.2f°C" % st.session_state.imu_data["battery_temp"])
+    #     with st.container(key="power-text"):
+    #         st.markdown("Power")
+    #     with st.container(key="power"):
+    #         st.markdown("%0.2f%%" % st.session_state.imu_data["power"])
