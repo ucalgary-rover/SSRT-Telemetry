@@ -5,3 +5,108 @@
     border-style: solid;
     padding: 1rem;
 }
+
+/* CSS styling for the rover images. For customizing size and alignment */
+.st-key-rover-wheels {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 450px;
+    max-width: 50%;
+}
+
+.st-key-rover-pitch {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 450px;
+    max-width: 75%;
+
+    transform: rotate(var(--pitch-deg));
+    transition: transform 0.5s ease-in-out;
+}
+
+.st-key-rover-roll {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 450px;
+    max-width: 75%;
+
+    transform: rotate(var(--roll-deg));
+    transition: transform 0.5s ease-in-out;
+}
+
+.st-key-rover-arm {
+    max-height: 450px;
+    max-width: 90%;
+}
+
+/* CSS styling for the text below the rover images. For customizing size, font, and alignment */
+.st-key-rover-pitch-text [data-testid="stMarkdownContainer"] p {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 100%;
+}
+
+.st-key-rover-roll-text [data-testid="stMarkdownContainer"] p  {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 100%;
+}
+
+.st-key-rover-wheels-text [data-testid="stMarkdownContainer"] p {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 100%;
+}
+
+.st-key-rover-arm-text [data-testid="stMarkdownContainer"] p {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 100%;
+}
+
+.st-key-battery-temp-text [data-testid="stMarkdownContainer"] p {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 100%;
+
+    margin-top: -10%;
+    padding-bottom: 0px;
+}
+
+.st-key-power-text [data-testid="stMarkdownContainer"] p {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 100%;
+
+    margin-top: 0%;
+    padding-bottom: 0px;
+}
+
+.st-key-battery-temp [data-testid="stMarkdownContainer"] p {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+
+    margin-top: -15%;
+    padding-bottom: 0px;
+}
+
+.st-key-power [data-testid="stMarkdownContainer"] p {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+
+    margin-top: -15%;
+    padding-bottom: 0px;
+}
