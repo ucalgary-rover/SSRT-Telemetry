@@ -12,3 +12,7 @@ div[data-testid="stImage"] img {
     aspect-ratio: 16 / 9;
     object-fit: cover;
 }
+
+.st-key-camera-preview{
+    align-items: center;
+}
