@@ -19,7 +19,12 @@ def _load_scripts() -> dict[str, str]:
         "map_css": "src/styles/map_styles.css",
     }
 
-    return {key: open(path).read() for key, path in paths.items()}
+    map = {}
+    for key, path in paths.items():
+        with open(path) as f:
+            map[key] = f.read()
+
+    return map
 
 
 @st.cache_resource
@@ -124,6 +129,6 @@ def map_display(zoom: float = 12):
     """
 
     with st.container(
-        key=f"map_{len(st.session_state.pois)}_{st.session_state.gnss_data}"
+        key=f"map_{len(st.session_state.pois)}_{st.session_state.gnss_data['latitude']}_{st.session_state.gnss_data['longitude']}"
     ):
         streamlit.components.v1.html(html, height=405)

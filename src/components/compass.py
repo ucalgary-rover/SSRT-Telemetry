@@ -53,7 +53,7 @@ def compass_svg(
     width_right_y = centre_y + (radius * 0.1) * math.sin(angle_rad)
 
     compass_svg = f"""
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <svg width="{width}" height="{height}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
             <!-- outer circle -->
             <circle cx="{centre_x}" cy="{centre_y}" r="{radius}" stroke="{compass_colour}" stroke-width="3" fill="{compass_colour}33" />
             <!-- needle -->

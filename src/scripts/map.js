@@ -1,6 +1,10 @@
 (function () {
     const { lat, long, zoom, pois, tileUrl } = window.MAP_CONFIG;
 
+    const vectorTileUrl = tileUrl && typeof tileUrl === "string"
+        ? tileUrl.replace("{y}", "{-y}")
+        : tileUrl;
+
     const map = L.map("map").setView([lat, long], zoom);
 
     const roadStyles = {
@@ -14,7 +18,7 @@
     const hidden = { stroke: false, fill: false };
 
     L.vectorGrid
-        .protobuf(tileUrl, {
+        .protobuf(vectorTileUrl, {
             rendererFactory: L.canvas.tile,
             attribution: "&copy; MapTiler &copy; OpenStreetMap contributors",
             vectorTileLayerStyles: {
@@ -38,23 +42,25 @@
             },
             maxNativeZoom: 14,
             maxZoom: 18,
-            getTileUrl: function (coords) {
-                const flippedY = (1 << coords.z) - 1 - coords.y;
-                return `${tileUrl}/${coords.z}/${coords.x}/${flippedY}`;
-            },
         })
         .addTo(map);
 
     pois.forEach(function (poi) {
-        L.circleMarker([poi.latitude, poi.longitude], {
+        const marker = L.circleMarker([poi.latitude, poi.longitude], {
             radius: 8,
             fillColor: poi.colour,
             color: "#ffffff",
             weight: 2,
             fillOpacity: 1,
             stroke: true,
-        })
-            .addTo(map)
-            .bindPopup("<b>" + poi.text + "</b><br>");
+        }).addTo(map);
+
+        const popupContainer = document.createElement("div");
+        const boldElement = document.createElement("b");
+        boldElement.textContent = poi.text;
+        popupContainer.appendChild(boldElement);
+        popupContainer.appendChild(document.createElement("br"));
+
+        marker.bindPopup(popupContainer);
     });
 })();

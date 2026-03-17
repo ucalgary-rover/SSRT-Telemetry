@@ -11,7 +11,7 @@ Then follow the URL to open the app in your browser.
 
 ## Running the local map tile server
 
-### First time runnning
+### First time running
 
 1. Go to [https://www.maptiler.com/data/](https://www.maptiler.com/data/) and create an account.
 
