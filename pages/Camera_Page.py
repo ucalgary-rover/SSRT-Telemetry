@@ -1,15 +1,17 @@
-import streamlit as st
-from src.utils.read_env import read_env_variable
-import requests
-import cv2
-from threading import Thread
 import os
-from datetime import datetime
-import numpy as np
 import time
+from datetime import datetime
+from threading import Thread
+
+import cv2
+import numpy as np
+import requests
+import streamlit as st
+
 
 BASE_URL = "http://localhost:8995"
 VIDEO_URL = f"{BASE_URL}/video_feed/"
+
 
 def camera_html(cam_id: int, deg: int) -> str:
     return f"""
@@ -22,14 +24,14 @@ def camera_html(cam_id: int, deg: int) -> str:
       </div>
     """
 
+
 def camera_view(cam_id: int):
     k = f"rot_{cam_id}"
     if k not in st.session_state:
         st.session_state[k] = 0
 
     rotate = False
-    _, col_c, _ = st.columns([1, 1, 1])
-    with col_c:
+    with st.container(horizontal_alignment="center"):
         rotate = st.button("Rotate", key=f"btn_{cam_id}")
 
     if rotate:
@@ -61,11 +63,11 @@ def camera_view(cam_id: int):
             if st.button(label, key=f"record_{cam_id}", type="primary", width="stretch"):
                 if is_recording:
                     stop_record(cam_id, recording_state)
-                    st.session_state["rec_status"] = f"stopped recording camera {cam_id}"   #store record status, to access after rerun
+                    st.session_state["rec_status"] = f"stopped recording camera {cam_id}"  # store record status, to access after rerun
                 else:
                     start_record(cam_id, recording_state)
                     st.session_state["rec_status"] = f"recording on camera {cam_id}"
-                st.rerun()  #renders changed button label
+                st.rerun()  # renders changed button label
 
 
 def take_screenshot(cam_id: int):
@@ -73,7 +75,7 @@ def take_screenshot(cam_id: int):
     Prototype implementation:
     Pulls a single frame from the MJPEG stream and saves it
     locally on the machine running Streamlit.
-    
+
     TODO: Replace with rover-side snapshot endpoint for production.
     """
 
@@ -93,7 +95,7 @@ def take_screenshot(cam_id: int):
             end = bytes_data.find(b"\xff\xd9")
 
             if start != -1 and end != -1 and end > start:
-                jpg = bytes_data[start:end+2]
+                jpg = bytes_data[start : end + 2]
                 break
 
             # Prevent excessive memory growth
@@ -122,13 +124,15 @@ def take_screenshot(cam_id: int):
     except Exception as e:
         st.toast(f"Camera {cam_id}: Screenshot failed")
 
+
 @st.cache_resource
 def get_recording_state():
     """
-    Used to track recording status on each camera and stores thread references per 
+    Used to track recording status on each camera and stores thread references per
     camera without being reset on every rerun.
     """
     return {"flags": {}, "threads": {}}
+
 
 def start_record(cam_id: int, recording_state: dict):
     """
@@ -151,6 +155,7 @@ def stop_record(cam_id: int, recording_state: dict):
     if t:
         t.join()
 
+
 def video_capture(cam_id: int, recording_state: dict):
     """
     Background thread function that connects to the MJPEG stream, extracts complete
@@ -167,19 +172,19 @@ def video_capture(cam_id: int, recording_state: dict):
         buffer = b""
 
         for chunk in stream.iter_content(chunk_size=4096):
-            #stop recording when flag is set to False by stop_record()
+            # stop recording when flag is set to False by stop_record()
             if not recording_state["flags"].get(cam_id, False):
                 break
 
             buffer += chunk
 
-            frame_start = buffer.find(b'\xff\xd8')
-            frame_end = buffer.find(b'\xff\xd9')
+            frame_start = buffer.find(b"\xff\xd8")
+            frame_end = buffer.find(b"\xff\xd9")
             if frame_start == -1 or frame_end == -1 or frame_end <= frame_start:
                 continue
 
-            jpg = buffer[frame_start:frame_end+2]
-            buffer = buffer[frame_end+2:]
+            jpg = buffer[frame_start : frame_end + 2]
+            buffer = buffer[frame_end + 2 :]
 
             frame = cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
             if frame is None:
@@ -188,10 +193,7 @@ def video_capture(cam_id: int, recording_state: dict):
             if video_writer is None:
                 h, w = frame.shape[:2]
                 video_writer = cv2.VideoWriter(
-                    filename,
-                    cv2.VideoWriter_fourcc(*"XVID"),
-                    15,
-                    (w, h)
+                    filename, cv2.VideoWriter_fourcc(*"XVID"), 15, (w, h)
                 )
 
             video_writer.write(frame)
@@ -202,6 +204,7 @@ def video_capture(cam_id: int, recording_state: dict):
         if video_writer:
             video_writer.release()
 
+
 def get_available_cameras():
     try:
         resp = requests.get(f"{BASE_URL}/available_cameras", timeout=3)
@@ -210,6 +213,7 @@ def get_available_cameras():
         print(f"Could not reach camera server: {e}")
         return []
 
+
 def main():
     st.set_page_config(
         page_title="SSRT Camera Feed", layout="wide", initial_sidebar_state="collapsed"
@@ -217,13 +221,13 @@ def main():
 
     st.title("Camera Feed Test Page")
 
-    #Shows recording status after record button is clicked
+    # Shows recording status after record button is clicked
     if "rec_status" in st.session_state:
         st.toast(st.session_state.pop("rec_status"))
-    
+
     if "available_cameras" not in st.session_state:
         st.session_state["available_cameras"] = get_available_cameras()
-        if (len(st.session_state["available_cameras"])>0):
+        if len(st.session_state["available_cameras"]) > 0:
             st.toast(f"available cameras: {st.session_state['available_cameras']}")
         else:
             st.toast(f"no cameras detcted")
@@ -238,6 +242,7 @@ def main():
 
         with new_row[i % COLS]:
             camera_view(cameras[i])
+
 
 if __name__ == "__main__":
     main()
