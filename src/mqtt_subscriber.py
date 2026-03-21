@@ -1,3 +1,5 @@
+import struct
+
 import paho.mqtt.client as mqtt
 
 from src.utils.read_env import read_env_variable
@@ -9,11 +11,10 @@ class MQTTSubscriber:
         client = mqtt.Client(client_id="streamlit_subscriber", protocol=mqtt.MQTTv5)
         client.on_connect = on_connect
         client.on_message = on_message
-
         client.connect(
             read_env_variable("ROVER_IP"), int(read_env_variable("MQTT_BROKER_PORT"))
         )
-        client.loop_start()  # run MQTT network
+        client.loop_start()
 
 
 # MQTT callbacks
@@ -22,5 +23,8 @@ def on_connect(client, userdata, flags, rc, properties=None):
 
 
 def on_message(client, userdata, message):
-    # Store the latest value in session_state
-    message_queue.put(message.payload.decode())
+    (temperature,) = struct.unpack(
+        read_env_variable("TEMPERATURE_FORMAT"), message.payload
+    )
+    print(f"GOT DATA {temperature}")
+    message_queue.put(temperature)
