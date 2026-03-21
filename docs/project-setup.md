@@ -19,7 +19,7 @@ ssh-add ~/.ssh/id_ed25519
 
 4. Print your key to the terminal
 ```bash
-cat ~/.ssh/id_ed25519
+cat ~/.ssh/id_ed25519.pub
 ```
 
 5. Add the SSH key to your GitHub account
@@ -56,7 +56,7 @@ In your WSL environemnt, pick a location to clone this repo. Then navigate into 
 ```bash
 mkdir Your/Desired/Directory
 cd Your/Desired/Directory/
-git clone git@github.com/ucalgary-rover/SSRT-Telemetry
+git clone git@github.com:ucalgary-rover/SSRT-Telemetry.git
 cd SSRT-Telemetry
 ```
 

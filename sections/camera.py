@@ -1,36 +1,58 @@
 import streamlit as st
 
+from src.utils.camera_utils import get_available_cameras
 from src.utils.components import horizontal_divider
+from src.utils.read_env import read_env_variable
 
-# placeholder images for now
-CAMERA_FEEDS = {
-    "Camera 1": "assets/cameras/placeholder-1.jpg",
-    "Camera 2": "assets/cameras/placeholder-2.jpg",
-    "Camera 3": "assets/cameras/placeholder-3.jpg",
-}
+BASE_URL = (
+    f"http://{read_env_variable('ROVER_IP')}:{read_env_variable('CAMERA_FEED_PORT')}"
+)
+VIDEO_URL = f"{BASE_URL}/video_feed/"
 
 
 def display():
+    cameras = get_available_cameras()
     with st.container(key="camera-container"):
         dropdown_select, blank, popout = st.columns([0.4, 0.2, 0.1])
 
-        # dropdown menu, does not show label 'camera'
         with dropdown_select:
-            # st.text("Camera dropdown select")
-            selected_camera = st.selectbox(
-                "Camera",
-                options=list(CAMERA_FEEDS.keys()),
-                label_visibility="collapsed",
-                key="telemetry_camera_select",
-            )
+            if not cameras:
+                selected_camera = st.selectbox(
+                    "Camera",
+                    index=0,
+                    options=["No cameras detected"],
+                    label_visibility="collapsed",
+                    disabled=True,
+                )
+            else:
+                selected_camera = st.selectbox(
+                    "Camera",
+                    options=cameras,
+                    format_func=lambda x: f"Camera {x}",
+                    label_visibility="collapsed",
+                    key="telemetry_camera_select",
+                )
 
         with popout:
             if st.button("↗", width="stretch"):
                 st.switch_page("pages/Camera_Page.py")
-            # st.text("Popout")
 
         horizontal_divider()
-        st.image(CAMERA_FEEDS[selected_camera], width="stretch")
-        # box changes size depending on image, maybe fix w/ css aspect ratio?
-
-        # st.text("Camera Display")
+        if not cameras:
+            st.markdown(
+                """
+                <div style="
+                    width:100%;
+                    aspect-ratio:16/9;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                ">
+                    No cameras detected
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+        else:
+            with st.container(key="camera-preview"):
+                st.image(f"{VIDEO_URL}{selected_camera}")
