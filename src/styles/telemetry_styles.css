@@ -120,3 +120,7 @@ div[data-testid="stImage"] img {
 .st-key-camera-preview{
     align-items: center;
 }
+
+div[data-baseweb="select"] > div {
+    cursor: pointer;
+}
