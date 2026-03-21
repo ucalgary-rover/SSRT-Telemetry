@@ -8,6 +8,7 @@ import numpy as np
 import requests
 import streamlit as st
 
+from src.utils.camera_utils import get_available_cameras
 from src.utils.read_env import read_env_variable
 
 BASE_URL = (
@@ -211,15 +212,6 @@ def video_capture(cam_id: int, recording_state: dict):
     finally:
         if video_writer:
             video_writer.release()
-
-
-def get_available_cameras():
-    try:
-        resp = requests.get(f"{BASE_URL}/available_cameras", timeout=3)
-        return resp.json()["cameras"]
-    except Exception as e:
-        print(f"Could not reach camera server: {e}")
-        return []
 
 
 def main():
