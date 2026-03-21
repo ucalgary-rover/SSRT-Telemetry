@@ -8,8 +8,12 @@ import numpy as np
 import requests
 import streamlit as st
 
+from src.utils.camera_utils import get_available_cameras
+from src.utils.read_env import read_env_variable
 
-BASE_URL = "http://localhost:8995"
+BASE_URL = (
+    f"http://{read_env_variable('ROVER_IP')}:{read_env_variable('CAMERA_FEED_PORT')}"
+)
 VIDEO_URL = f"{BASE_URL}/video_feed/"
 
 
@@ -60,7 +64,9 @@ def camera_view(cam_id: int):
         with col_right:
             is_recording = recording_state["flags"].get(cam_id, False)
             label = "Stop Recording" if is_recording else "Record"
-            if st.button(label, key=f"record_{cam_id}", type="primary", width="stretch"):
+            if st.button(
+                label, key=f"record_{cam_id}", type="primary", width="stretch"
+            ):
                 if is_recording:
                     stop_record(cam_id, recording_state)
                     st.session_state["rec_status"] = f"stopped recording camera {cam_id}"  # store record status, to access after rerun
@@ -204,14 +210,6 @@ def video_capture(cam_id: int, recording_state: dict):
         if video_writer:
             video_writer.release()
 
-
-def get_available_cameras():
-    try:
-        resp = requests.get(f"{BASE_URL}/available_cameras", timeout=3)
-        return resp.json()["cameras"]
-    except Exception as e:
-        print(f"Could not reach camera server: {e}")
-        return []
 
 
 def main():

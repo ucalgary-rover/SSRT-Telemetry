@@ -1,20 +1,13 @@
-import requests
 import streamlit as st
 
+from src.utils.camera_utils import get_available_cameras
 from src.utils.components import horizontal_divider
+from src.utils.read_env import read_env_variable
 
-# BASE_URL = f"http://{read_env_variable('ROVER_IP')}:{read_env_variable('CAMERA_FEED_PORT')}"
-BASE_URL = f"http://localhost:8995"
+BASE_URL = (
+    f"http://{read_env_variable('ROVER_IP')}:{read_env_variable('CAMERA_FEED_PORT')}"
+)
 VIDEO_URL = f"{BASE_URL}/video_feed/"
-
-
-def get_available_cameras():
-    try:
-        response = requests.get(f"{BASE_URL}/available_cameras")
-        response.raise_for_status()
-        return response.json().get("cameras", [])
-    except Exception:
-        return []
 
 
 def display():
@@ -61,4 +54,5 @@ def display():
                 unsafe_allow_html=True,
             )
         else:
-            st.image(f"{VIDEO_URL}{selected_camera}")
+            with st.container(key="camera-preview"):
+                st.image(f"{VIDEO_URL}{selected_camera}")

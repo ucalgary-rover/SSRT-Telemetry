@@ -18,7 +18,7 @@ class MQTTSubscriber:
 
 # MQTT callbacks
 def on_connect(client, userdata, flags, rc, properties=None):
-    client.subscribe(read_env_variable("TOPIC"))
+    client.subscribe(read_env_variable("SAMPLE_TOPIC"))
 
 
 def on_message(client, userdata, message):
