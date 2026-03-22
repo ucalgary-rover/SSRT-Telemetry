@@ -1,6 +1,9 @@
 import streamlit as st
 
+from utils.read_env import read_env_variable
 
+
+@st.fragment(run_every=f"{read_env_variable('REFRESH_DELAY')}s")
 def display():
     if "imu_data" not in st.session_state:
         st.session_state.imu_data = {

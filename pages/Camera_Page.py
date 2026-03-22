@@ -8,8 +8,8 @@ import numpy as np
 import requests
 import streamlit as st
 
-from src.utils.camera_utils import get_available_cameras
-from src.utils.read_env import read_env_variable
+from utils.camera_utils import get_available_cameras
+from utils.read_env import read_env_variable
 
 BASE_URL = (
     f"http://{read_env_variable('ROVER_IP')}:{read_env_variable('CAMERA_FEED_PORT')}"
@@ -69,7 +69,9 @@ def camera_view(cam_id: int):
             ):
                 if is_recording:
                     stop_record(cam_id, recording_state)
-                    st.session_state["rec_status"] = f"stopped recording camera {cam_id}"  # store record status, to access after rerun
+                    st.session_state[
+                        "rec_status"
+                    ] = f"stopped recording camera {cam_id}"  # store record status, to access after rerun
                 else:
                     start_record(cam_id, recording_state)
                     st.session_state["rec_status"] = f"recording on camera {cam_id}"
@@ -199,7 +201,7 @@ def video_capture(cam_id: int, recording_state: dict):
             if video_writer is None:
                 h, w = frame.shape[:2]
                 video_writer = cv2.VideoWriter(
-                    filename, cv2.VideoWriter_fourcc(*"XVID"), 15, (w, h)
+                    filename, cv2.VideoWriter_fourcc(*"XVID"), 15, (w, h)  # type: ignore
                 )
 
             video_writer.write(frame)
@@ -209,7 +211,6 @@ def video_capture(cam_id: int, recording_state: dict):
     finally:
         if video_writer:
             video_writer.release()
-
 
 
 def main():
@@ -234,6 +235,7 @@ def main():
     cameras = st.session_state["available_cameras"]
 
     COLS = 3
+    new_row = []  # silences warning
     for i in range(len(cameras)):
         if i % COLS == 0:
             new_row = st.columns(COLS, border=True)

@@ -3,20 +3,20 @@ import json
 import streamlit as st
 import streamlit.components.v1
 
-from src.components.compass import display_compass
-from src.utils.components import horizontal_divider
-from src.utils.read_env import read_env_variable
+from components.compass import display_compass
+from components.shared_components import horizontal_divider
+from utils.read_env import read_env_variable
 
 
 @st.cache_resource
 def _load_scripts() -> dict[str, str]:
     # extra scripts/css needed
     paths = {
-        "leaflet_js": "src/scripts/leaflet.js",
-        "leaflet_css": "src/styles/leaflet.css",
-        "vectorgrid_js": "src/scripts/vectorgrid.js",
-        "map_js": "src/scripts/map.js",
-        "map_css": "src/styles/map_styles.css",
+        "leaflet_js": "static/scripts/leaflet.js",
+        "leaflet_css": "static/styles/leaflet.css",
+        "vectorgrid_js": "static/scripts/vectorgrid.js",
+        "map_js": "static/scripts/map.js",
+        "map_css": "static/styles/map_styles.css",
     }
 
     map = {}
@@ -43,6 +43,7 @@ def handle_poi_button_click():
     ] + st.session_state.pois
 
 
+@st.fragment(run_every=f"{read_env_variable('REFRESH_DELAY')}s")
 def display():
     if "gnss_data" not in st.session_state:
         st.session_state.gnss_data = {

@@ -1,6 +1,6 @@
 import requests
 
-from src.utils.read_env import read_env_variable
+from utils.read_env import read_env_variable
 
 BASE_URL = (
     f"http://{read_env_variable('ROVER_IP')}:{read_env_variable('CAMERA_FEED_PORT')}"
