@@ -1,5 +1,7 @@
 from threading import Lock
 
+from utils.read_env import get_all_topics
+
 
 class ReadLatestFromQueue:
     def __init__(self) -> None:
@@ -22,3 +24,8 @@ class ReadLatestFromQueue:
             self._updated = False
 
             return self._value, True
+
+
+latest_values: dict[str, ReadLatestFromQueue] = {
+    f"{topic}": ReadLatestFromQueue() for topic in get_all_topics()
+}
