@@ -20,7 +20,7 @@ class ReadLatestFromQueue:
             if not self._updated:
                 return None, False
 
-            # reading data, udpate is false
+            # reading data, update is false
             self._updated = False
 
             return self._value, True
