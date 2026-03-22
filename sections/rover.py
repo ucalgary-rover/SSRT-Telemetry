@@ -1,6 +1,6 @@
 import streamlit as st
 
-from src.utils.read_env import read_env_variable
+from utils.read_env import read_env_variable
 
 
 @st.fragment(run_every=f"{read_env_variable('REFRESH_DELAY')}s")

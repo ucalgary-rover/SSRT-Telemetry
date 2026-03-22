@@ -1,8 +1,8 @@
 import streamlit as st
 
-from src.utils.camera_utils import get_available_cameras
-from src.utils.components import horizontal_divider
-from src.utils.read_env import read_env_variable
+from components.shared_components import horizontal_divider
+from utils.camera_utils import get_available_cameras
+from utils.read_env import read_env_variable
 
 BASE_URL = (
     f"http://{read_env_variable('ROVER_IP')}:{read_env_variable('CAMERA_FEED_PORT')}"

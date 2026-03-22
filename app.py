@@ -2,9 +2,8 @@ import time
 
 import streamlit as st
 
-from src.mqtt_subscriber import MQTTSubscriber
-from src.utils.read_env import read_env_variable
-from src.utils.shared import *
+from mqtt.subscriber import MQTTSubscriber
+from utils.read_env import read_env_variable
 
 # defining refresh delay here since it won't change at runtime
 REFRESH_DELAY = float(read_env_variable("REFRESH_DELAY"))
