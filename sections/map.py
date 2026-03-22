@@ -43,6 +43,7 @@ def handle_poi_button_click():
     ] + st.session_state.pois
 
 
+@st.fragment(run_every=f"{read_env_variable('REFRESH_DELAY')}s")
 def display():
     if "gnss_data" not in st.session_state:
         st.session_state.gnss_data = {
