@@ -123,4 +123,6 @@ div[data-testid="stImage"] img {
 
 div[data-baseweb="select"] > div {
     cursor: pointer;
+    background-color: #D8BFA6;
+    color: #5C3E2B;
 }
