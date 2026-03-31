@@ -38,8 +38,8 @@ def main():
         updated = False
 
         # wait for new message from MQTT server
-        while not message_queue.empty():
-            st.session_state.latest_temp = message_queue.get_nowait()
+        while not temperature_queue.empty():
+            st.session_state.latest_temp = temperature_queue.get_nowait()
             updated = True
 
         if updated:

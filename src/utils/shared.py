@@ -5,5 +5,8 @@ import queue
 global logger
 logger = logging.getLogger(__name__)
 
-global message_queue
-message_queue = queue.Queue()
+global temperature_queue
+temperature_queue = queue.Queue()
+
+global imu_queue
+imu_queue = queue.Queue()

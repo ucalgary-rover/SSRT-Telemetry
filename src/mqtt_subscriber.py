@@ -1,7 +1,8 @@
 import paho.mqtt.client as mqtt
 
 from src.utils.read_env import read_env_variable
-from src.utils.shared import message_queue
+from src.utils.shared import imu_queue
+from src.utils.shared import temperature_queue
 
 
 class MQTTSubscriber:
@@ -19,8 +20,14 @@ class MQTTSubscriber:
 # MQTT callbacks
 def on_connect(client, userdata, flags, rc, properties=None):
     client.subscribe(read_env_variable("SAMPLE_TOPIC"))
+    client.subscribe(read_env_variable("IMU_TOPIC"))
 
 
 def on_message(client, userdata, message):
     # Store the latest value in session_state
-    message_queue.put(message.payload.decode())
+
+    # Important to differentiate data based on topic to make sure nothing bleeds where it isn't supposed to go
+    if message.topic == read_env_variable("SAMPLE_TOPIC"):
+        temperature_queue.put(message.payload.decode())
+    elif message.topic == read_env_variable("IMU_TOPIC"):
+        imu_queue.put(message.payload.decode())
