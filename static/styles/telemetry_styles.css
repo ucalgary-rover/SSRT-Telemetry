@@ -110,3 +110,19 @@
     margin-top: -15%;
     padding-bottom: 0px;
 }
+
+div[data-testid="stImage"] img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+.st-key-camera-preview{
+    align-items: center;
+}
+
+div[data-baseweb="select"] > div {
+    cursor: pointer;
+    background-color: #D8BFA6;
+    color: #5C3E2B;
+}

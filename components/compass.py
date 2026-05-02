@@ -67,7 +67,7 @@ def compass_svg(
 def display_compass():
     # st.session_state.imu_data["heading"] = st.slider("Heading (°)", 0, 359, 45)
 
-    st.html(pathlib.Path("src/styles/map_styles.css"))
+    st.html(pathlib.Path("static/styles/map_styles.css"))
 
     st.markdown(
         compass_svg(
