@@ -22,7 +22,7 @@ def camera_html(cam_id: int, deg: int) -> str:
       <div id="cam_{cam_id}" style="width:100%; max-width:900px;
             aspect-ratio:16/9; overflow:hidden; position:relative;">
         <img src="{VIDEO_URL}{cam_id}"
-             style="width:100%; height:100%; object-fit:contain;
+             style="width:100%; height:100%; object-fit:cover;
                     transform:rotate({deg}deg);
                     transform-origin:center center;" />
       </div>
@@ -42,8 +42,6 @@ def camera_view(cam_id: int):
         st.session_state[k] = (st.session_state[k] + 90) % 360
 
     deg = st.session_state[k]
-
-    st.write(f"Camera {cam_id}")
 
     with st.container():
         st.html(camera_html(cam_id, deg))
