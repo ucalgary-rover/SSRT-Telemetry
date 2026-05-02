@@ -43,7 +43,6 @@ def handle_poi_button_click():
     ] + st.session_state.pois
 
 
-@st.fragment(run_every=f"{read_env_variable('REFRESH_DELAY')}s")
 def display():
     if "gnss_data" not in st.session_state:
         st.session_state.gnss_data = {
@@ -67,27 +66,15 @@ def display():
         with map_column:
             map_display()
 
-        # put the status information to the side
         with status_column:
-            display_compass()
-            # st.image(
-            #     "https://www.shutterstock.com/image-vector/architectural-north-arrow-compass-outline-260nw-2635030447.jpg"
-            # )
-            with st.container():
-                st.write(f"SPEED: {st.session_state.imu_data['speed']} km/h")
-                st.button("Add POI", on_click=handle_poi_button_click)
+            compass_fragment()
 
         horizontal_divider()
 
-        lat, long = st.columns(2)
-
-        with lat:
-            st.write(f"LAT: {st.session_state.gnss_data['latitude']}")
-
-        with long:
-            st.write(f"LONG: {st.session_state.gnss_data['longitude']}")
+        lat_long_fragment()
 
 
+@st.fragment(run_every=f"{read_env_variable('REFRESH_DELAY')}s")
 def map_display(zoom: float = 12):
     scripts = _load_scripts()
 
@@ -124,3 +111,23 @@ def map_display(zoom: float = 12):
         key=f"map_{len(st.session_state.pois)}_{st.session_state.gnss_data['latitude']}_{st.session_state.gnss_data['longitude']}"
     ):
         streamlit.components.v1.html(html, height=405)
+
+
+@st.fragment(run_every=f"{read_env_variable('REFRESH_DELAY')}s")
+def compass_fragment():
+    display_compass()
+
+    with st.container():
+        st.write(f"SPEED: {st.session_state.imu_data['speed']} km/h")
+        st.button("Add POI", on_click=handle_poi_button_click)
+
+
+@st.fragment(run_every=f"{read_env_variable('REFRESH_DELAY')}s")
+def lat_long_fragment():
+    lat, long = st.columns(2)
+
+    with lat:
+        st.write(f"LAT: {st.session_state.gnss_data['latitude']}")
+
+    with long:
+        st.write(f"LONG: {st.session_state.gnss_data['longitude']}")
