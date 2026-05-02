@@ -1,38 +1,18 @@
-import time
-
 import streamlit as st
 
-from src.mqtt_subscriber import MQTTSubscriber
-from src.utils.read_env import read_env_variable
-from src.utils.shared import *
+from state.read_latest_from_queue import latest_values
 from utils.read_env import read_env_variable
 
 REFRESH_DELAY = float(read_env_variable("REFRESH_DELAY"))
-
-
-@st.cache_resource
-def init():
-    # define globals that must be available across all files
-
-    # initialize and return the MQTT subscriber
-    return MQTTSubscriber()
+IMU_TOPIC = read_env_variable("IMU_TOPIC")
 
 
 @st.fragment(run_every=REFRESH_DELAY)
 def update_telemetry():
-    init()
-
-    if "imu_data" not in st.session_state:
-        st.session_state.imu_data = {
-            "speed": 10,
-            "heading": 0.0,
-            "pitch": 0.0,
-            "roll": 0.0,
-            "battery_temp": 0.0,
-            "power": 0.0,
-        }
-        # Pee wee: This is a bit hacky but it allows us to test the UI without needing to run the MQTT server
-        # I commented "pee" because I got stuck, and this is what it gave me, lol
+    # wait for new message from MQTT server
+    imu_data, updated = latest_values[IMU_TOPIC].get_if_updated()
+    if updated:
+        st.session_state.imu_data = imu_data
 
     st.markdown(
         f"""
@@ -111,34 +91,6 @@ def update_telemetry():
         #     st.markdown("Power")
         # with st.container(key="power"):
         #    st.markdown("%0.2f%%" % st.session_state.imu_data["power"])
-
-        # wait for new message from MQTT server
-        while not imu_queue.empty():
-            published_string = imu_queue.get_nowait()
-            separate_data = published_string.split(", ")
-            important_keys = [
-                "pitch",
-                "roll",
-                "battery_temp",
-                "power",
-            ]  # Speed and Heading are not in the IMU
-
-            for i in range(len(separate_data)):
-                if separate_data[i].split(":")[0].lower() in important_keys:
-                    data_as_float = separate_data[i].split(" ")
-                    key = separate_data[i].split(":")[0].lower()
-
-                    st.session_state.imu_data[key] = float(data_as_float[-1])
-
-                # Special case for battery temp since it has a space in the key name
-                if separate_data[i].split(":")[0].lower() == "battery temp":
-                    data_as_float = separate_data[i].split(" ")
-                    key = "battery_temp"
-
-                    st.session_state.imu_data[key] = float(data_as_float[-1])
-
-        # wait before checking for a new update
-        time.sleep(REFRESH_DELAY)
 
 
 def display():

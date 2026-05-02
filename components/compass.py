@@ -71,7 +71,7 @@ def display_compass():
 
     st.markdown(
         compass_svg(
-            st.session_state.imu_data["heading"],
+            st.session_state.imu_data["heading_deg"],
             needle_colour=st.get_option("theme.primaryColor"),
             compass_colour=st.get_option("theme.textColor"),
         ),
@@ -80,5 +80,5 @@ def display_compass():
 
     with st.container(key="heading-label"):
         st.text(
-            f"{_get_direction_from_angle(st.session_state.imu_data['heading'])}, {st.session_state.imu_data['heading']}°"
+            f"{_get_direction_from_angle(st.session_state.imu_data['heading_deg'])}, {st.session_state.imu_data['heading_deg']}°"
         )
