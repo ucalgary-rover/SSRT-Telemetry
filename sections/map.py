@@ -36,14 +36,21 @@ def _get_tile_url():
 
 
 def handle_poi_button_click():
+    poi_name = st.session_state.get("poi_name_input", "").strip()
+    if not poi_name:
+        poi_name = f"POI {len(st.session_state.pois) + 1}"
+
     st.session_state.pois = [
         {
             "latitude": st.session_state.gnss_data["latitude"],
             "longitude": st.session_state.gnss_data["longitude"],
-            "colour": "#160BAE",
-            "text": "NEW POI",
+            "colour": "#123D1B",
+            "text": poi_name,
         }
     ] + st.session_state.pois
+
+    # Clear the input after adding
+    st.session_state.poi_name_input = ""
 
 
 @st.fragment(run_every=f"{read_env_variable('REFRESH_DELAY')}s")
@@ -102,14 +109,7 @@ def display():
             "power": 0,
         }
     if "pois" not in st.session_state:
-        st.session_state.pois = [
-            {
-                "latitude": 51.46942,
-                "longitude": -112.71909,
-                "colour": "#418092",
-                "text": "TEST POI",
-            },
-        ]
+        st.session_state.pois = []
 
     with st.container(key="map-container"):
         map_column, status_column = st.columns([0.75, 0.2])
@@ -122,6 +122,9 @@ def display():
             display_compass()
             with st.container():
                 st.write(f"SPEED: {st.session_state.imu_data['speed']} km/h")
+                st.text_input(
+                    "POI Name", key="poi_name_input", placeholder="Optional name..."
+                )
                 st.button("Add POI", on_click=handle_poi_button_click)
 
         horizontal_divider()
