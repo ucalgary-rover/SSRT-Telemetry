@@ -5,7 +5,11 @@ import streamlit.components.v1
 
 from components.compass import display_compass
 from components.shared_components import horizontal_divider
+from state.read_latest_from_queue import latest_values
 from utils.read_env import read_env_variable
+
+REFRESH_DELAY = float(read_env_variable("REFRESH_DELAY"))
+GNSS_TOPIC = read_env_variable("GNSS_TOPIC")
 
 
 @st.cache_resource
@@ -45,6 +49,10 @@ def handle_poi_button_click():
 
 @st.fragment(run_every=f"{read_env_variable('REFRESH_DELAY')}s")
 def display():
+    gnss_data, updated = latest_values[GNSS_TOPIC].get_if_updated()
+    if updated:
+        st.session_state.gnss_data = gnss_data
+
     if "gnss_data" not in st.session_state:
         st.session_state.gnss_data = {
             "latitude": 51.45404,
