@@ -56,9 +56,18 @@
     const poiLayer = L.layerGroup().addTo(map);
 
     function renderPois(poisData) {
+        // Check if any POI popup is currently open
+        let openPopupLatLng = null;
+        poiLayer.eachLayer(function(layer) {
+            if (layer.isPopupOpen()) {
+                openPopupLatLng = layer.getLatLng();
+            }
+        });
+
         poiLayer.clearLayers();
+
         poisData.forEach(function (poi) {
-            L.circleMarker([poi.latitude, poi.longitude], {
+            const marker = L.circleMarker([poi.latitude, poi.longitude], {
                 radius: 8,
                 fillColor: poi.colour,
                 color: "#ffffff",
@@ -67,7 +76,14 @@
                 stroke: true,
             })
                 .addTo(poiLayer)
-                .bindPopup("<b>" + poi.text + "</b><br>");
+                .bindPopup("<b>" + poi.text + "</b>");
+
+            // Re-open popup if this marker had it open before
+            if (openPopupLatLng &&
+                marker.getLatLng().lat === openPopupLatLng.lat &&
+                marker.getLatLng().lng === openPopupLatLng.lng) {
+                marker.openPopup();
+            }
         });
     }
 

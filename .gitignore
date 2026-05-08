@@ -2,6 +2,9 @@
 recordings/
 screenshots/
 
+# logs
+logs/*
+
 # virtual environments
 venv/
 .venv/
