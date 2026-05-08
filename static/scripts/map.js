@@ -10,7 +10,6 @@
         secondary: { color: "#ffffff", weight: 1.5 },
         tertiary: { color: "#ffffff", weight: 1.5 },
     };
-
     const hidden = { stroke: false, fill: false };
 
     L.vectorGrid
@@ -28,13 +27,11 @@
                 transportation: function (props) {
                     return roadStyles[props.class] || { color: "#dddddd", weight: 0.8, fill: false };
                 },
-                // hidden layers
                 place: hidden, poi: hidden, mountain_peak: hidden,
                 aeroway: hidden, runway: hidden, aerodrome_label: hidden,
                 transportation_name: hidden, water_name: hidden,
                 housenumber: hidden, highway: hidden, admin: hidden,
                 road: hidden, tunnel: hidden, bridge: hidden, path: hidden, transit: hidden,
-
             },
             maxNativeZoom: 14,
             maxZoom: 18,
@@ -45,16 +42,50 @@
         })
         .addTo(map);
 
-    pois.forEach(function (poi) {
-        L.circleMarker([poi.latitude, poi.longitude], {
-            radius: 8,
-            fillColor: poi.colour,
-            color: "#ffffff",
-            weight: 2,
-            fillOpacity: 1,
-            stroke: true,
-        })
-            .addTo(map)
-            .bindPopup("<b>" + poi.text + "</b><br>");
+    // --- Vehicle marker ---
+    const vehicleMarker = L.circleMarker([lat, long], {
+        radius: 8,
+        fillColor: "#c95323",
+        color: "#ffffff",
+        weight: 2,
+        fillOpacity: 1,
+        stroke: true,
+    }).addTo(map);
+
+    // --- POI layer ---
+    const poiLayer = L.layerGroup().addTo(map);
+
+    function renderPois(poisData) {
+        poiLayer.clearLayers();
+        poisData.forEach(function (poi) {
+            L.circleMarker([poi.latitude, poi.longitude], {
+                radius: 8,
+                fillColor: poi.colour,
+                color: "#ffffff",
+                weight: 2,
+                fillOpacity: 1,
+                stroke: true,
+            })
+                .addTo(poiLayer)
+                .bindPopup("<b>" + poi.text + "</b><br>");
+        });
+    }
+
+    // Render initial POIs
+    renderPois(pois);
+
+    // --- postMessage listener for live updates ---
+    window.addEventListener("message", function (event) {
+        if (!event.data || event.data.type !== "UPDATE_MAP") return;
+
+        const { lat: newLat, long: newLong, pois: newPois } = event.data;
+
+        vehicleMarker.setLatLng([newLat, newLong]);
+        map.panTo([newLat, newLong]);
+
+        if (newPois) {
+            renderPois(newPois);
+        }
     });
+
 })();
