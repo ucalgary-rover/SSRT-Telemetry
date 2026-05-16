@@ -17,13 +17,13 @@ BASE_URL = (
 VIDEO_URL = f"{BASE_URL}/video_feed/"
 
 
-def camera_html(cam_id: int, deg: int) -> str:
+def camera_html(cam_id: int, deg: int, zoom: float) -> str:
     return f"""
       <div id="cam_{cam_id}" style="width:100%; max-width:900px;
-            aspect-ratio:16/9; overflow:hidden; position:relative;">
+            overflow:hidden; position:relative;">
         <img src="{VIDEO_URL}{cam_id}"
              style="width:100%; height:100%; object-fit:cover;
-                    transform:rotate({deg}deg);
+                    transform:rotate({deg}deg) scale({zoom});
                     transform-origin:center center;" />
       </div>
     """
@@ -43,8 +43,37 @@ def camera_view(cam_id: int):
 
     deg = st.session_state[k]
 
+    zk = f"zoom_{cam_id}"
+    if zk not in st.session_state:
+        st.session_state[zk] = 1.0
+
+    zoom = st.slider(
+        "Zoom",
+        min_value=1.0,
+        max_value=3.0,
+        step=0.1,
+        key=zk,
+        label_visibility="collapsed",
+    )
+
+    st.markdown(
+        """
+        <style>
+        div[data-testid="stSlider"] {
+            margin-top: -10px;
+            margin-bottom: -15px;
+        }
+
+        div[data-testid="stSlider"] div[data-baseweb="slider"] > div {
+            height: 1px;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     with st.container():
-        st.html(camera_html(cam_id, deg))
+        st.html(camera_html(cam_id, deg, zoom))
 
         col_left, col_right = st.columns(2)
 
