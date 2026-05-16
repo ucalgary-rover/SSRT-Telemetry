@@ -49,7 +49,7 @@ def update_telemetry():
     )
 
     pitch_col, roll_col, wheels_col, arm_col, power_col = st.columns(
-        5, vertical_alignment="top"
+        5, vertical_alignment="center"
     )
 
     with pitch_col:
