@@ -54,7 +54,7 @@ def handle_poi_button_click():
     st.session_state.poi_name_input = ""
 
 
-@st.fragment(run_every=f"{read_env_variable('REFRESH_DELAY')}s")
+@st.fragment(run_every=f"{REFRESH_DELAY}s")
 def _map_updater():
     gnss_data, updated = latest_values[GNSS_TOPIC].get_if_updated()
     if updated:
@@ -90,7 +90,7 @@ def _map_updater():
     streamlit.components.v1.html(update_script, height=0)
 
 
-@st.fragment(run_every=f"{read_env_variable('REFRESH_DELAY')}s")
+@st.fragment(run_every=f"{REFRESH_DELAY}s")
 def _coords_display(lat_col, long_col):
     with lat_col:
         st.write(f"LAT: {st.session_state.gnss_data['latitude']}")
