@@ -127,8 +127,6 @@ div[data-baseweb="select"] > div {
     color: #5C3E2B;
 }
 
-.stTextInput {
-    .st-bk {
-        background-color: #D8BFA6;
-    }
+.stTextInput input {
+    background-color: #D8BFA6;
 }
