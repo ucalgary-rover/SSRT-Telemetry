@@ -1,4 +1,5 @@
 import json
+import secrets
 
 import streamlit as st
 import streamlit.components.v1
@@ -63,6 +64,7 @@ def _map_updater():
         "lat": st.session_state.gnss_data["latitude"],
         "long": st.session_state.gnss_data["longitude"],
         "pois": st.session_state.pois,
+        "nonce": st.session_state.map_nonce,
     }
 
     update_script = f"""
@@ -75,6 +77,7 @@ def _map_updater():
                 try {{
                     frame.contentWindow.postMessage({{
                         type: "UPDATE_MAP",
+                        nonce: data.nonce,
                         lat: data.lat,
                         long: data.long,
                         pois: data.pois
@@ -110,6 +113,9 @@ def display():
         }
     if "pois" not in st.session_state:
         st.session_state.pois = []
+    if "map_nonce" not in st.session_state:
+        # Shared secret used to authenticate postMessage updates to the map iframe.
+        st.session_state.map_nonce = secrets.token_urlsafe(32)
 
     with st.container(key="map-container"):
         map_column, status_column = st.columns([0.75, 0.2])
@@ -147,6 +153,7 @@ def map_display(zoom: float = 12):
         "zoom": zoom,
         "pois": st.session_state.pois,
         "tileUrl": _get_tile_url(),
+        "nonce": st.session_state.map_nonce,
     }
 
     html = f"""

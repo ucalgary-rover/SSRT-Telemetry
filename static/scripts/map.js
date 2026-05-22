@@ -1,5 +1,6 @@
 (function () {
-    const { lat, long, zoom, pois, tileUrl } = window.MAP_CONFIG;
+    const { lat, long, zoom, pois, tileUrl, nonce } = window.MAP_CONFIG;
+    const expectedNonce = nonce;
 
     const map = L.map("map").setView([lat, long], zoom);
 
@@ -93,6 +94,17 @@
     // --- postMessage listener for live updates ---
     window.addEventListener("message", function (event) {
         if (!event.data || event.data.type !== "UPDATE_MAP") return;
+
+        // Reject messages from this window (e.g., script injected into this iframe
+        // shouldn't be able to spoof updates without knowing the nonce anyway,
+        // but this filters out obvious self-posts) and require a source window.
+        if (!event.source || event.source === window) return;
+
+        // Require a shared per-session nonce that was injected into this iframe
+        // at render time. This authenticates the sender (the Streamlit page that
+        // rendered us) without relying on event.origin, which is "null" for
+        // sandboxed srcdoc iframes used by Streamlit components.
+        if (!expectedNonce || event.data.nonce !== expectedNonce) return;
 
         const { lat: newLat, long: newLong, pois: newPois } = event.data;
 
