@@ -1,6 +1,7 @@
 import json
 import secrets
 
+import nh3
 import streamlit as st
 import streamlit.components.v1
 
@@ -11,6 +12,27 @@ from utils.read_env import read_env_variable
 
 REFRESH_DELAY = float(read_env_variable("REFRESH_DELAY"))
 GNSS_TOPIC = read_env_variable("GNSS_TOPIC")
+
+
+def _json_for_script(value) -> str:
+    """Serialize ``value`` to JSON safe to embed inside an HTML ``<script>`` block.
+
+    ``json.dumps`` alone is unsafe in this context: a string containing
+    ``</script>`` (or ``<!--``/``-->``) would let the HTML parser exit the
+    script element, allowing HTML/JS injection. We escape ``<``, ``>``, and
+    ``&`` to their ``\\u00XX`` form so the HTML parser never sees those
+    characters, while the JavaScript parser still decodes the original
+    string. U+2028/U+2029 are also escaped because they terminate JS string
+    literals.
+    """
+    encoded = json.dumps(value)
+    return (
+        encoded.replace("<", "\\u003c")
+        .replace(">", "\\u003e")
+        .replace("&", "\\u0026")
+        .replace("\u2028", "\\u2028")
+        .replace("\u2029", "\\u2029")
+    )
 
 
 @st.cache_resource
@@ -38,6 +60,10 @@ def _get_tile_url():
 
 def handle_poi_button_click():
     poi_name = st.session_state.get("poi_name_input", "").strip()
+
+    # sanitize input (prevent XSS)
+    poi_name = nh3.clean(poi_name)
+
     if not poi_name:
         poi_name = f"POI {len(st.session_state.pois) + 1}"
 
@@ -70,20 +96,32 @@ def _map_updater():
     update_script = f"""
     <script>
         (function() {{
-            const data = {json.dumps(js_data)};
-            // Target the map iframe specifically by its position in the DOM
-            const frames = window.parent.document.querySelectorAll("iframe");
-            frames.forEach(function(frame) {{
+            const data = {_json_for_script(js_data)};
+            const expectedName = "ssrt-map-" + data.nonce;
+
+            // Locate the specific map iframe by the stable window.name
+            const parentFrames = window.parent.frames;
+            let target = null;
+            for (let i = 0; i < parentFrames.length; i++) {{
                 try {{
-                    frame.contentWindow.postMessage({{
-                        type: "UPDATE_MAP",
-                        nonce: data.nonce,
-                        lat: data.lat,
-                        long: data.long,
-                        pois: data.pois
-                    }}, "*");
-                }} catch(e) {{}}
-            }});
+                    if (parentFrames[i].name === expectedName) {{
+                        target = parentFrames[i];
+                        break;
+                    }}
+                }} catch (e) {{ /* ignore frames we can't read */ }}
+            }}
+            if (!target) return;
+
+            // Use "/" as targetOrigin
+            try {{
+                target.postMessage({{
+                    type: "UPDATE_MAP",
+                    nonce: data.nonce,
+                    lat: data.lat,
+                    long: data.long,
+                    pois: data.pois
+                }}, "/");
+            }} catch (e) {{}}
         }})();
     </script>
     """
@@ -170,7 +208,7 @@ def map_display(zoom: float = 12):
     <body>
         <div class="map" id="map"></div>
         <script>
-            window.MAP_CONFIG = {json.dumps(js_data)};
+            window.MAP_CONFIG = {_json_for_script(js_data)};
         </script>
         <script>{scripts['map_js']}</script>
     </body>

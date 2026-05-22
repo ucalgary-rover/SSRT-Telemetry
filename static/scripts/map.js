@@ -2,6 +2,12 @@
     const { lat, long, zoom, pois, tileUrl, nonce } = window.MAP_CONFIG;
     const expectedNonce = nonce;
 
+    // Advertise a stable, per-session identifier on this iframe's window so the
+    // Streamlit-side updater can target only this frame
+    if (expectedNonce) {
+        try { window.name = "ssrt-map-" + expectedNonce; } catch (e) {}
+    }
+
     const map = L.map("map").setView([lat, long], zoom);
 
     const roadStyles = {
