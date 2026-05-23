@@ -127,6 +127,58 @@ div[data-baseweb="select"] > div {
     color: #5C3E2B;
 }
 
-.stTextInput input {
-    background-color: #D8BFA6;
+.stTextInput  {
+    input {
+        background-color: #D8BFA6;
+    }
+
+    label {
+        display: none;
+    }
+}
+
+.stSelectbox {
+    label {
+        display: none;
+    }
+}
+
+/* .st-key-pois-list {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+
+    button {
+        background-color: teal;
+        width: 40px;
+        height: 30px;
+    }
+} */
+
+div[class*="st-key-poi-label"] {
+    display: flex;
+    align-items: center;
+
+    p {
+        font-size: 0.8rem;
+        margin: 0;
+        line-height: 1.8;        /* vertically centres text against the button */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin: 0px !important;
+    }
+}
+
+.st-key-pois-list {
+    padding: 10px;
+
+    button {
+        padding: 0px 6px;
+        font-size: 0.3rem;
+        line-height: 0.8rem;
+        height: 20px;
+        min-height: unset;
+        border-radius: 6px;
+    }
 }

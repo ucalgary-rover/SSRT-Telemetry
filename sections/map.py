@@ -178,9 +178,10 @@ def display():
             with st.container():
                 st.write(f"SPEED: {st.session_state.imu_data['speed']} km/h")
                 st.text_input(
-                    "POI Name", key="poi_name_input", placeholder="Optional name..."
+                    label="POI name", key="poi_name_input", placeholder="POI name"
                 )
                 st.button("Add POI", on_click=handle_poi_button_click)
+                display_poi_list()
 
         horizontal_divider()
 
@@ -191,6 +192,20 @@ def display():
             long_placeholder = st.empty()
 
         _coords_display(lat_placeholder, long_placeholder)
+
+
+def display_poi_list():
+    if not st.session_state.pois:
+        st.caption("No POIs added yet.")
+        return
+    with st.container(height=75, border=True, key="pois-list"):
+        for i, poi in enumerate(st.session_state.pois):
+            col1, col2 = st.columns([0.7, 0.3])
+            with col1.container(key=f"poi-label-{i}"):
+                st.write(poi["text"])
+            if col2.button("x", key=f"del_poi_{i}"):
+                st.session_state.pois.pop(i)
+                st.rerun()
 
 
 def map_display(zoom: float = 12):
