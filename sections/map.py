@@ -1,3 +1,4 @@
+import hashlib
 import json
 import secrets
 
@@ -86,11 +87,19 @@ def _map_updater():
     if updated:
         st.session_state.gnss_data = gnss_data
 
+    # check if POIs are updated
+    pois_hash = hashlib.md5(
+        json.dumps(st.session_state.pois, sort_keys=True).encode()
+    ).hexdigest()
+    pois_changed = pois_hash != st.session_state.pois_hash
+    if pois_changed:
+        st.session_state.pois_hash = pois_hash
+
     js_data = {
         "lat": st.session_state.gnss_data["latitude"],
         "long": st.session_state.gnss_data["longitude"],
-        "pois": st.session_state.pois,
         "nonce": st.session_state.map_nonce,
+        **({"pois": st.session_state.pois} if pois_changed else {}),
     }
 
     update_script = f"""
@@ -120,7 +129,7 @@ def _map_updater():
                     lat: data.lat,
                     long: data.long,
                     pois: data.pois
-                }}, "/");
+                }}, "*");
             }} catch (e) {{}}
         }})();
     </script>
@@ -154,6 +163,8 @@ def display():
     if "map_nonce" not in st.session_state:
         # Shared secret used to authenticate postMessage updates to the map iframe.
         st.session_state.map_nonce = secrets.token_urlsafe(32)
+    if "pois_hash" not in st.session_state:
+        st.session_state.pois_hash = ""
 
     with st.container(key="map-container"):
         map_column, status_column = st.columns([0.75, 0.2])

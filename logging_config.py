@@ -32,3 +32,4 @@ def setup_logging():
     # suppress debug statements from libraries
     logging.getLogger("paho").setLevel(logging.WARNING)
     logging.getLogger("watchdog").setLevel(logging.WARNING)
+    logging.getLogger("PIL").setLevel(logging.WARNING)

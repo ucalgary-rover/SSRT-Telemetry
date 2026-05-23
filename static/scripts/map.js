@@ -101,15 +101,10 @@
     window.addEventListener("message", function (event) {
         if (!event.data || event.data.type !== "UPDATE_MAP") return;
 
-        // Reject messages from this window (e.g., script injected into this iframe
-        // shouldn't be able to spoof updates without knowing the nonce anyway,
-        // but this filters out obvious self-posts) and require a source window.
+        // Reject messages from this window and require a source window.
         if (!event.source || event.source === window) return;
 
-        // Require a shared per-session nonce that was injected into this iframe
-        // at render time. This authenticates the sender (the Streamlit page that
-        // rendered us) without relying on event.origin, which is "null" for
-        // sandboxed srcdoc iframes used by Streamlit components.
+        // Require a shared per-session nonce that was injected into this iframe at render time.
         if (!expectedNonce || event.data.nonce !== expectedNonce) return;
 
         const { lat: newLat, long: newLong, pois: newPois } = event.data;
@@ -117,7 +112,7 @@
         vehicleMarker.setLatLng([newLat, newLong]);
         map.panTo([newLat, newLong]);
 
-        if (newPois) {
+        if (newPois !== undefined) {
             renderPois(newPois);
         }
     });
