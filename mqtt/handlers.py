@@ -8,4 +8,10 @@ def handle_temperature(payload: bytes) -> float:
     return value
 
 
+def handle_gnss(payload: bytes):
+    (latitude, longitude) = struct.unpack(read_env_variable("GNSS_FORMAT"), payload)
+
+    return {"latitude": latitude, "longitude": longitude}
+
+
 # add handlers for other sensors here
