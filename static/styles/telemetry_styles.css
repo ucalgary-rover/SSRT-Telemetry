@@ -174,11 +174,32 @@ div[class*="st-key-poi-label"] {
     padding: 10px;
 
     button {
-        padding: 0px 6px;
         font-size: 0.3rem;
         line-height: 0.8rem;
         height: 20px;
         min-height: unset;
         border-radius: 6px;
+        padding: 0 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    p {
+        margin: 0.5rem;
+    }
+}
+
+.st-key-add-poi-button {
+    button {
+        padding: 0 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    p {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
     }
 }

@@ -1,6 +1,7 @@
 import hashlib
 import json
 import secrets
+from datetime import datetime
 
 import nh3
 import streamlit as st
@@ -177,11 +178,18 @@ def display():
             display_compass()
             with st.container():
                 st.write(f"SPEED: {st.session_state.imu_data['speed']} km/h")
-                st.text_input(
-                    label="POI name", key="poi_name_input", placeholder="POI name"
-                )
-                st.button("Add POI", on_click=handle_poi_button_click)
+                col1, col2 = st.columns([3, 1])
+                with col1:
+                    st.text_input(
+                        label="POI name", key="poi_name_input", placeholder="POI name"
+                    )
+                with col2:
+                    st.button(
+                        "＋", key="add-poi-button", on_click=handle_poi_button_click
+                    )
                 display_poi_list()
+
+            display_poi_export()
 
         horizontal_divider()
 
@@ -194,6 +202,22 @@ def display():
         _coords_display(lat_placeholder, long_placeholder)
 
 
+def display_poi_export():
+    if not st.session_state.pois:
+        return
+
+    lines = ["name,latitude,longitude"] + [
+        f"{p['text']},{p['latitude']},{p['longitude']}" for p in st.session_state.pois
+    ]
+
+    st.download_button(
+        label="Save POIs",
+        data="\n".join(lines).encode("utf-8"),
+        file_name=f"{datetime.now().strftime('%Y-%m-%d-%H:%M:%S')}-pois.txt",
+        mime="text/plain",
+    )
+
+
 def display_poi_list():
     if not st.session_state.pois:
         st.caption("No POIs added yet.")
@@ -203,7 +227,7 @@ def display_poi_list():
             col1, col2 = st.columns([0.7, 0.3])
             with col1.container(key=f"poi-label-{i}"):
                 st.write(poi["text"])
-            if col2.button("x", key=f"del_poi_{i}"):
+            if col2.button("✕", key=f"del_poi_{i}"):
                 st.session_state.pois.pop(i)
                 st.rerun()
 
