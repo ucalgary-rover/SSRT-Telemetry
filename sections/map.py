@@ -1,4 +1,6 @@
+import csv
 import hashlib
+import io
 import json
 import secrets
 from datetime import datetime
@@ -96,6 +98,9 @@ def _map_updater():
     if pois_changed:
         st.session_state.pois_hash = pois_hash
 
+    if updated and not pois_changed:
+        return
+
     js_data = {
         "lat": st.session_state.gnss_data["latitude"],
         "long": st.session_state.gnss_data["longitude"],
@@ -122,7 +127,6 @@ def _map_updater():
             }}
             if (!target) return;
 
-            // Use "/" as targetOrigin
             try {{
                 target.postMessage({{
                     type: "UPDATE_MAP",
@@ -206,15 +210,17 @@ def display_poi_export():
     if not st.session_state.pois:
         return
 
-    lines = ["name,latitude,longitude"] + [
-        f"{p['text']},{p['latitude']},{p['longitude']}" for p in st.session_state.pois
-    ]
+    buf = io.StringIO()
+    writer = csv.writer(buf)
+    writer.writerow(["name", "latitude", "longitude"])
+    for poi in st.session_state.pois:
+        writer.writerow([poi["text"], poi["latitude"], poi["longitude"]])
 
     st.download_button(
         label="Save POIs",
-        data="\n".join(lines).encode("utf-8"),
-        file_name=f"{datetime.now().strftime('%Y-%m-%d-%H:%M:%S')}-pois.txt",
-        mime="text/plain",
+        data=buf.getvalue().encode("utf-8"),
+        file_name=f"{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}-pois.csv",
+        mime="text/csv",
     )
 
 
