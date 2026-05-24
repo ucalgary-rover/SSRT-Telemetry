@@ -3,6 +3,10 @@ import pathlib
 
 import streamlit as st
 
+from utils.read_env import read_env_variable
+
+REFRESH_DELAY = float(read_env_variable("REFRESH_DELAY"))
+
 
 def _get_direction_from_angle(angle) -> str:
     # angle = st.session_state.imu_data["heading"]
@@ -64,6 +68,7 @@ def compass_svg(
     return compass_svg
 
 
+@st.fragment(run_every=f"{REFRESH_DELAY}s")
 def display_compass():
     # st.session_state.imu_data["heading"] = st.slider("Heading (°)", 0, 359, 45)
 
@@ -71,7 +76,7 @@ def display_compass():
 
     st.markdown(
         compass_svg(
-            st.session_state.imu_data["heading"],
+            st.session_state.imu_data["heading_deg"],
             needle_colour=st.get_option("theme.primaryColor"),
             compass_colour=st.get_option("theme.textColor"),
         ),
@@ -80,5 +85,5 @@ def display_compass():
 
     with st.container(key="heading-label"):
         st.text(
-            f"{_get_direction_from_angle(st.session_state.imu_data['heading'])}, {st.session_state.imu_data['heading']}°"
+            f"{_get_direction_from_angle(st.session_state.imu_data['heading_deg'])}, {st.session_state.imu_data['heading_deg']}°"
         )
