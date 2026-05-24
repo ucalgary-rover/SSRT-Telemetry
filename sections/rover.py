@@ -18,7 +18,7 @@ def update_telemetry():
         f"""
         <style>
         :root {{
-            --pitch-deg: {st.session_state.imu_data['pitch']}deg;
+            --pitch-deg: {st.session_state.imu_data['pitch'] * -1}deg;
             --roll-deg: {st.session_state.imu_data['roll']}deg;
         }}
 
