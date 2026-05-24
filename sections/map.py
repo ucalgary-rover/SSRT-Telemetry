@@ -153,10 +153,7 @@ def _coords_display(lat_col, long_col):
 def display():
     # Default session state
     if "gnss_data" not in st.session_state:
-        st.session_state.gnss_data = {
-            "latitude": 51.45404,
-            "longitude": -112.67683,
-        }
+        st.session_state.gnss_data = {"latitude": 51.45404, "longitude": -112.67683}
     if "imu_data" not in st.session_state:
         st.session_state.imu_data = {
             "speed": 10,
@@ -241,7 +238,6 @@ def display_poi_list():
                 st.rerun()
 
 
-@st.fragment(run_every=f"{read_env_variable('REFRESH_DELAY')}s")
 def map_display(zoom: float = 12):
     scripts = _load_scripts()
 
