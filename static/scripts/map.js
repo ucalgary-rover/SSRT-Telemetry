@@ -1,5 +1,12 @@
 (function () {
-    const { lat, long, zoom, pois, tileUrl } = window.MAP_CONFIG;
+    const { lat, long, zoom, pois, tileUrl, nonce } = window.MAP_CONFIG;
+    const expectedNonce = nonce;
+
+    // Advertise a stable, per-session identifier on this iframe's window so the
+    // Streamlit-side updater can target only this frame
+    if (expectedNonce) {
+        try { window.name = "ssrt-map-" + expectedNonce; } catch (e) {}
+    }
 
     const map = L.map("map").setView([lat, long], zoom);
 
@@ -10,7 +17,6 @@
         secondary: { color: "#ffffff", weight: 1.5 },
         tertiary: { color: "#ffffff", weight: 1.5 },
     };
-
     const hidden = { stroke: false, fill: false };
 
     L.vectorGrid
@@ -28,13 +34,11 @@
                 transportation: function (props) {
                     return roadStyles[props.class] || { color: "#dddddd", weight: 0.8, fill: false };
                 },
-                // hidden layers
                 place: hidden, poi: hidden, mountain_peak: hidden,
                 aeroway: hidden, runway: hidden, aerodrome_label: hidden,
                 transportation_name: hidden, water_name: hidden,
                 housenumber: hidden, highway: hidden, admin: hidden,
                 road: hidden, tunnel: hidden, bridge: hidden, path: hidden, transit: hidden,
-
             },
             maxNativeZoom: 14,
             maxZoom: 18,
@@ -45,16 +49,72 @@
         })
         .addTo(map);
 
-    pois.forEach(function (poi) {
-        L.circleMarker([poi.latitude, poi.longitude], {
-            radius: 8,
-            fillColor: poi.colour,
-            color: "#ffffff",
-            weight: 2,
-            fillOpacity: 1,
-            stroke: true,
-        })
-            .addTo(map)
-            .bindPopup("<b>" + poi.text + "</b><br>");
+    // --- Vehicle marker ---
+    const vehicleMarker = L.circleMarker([lat, long], {
+        radius: 8,
+        fillColor: "#c95323",
+        color: "#ffffff",
+        weight: 2,
+        fillOpacity: 1,
+        stroke: true,
+    }).addTo(map);
+
+    // --- POI layer ---
+    const poiLayer = L.layerGroup().addTo(map);
+
+    function renderPois(poisData) {
+        // Check if any POI popup is currently open
+        let openPopupLatLng = null;
+        poiLayer.eachLayer(function(layer) {
+            if (layer.isPopupOpen()) {
+                openPopupLatLng = layer.getLatLng();
+            }
+        });
+
+        poiLayer.clearLayers();
+
+        poisData.forEach(function (poi) {
+            const marker = L.circleMarker([poi.latitude, poi.longitude], {
+                radius: 8,
+                fillColor: poi.colour,
+                color: "#ffffff",
+                weight: 2,
+                fillOpacity: 1,
+                stroke: true,
+            })
+                .addTo(poiLayer)
+                .bindPopup("<b>" + poi.text + "</b>");
+
+            // Re-open popup if this marker had it open before
+            if (openPopupLatLng &&
+                marker.getLatLng().lat === openPopupLatLng.lat &&
+                marker.getLatLng().lng === openPopupLatLng.lng) {
+                marker.openPopup();
+            }
+        });
+    }
+
+    // Render initial POIs
+    renderPois(pois);
+
+    // --- postMessage listener for live updates ---
+    window.addEventListener("message", function (event) {
+        if (!event.data || event.data.type !== "UPDATE_MAP") return;
+
+        // Reject messages from this window and require a source window.
+        if (!event.source || event.source === window) return;
+
+        // Require a shared per-session nonce that was injected into this iframe at render time.
+        if (!expectedNonce || event.data.nonce !== expectedNonce) return;
+
+        const { lat: newLat, long: newLong, pois: newPois } = event.data;
+
+        vehicleMarker.setLatLng([newLat, newLong]);
+        map.panTo([newLat, newLong]);
+
+        if (newPois !== undefined) {
+            renderPois(newPois);
+        }
     });
+
 })();
