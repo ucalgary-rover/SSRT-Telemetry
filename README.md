@@ -3,8 +3,23 @@
 Streamlit application built for sensor visual interface with processing capabilities.
 
 ## Running the app
+
 ```bash
 streamlit run app.py
+```
+
+### First time
+
+1. Create virtual environment and install dependencies
+
+```bash
+make setup
+```
+
+2. Run application
+
+```bash
+make run
 ```
 
 Then follow the URL to open the app in your browser.
@@ -26,6 +41,7 @@ Then follow the URL to open the app in your browser.
 6. Select **Non-commercial personal project** and agree to all conditions on the free plan
 
 7. Transfer the download from Windows to WSL using
+
 ```bash
 mv /mnt/c/Users/<username>/Downloads/osm-2020-02-10-v3.11_canada_alberta.mbtiles ~/your/desired/wsl/path/SSRT_Alberta_tiles.mbtiles
 ```
@@ -39,11 +55,13 @@ mv /mnt/c/Users/<username>/Downloads/osm-2020-02-10-v3.11_canada_alberta.mbtiles
     c. Copy the downloaded file to WSL the same way as Step 7.
 
     d. Install the program using
+
     ```bash
     sudo dpkg -i maptiler-server-4.7.1-linux-x64.deb
     ```
 
     e. Ensure it installed correctly using
+
     ```bash
     maptiler-server --help
     ```
@@ -53,10 +71,17 @@ mv /mnt/c/Users/<username>/Downloads/osm-2020-02-10-v3.11_canada_alberta.mbtiles
 1. Navigate to just outside of where you stored the `.mbtiles` file
 
 2. Start the server using the command below
-    - `--workDir`    tells `maptiler-server` where to find the file
+    - `--workDir` tells `maptiler-server` where to find the file
     - `--adminPassword` sets the password to log in to the admin console at [http://localhost:3650/admin](http://localhost:3650/admin)
+
 ```bash
 maptiler-server --workDir <mbtiles-dir>/ --adminPassword ucalgary-rover
 ```
 
 3. Refresh the Streamlit app and you should have a map!
+
+## MQTT Broker
+
+- The broker's username and password:
+    - Username: admin
+    - Password: public

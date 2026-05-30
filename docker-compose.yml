@@ -1,0 +1,22 @@
+services:
+  emqx1:
+    image: emqx:latest
+    container_name: emqx1
+    # environment:
+    #   - "EMQX_NAME=emqx1"
+    #   - "EMQX_HOST=emqx1.emqx.io"
+    #   - "EMQX_CLUSTER__DISCOVERY_STRATEGY=dns"
+    #   - "EMQX_CLUSTER__DNS__RESOLVER=8.8.8.8"
+    #   - "EMQX_CLUSTER__DNS__INTERVAL=5000"
+    networks:
+      emqx-net:
+        aliases:
+          - emqx1.emqx.io
+    ports:
+      - "1883:1883"
+      - "8083:8083"
+      - "18083:18083"
+
+networks:
+  emqx-net:
+    driver: bridge
