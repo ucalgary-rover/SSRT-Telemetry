@@ -48,8 +48,8 @@ def update_telemetry():
         unsafe_allow_html=True,
     )
 
-    pitch_col, roll_col, wheels_col, arm_col, power_col = st.columns(
-        5, vertical_alignment="center"
+    pitch_col, roll_col, wheels_col, arm_col = st.columns(
+        4, vertical_alignment="center"
     )
 
     with pitch_col:
@@ -76,21 +76,21 @@ def update_telemetry():
         with st.container(key="rover-arm-text"):
             st.markdown("Arm")
 
-    with power_col:
-        st.metric(
-            label="Battery Temp",
-            value="%0.2f°C" % st.session_state.imu_data["battery_temp"],
-        )
-        st.metric(label="Power", value="%0.2f%%" % st.session_state.imu_data["power"])
+    # with power_col:
+    #     st.metric(
+    #         label="Battery Temp",
+    #         value="%0.2f°C" % st.session_state.imu_data["battery_temp"],
+    #     )
+    #     st.metric(label="Power", value="%0.2f%%" % st.session_state.imu_data["power"])
 
-        # with st.container(key="battery-temp-text"):
-        #     st.markdown("Battery Temperature")
-        # with st.container(key="battery-temp"):
-        #     st.markdown("%0.2f°C" % st.session_state.imu_data["battery_temp"])
-        # with st.container(key="power-text"):
-        #     st.markdown("Power")
-        # with st.container(key="power"):
-        #    st.markdown("%0.2f%%" % st.session_state.imu_data["power"])
+    # with st.container(key="battery-temp-text"):
+    #     st.markdown("Battery Temperature")
+    # with st.container(key="battery-temp"):
+    #     st.markdown("%0.2f°C" % st.session_state.imu_data["battery_temp"])
+    # with st.container(key="power-text"):
+    #     st.markdown("Power")
+    # with st.container(key="power"):
+    #    st.markdown("%0.2f%%" % st.session_state.imu_data["power"])
 
 
 def display():

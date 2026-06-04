@@ -160,8 +160,7 @@ def display():
             "heading": 0,
             "pitch": 0,
             "roll": 0,
-            "battery_temp": 0,
-            "power": 0,
+            "yaw": 0,
         }
     if "pois" not in st.session_state:
         st.session_state.pois = []
