@@ -5,6 +5,7 @@ from utils.read_env import read_env_variable
 
 REFRESH_DELAY = float(read_env_variable("REFRESH_DELAY"))
 IMU_TOPIC = read_env_variable("IMU_TOPIC")
+DECIMAL_PLACES = int(read_env_variable("DECIMAL_PLACES"))
 
 
 @st.fragment(run_every=REFRESH_DELAY)
@@ -79,18 +80,12 @@ def update_telemetry():
     with power_col:
         st.metric(
             label="Battery Temp",
-            value="%0.2f°C" % st.session_state.imu_data["battery_temp"],
+            value=f"{st.session_state.imu_data['battery_temp']:.{DECIMAL_PLACES}f}°C",
         )
-        st.metric(label="Power", value="%0.2f%%" % st.session_state.imu_data["power"])
-
-        # with st.container(key="battery-temp-text"):
-        #     st.markdown("Battery Temperature")
-        # with st.container(key="battery-temp"):
-        #     st.markdown("%0.2f°C" % st.session_state.imu_data["battery_temp"])
-        # with st.container(key="power-text"):
-        #     st.markdown("Power")
-        # with st.container(key="power"):
-        #    st.markdown("%0.2f%%" % st.session_state.imu_data["power"])
+        st.metric(
+            label="Power",
+            value=f"{st.session_state.imu_data['power']:.{DECIMAL_PLACES}f}%",
+        )
 
 
 def display():
