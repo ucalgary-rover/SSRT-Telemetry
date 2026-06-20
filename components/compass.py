@@ -6,6 +6,7 @@ import streamlit as st
 from utils.read_env import read_env_variable
 
 REFRESH_DELAY = float(read_env_variable("REFRESH_DELAY"))
+DECIMAL_PLACES = int(read_env_variable("DECIMAL_PLACES"))
 
 
 def _get_direction_from_angle(angle) -> str:
@@ -85,5 +86,5 @@ def display_compass():
 
     with st.container(key="heading-label"):
         st.text(
-            f"{_get_direction_from_angle(st.session_state.imu_data['heading_deg'])}, {st.session_state.imu_data['heading_deg']}°"
+            f"{_get_direction_from_angle(st.session_state.imu_data['heading_deg'])}, {st.session_state.imu_data['heading_deg']:.{DECIMAL_PLACES}f}°"
         )
