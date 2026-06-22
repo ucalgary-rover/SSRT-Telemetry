@@ -16,6 +16,7 @@ from utils.read_env import read_env_variable
 
 REFRESH_DELAY = float(read_env_variable("REFRESH_DELAY"))
 GNSS_TOPIC = read_env_variable("GNSS_TOPIC")
+DECIMAL_PLACES = int(read_env_variable("DECIMAL_PLACES"))
 
 
 def _json_for_script(value) -> str:
@@ -180,7 +181,9 @@ def display():
         with status_column:
             display_compass()
             with st.container():
-                st.write(f"SPEED: {st.session_state.imu_data['speed']} km/h")
+                st.write(
+                    f"SPEED: {st.session_state.imu_data['speed']:.{DECIMAL_PLACES}f} km/h"
+                )
                 col1, col2 = st.columns([3, 1])
                 with col1:
                     st.text_input(
