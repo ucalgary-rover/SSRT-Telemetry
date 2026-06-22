@@ -49,8 +49,8 @@ def update_telemetry():
         unsafe_allow_html=True,
     )
 
-    pitch_col, roll_col, wheels_col, arm_col, power_col = st.columns(
-        5, vertical_alignment="center"
+    pitch_col, roll_col, wheels_col, arm_col = st.columns(
+        4, vertical_alignment="center"
     )
 
     with pitch_col:
@@ -76,16 +76,6 @@ def update_telemetry():
             st.image("assets/rover-arm.png", width="stretch")
         with st.container(key="rover-arm-text"):
             st.markdown("Arm")
-
-    with power_col:
-        st.metric(
-            label="Battery Temp",
-            value=f"{st.session_state.imu_data['battery_temp']:.{DECIMAL_PLACES}f}°C",
-        )
-        st.metric(
-            label="Power",
-            value=f"{st.session_state.imu_data['power']:.{DECIMAL_PLACES}f}%",
-        )
 
 
 def display():

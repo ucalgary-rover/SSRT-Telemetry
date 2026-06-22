@@ -30,8 +30,6 @@ def main():
             "roll": 0.0,
             "pitch": 0.0,
             "yaw": 0.0,
-            "battery_temp": 0.0,
-            "power": 0.0,
             "heading_deg": 0.0,
             "speed": 0.0,
         }

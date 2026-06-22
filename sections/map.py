@@ -146,9 +146,9 @@ def _map_updater():
 @st.fragment(run_every=f"{REFRESH_DELAY}s")
 def _coords_display(lat_col, long_col):
     with lat_col:
-        st.write(f"LAT: {st.session_state.gnss_data['latitude']}")
+        st.write(f"LAT: {st.session_state.gnss_data['latitude']:.6f}")
     with long_col:
-        st.write(f"LONG: {st.session_state.gnss_data['longitude']}")
+        st.write(f"LONG: {st.session_state.gnss_data['longitude']:.6f}")
 
 
 def display():
@@ -161,8 +161,7 @@ def display():
             "heading": 0,
             "pitch": 0,
             "roll": 0,
-            "battery_temp": 0,
-            "power": 0,
+            "yaw": 0,
         }
     if "pois" not in st.session_state:
         st.session_state.pois = []

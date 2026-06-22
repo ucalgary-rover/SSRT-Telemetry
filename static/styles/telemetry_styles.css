@@ -122,7 +122,7 @@ div[data-testid="stImage"] img {
     width: 100% !important;
 }
 
-.st-key-battery-temp-text [data-testid="stMarkdownContainer"] p {
+/* .st-key-battery-temp-text [data-testid="stMarkdownContainer"] p {
     text-align: center;
     font-size: 1.2rem;
     font-weight: bold;
@@ -160,7 +160,7 @@ div[data-testid="stImage"] img {
 
     margin-top: -15%;
     padding-bottom: 0px;
-}
+} */
 
 div[data-testid="stImage"] img {
     width: 100%;

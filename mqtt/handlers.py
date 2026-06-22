@@ -14,10 +14,8 @@ def handle_imu(payload: bytes):
         "roll": floats[0],
         "pitch": floats[1],
         "yaw": floats[2],
-        "battery_temp": floats[3],
-        "power": floats[4],
-        "heading_deg": floats[5],
-        "speed": floats[6],
+        "heading_deg": floats[3],
+        "speed": floats[4],
     }
     return imu_data
 
