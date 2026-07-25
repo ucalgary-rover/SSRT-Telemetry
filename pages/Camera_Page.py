@@ -261,7 +261,7 @@ def main():
 
     cameras = st.session_state["available_cameras"]
 
-    COLS = 2
+    COLS = 3
     new_row = []  # silences warning
     for i in range(len(cameras)):
         if i % COLS == 0:
