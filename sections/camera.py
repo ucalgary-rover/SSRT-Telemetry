@@ -10,11 +10,28 @@ BASE_URL = (
 VIDEO_URL = f"{BASE_URL}/video_feed/"
 
 
+def camera_preview_html(cam_id: int, deg: int) -> str:
+    return f"""
+        <div style="
+            width:100%;
+            aspect-ratio:16/9;
+            overflow:hidden;
+            position:relative;">
+            <img src="{VIDEO_URL}{cam_id}"
+                style="position:absolute;
+                    top:50%;
+                    left:50%;
+                    width:100%;
+                    height:100%;
+                    transform:translate(-50%, -50%) rotate({deg}deg);
+                    transform-origin:center center;"/>
+        </div>"""
+
+
 def display():
     cameras = get_available_cameras()
     with st.container(key="camera-container"):
-        dropdown_select, blank, popout = st.columns([0.4, 0.2, 0.1])
-
+        dropdown_select, rotate_col, popout = st.columns([0.4, 0.1, 0.1])
         with dropdown_select:
             if not cameras:
                 selected_camera = st.selectbox(
@@ -32,6 +49,13 @@ def display():
                     label_visibility="collapsed",
                     key="telemetry_camera_select",
                 )
+        with rotate_col:
+            if cameras:
+                rot_key = f"preview_rot_{selected_camera}"
+                if rot_key not in st.session_state:
+                    st.session_state[rot_key] = 0
+                if st.button("Rotate", key="preview_rotate"):
+                    st.session_state[rot_key] = (st.session_state[rot_key] + 90) % 360
 
         with popout:
             if st.button("↗", width="stretch"):
@@ -55,4 +79,12 @@ def display():
             )
         else:
             with st.container(key="camera-preview"):
-                st.image(f"{VIDEO_URL}{selected_camera}")
+                rot_key = f"preview_rot_{selected_camera}"
+                if rot_key not in st.session_state:
+                    st.session_state[rot_key] = 0
+                st.html(
+                    camera_preview_html(
+                        selected_camera,
+                        st.session_state[rot_key],
+                    )
+                )
