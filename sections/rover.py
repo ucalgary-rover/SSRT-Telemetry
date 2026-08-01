@@ -7,6 +7,7 @@ from utils.read_env import read_env_variable
 
 REFRESH_DELAY = float(read_env_variable("REFRESH_DELAY"))
 IMU_TOPIC = read_env_variable("IMU_TOPIC")
+DECIMAL_PLACES = int(read_env_variable("DECIMAL_PLACES"))
 MOTOR_STATE_TOPIC = read_env_variable("MOTOR_STATE_TOPIC")
 
 
@@ -101,24 +102,33 @@ def update_telemetry():
 
         if velocity >= 0:
             arrow = f"""
-            <div class="arrow arrow-up" style="height:{length}%;">
-                <div class="arrow-head-up"></div>
+            <div class="arrow-container" style="transform: rotate({rotation}deg);">
+                <div class="arrow arrow-up" style="height:{length}%;">
+                    <div class="arrow-head-up"></div>
+                </div>
             </div>
             """
         else:
             arrow = f"""
-            <div class="arrow arrow-down" style="height:{length}%;">
-                <div class="arrow-head-down"></div>
+            <div class="arrow-container" style="transform: rotate({rotation}deg);">
+                <div class="arrow arrow-down" style="height:{length}%;">
+                    <div class="arrow-head-down"></div>
+                </div>
             </div>
             """
 
         return f"""
-        <div class="wheel-wrapper">
-            <img style="transform: rotate({rotation}deg);"
-                src="data:image/png;base64,{wheel_b64}">
-            {arrow}
+        <div class="wheel-container">
+            <div class="wheel-wrapper">
+                <img src="data:image/png;base64,{wheel_b64}"
+                    style="transform: rotate({rotation}deg);">
+                {arrow}
+            </div>
+
+            <div class="wheel-readout">
+                {(velocity*100):.0f}% · {norm_angle(rotation):.0f}°
+            </div>
         </div>
-        <div class="wheel-readout">{velocity:.2f} · {norm_angle(rotation):.0f}°</div>
         """
 
     tl_html = wheel_html(tl, v_tl, wheel_b64)
@@ -129,15 +139,17 @@ def update_telemetry():
     html = f"""
     <style>
     .wheel-wrapper {{
+        width: 50px;
+        height: 50px;
         position: relative;
-        width: 80%;
-        aspect-ratio: 1;
+        flex-shrink: 0;
     }}
 
     .wheel-wrapper img {{
         width: 100%;
         height: 100%;
         object-fit: contain;
+        transform-origin: center;
     }}
 
     .wheel-readout {{
@@ -148,6 +160,7 @@ def update_telemetry():
         white-space: nowrap;
         color: red;
     }}
+
 
     .arrow {{
         position: absolute;
@@ -180,18 +193,36 @@ def update_telemetry():
         border-top: 8px solid red;
     }}
 
+    .arrow-container {{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        transform-origin: center;
+    }}
+
+    /* Individual wheel + readout */
     .wheel-container {{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }}
+
+    /* Whole 2x2 wheel layout */
+    .wheels-grid {{
         width: 100%;
         max-width: 220px;
+        height: 220px;
         aspect-ratio: 1;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(2, 1fr);
-        gap: 12px;                 /* Add spacing between wheels */
+        gap: 12px;
         margin: 0 auto;
         box-sizing: border-box;
     }}
-
     .wheel-cell {{
         display: flex;
         align-items: center;
@@ -200,7 +231,7 @@ def update_telemetry():
     }}
     </style>
 
-    <div class="wheel-container">
+    <div class="wheels-grid">
 
         <div class="wheel-cell">{tl_html}</div>
         <div class="wheel-cell">{tr_html}</div>
@@ -211,7 +242,7 @@ def update_telemetry():
     """
 
     with wheels_col:
-        components.html(html, height=260, scrolling=False)
+        components.html(html, height=230, scrolling=False)
 
         with st.container(key="rover-wheels-text"):
             st.markdown("Wheels")
@@ -221,22 +252,6 @@ def update_telemetry():
             st.image("assets/rover-arm.png", width="stretch")
         with st.container(key="rover-arm-text"):
             st.markdown("Arm")
-
-    with power_col:
-        st.metric(
-            label="Battery Temp",
-            value="%0.2f°C" % st.session_state.imu_data["battery_temp"],
-        )
-        st.metric(label="Power", value="%0.2f%%" % st.session_state.imu_data["power"])
-
-        # with st.container(key="battery-temp-text"):
-        #     st.markdown("Battery Temperature")
-        # with st.container(key="battery-temp"):
-        #     st.markdown("%0.2f°C" % st.session_state.imu_data["battery_temp"])
-        # with st.container(key="power-text"):
-        #     st.markdown("Power")
-        # with st.container(key="power"):
-        #    st.markdown("%0.2f%%" % st.session_state.imu_data["power"])
 
 
 def display():
