@@ -8,6 +8,7 @@ TOPIC_HANDLERS: dict[str, Callable] = {
     read_env_variable("IMU_TOPIC"): handle_imu,
     read_env_variable("SAMPLE_TOPIC2"): handle_temperature,
     read_env_variable("GNSS_TOPIC"): handle_gnss,
+    read_env_variable("MOTOR_STATE_TOPIC"): handle_motor_state,
     # read_env_variable("HUMIDITY_TOPIC"):    handle_humidity,
     # read_env_variable("GPS_TOPIC"):         handle_gps,
 }

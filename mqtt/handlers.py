@@ -25,5 +25,19 @@ def handle_gnss(payload: bytes):
 
     return {"latitude": latitude, "longitude": longitude}
 
+def handle_motor_state(payload: bytes):
+    wheel_count = int(read_env_variable("WHEEL_COUNT"))
+    motor_id_end = int(read_env_variable("MOTOR_ID_END"))
 
+    fmt = "<" + "f" * (2 * wheel_count) + "i" * motor_id_end
+    values = struct.unpack(fmt, payload)
+
+    steer = values[0:wheel_count]
+    drive = values[wheel_count : 2 * wheel_count]
+    motor_values = values[2 * wheel_count : 2 * wheel_count + motor_id_end]
+
+    return {
+        "drive_motor_state": {"steer": list(steer), "drive": list(drive)},
+        "arm_motor_state": {"motor_values": list(motor_values)},
+    }
 # add handlers for other sensors here
