@@ -1,5 +1,6 @@
-import streamlit as st
 import base64
+
+import streamlit as st
 import streamlit.components.v1 as components
 
 from state.read_latest_from_queue import latest_values
@@ -62,8 +63,8 @@ def update_telemetry():
             "arm_motor_state": {"motor_values": [0] * 7},
         }
 
-    pitch_col, roll_col, wheels_col, arm_col, power_col = st.columns(
-        5, vertical_alignment="center"
+    pitch_col, roll_col, wheels_col, arm_col = st.columns(
+        4, vertical_alignment="center"
     )
 
     with pitch_col:
