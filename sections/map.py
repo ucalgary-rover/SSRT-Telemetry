@@ -146,9 +146,9 @@ def _map_updater():
 @st.fragment(run_every=f"{REFRESH_DELAY}s")
 def _coords_display(lat_col, long_col):
     with lat_col:
-        st.write(f"LAT: {st.session_state.gnss_data['latitude']:.6f}")
+        st.write(f"LAT: {st.session_state.gnss_data['latitude']:.10f}")
     with long_col:
-        st.write(f"LONG: {st.session_state.gnss_data['longitude']:.6f}")
+        st.write(f"LONG: {st.session_state.gnss_data['longitude']:.10f}")
 
 
 def display():
