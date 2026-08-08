@@ -113,7 +113,7 @@ class MQTTSubscriber:
             # Reuse the rover port by default so users only need to add one
             # new env var (BASE_STATION_IP) in the common case.
             base_port = int(
-                read_env_variable("BASE_STATION_MQTT_PORT", default=rover_port)
+                read_env_variable("MQTT_BROKER_PORT")
             )
 
             base_client = _build_client(
