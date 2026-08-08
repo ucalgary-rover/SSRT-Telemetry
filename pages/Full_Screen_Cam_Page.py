@@ -14,7 +14,7 @@ def camera_html(cam_id: int) -> str:
         style=" display:flex;
         overflow:hidden;
         position:relative;
-        max-width:74.5%
+        max-width:74%
         ;">
         
             <img src="{VIDEO_URL}{cam_id}"
