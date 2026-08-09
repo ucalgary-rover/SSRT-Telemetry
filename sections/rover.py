@@ -11,6 +11,9 @@ IMU_TOPIC = read_env_variable("IMU_TOPIC")
 DECIMAL_PLACES = int(read_env_variable("DECIMAL_PLACES"))
 MOTOR_STATE_TOPIC = read_env_variable("MOTOR_STATE_TOPIC")
 
+# pitch/roll outside this range (in degrees) triggers a flashing alert
+ORIENTATION_LIMIT_DEG = 30
+
 
 @st.fragment(run_every=REFRESH_DELAY)
 def update_telemetry():
@@ -19,12 +22,18 @@ def update_telemetry():
     if updated:
         st.session_state.imu_data = imu_data
 
+    pitch_val = st.session_state.imu_data["pitch"]
+    roll_val = st.session_state.imu_data["roll"]
+
+    pitch_alert = not (-ORIENTATION_LIMIT_DEG <= pitch_val <= ORIENTATION_LIMIT_DEG)
+    roll_alert = not (-ORIENTATION_LIMIT_DEG <= roll_val <= ORIENTATION_LIMIT_DEG)
+
     st.markdown(
         f"""
         <style>
         :root {{
-            --pitch-deg: {st.session_state.imu_data['pitch'] * -1}deg;
-            --roll-deg: {st.session_state.imu_data['roll']}deg;
+            --pitch-deg: {pitch_val * -1}deg;
+            --roll-deg: {roll_val}deg;
         }}
 
         [data-testid="battery-temp-text"] p, [data-testid="power-text"] p {{
@@ -47,6 +56,18 @@ def update_telemetry():
             justify-content: center;
             width: 100%;
         }}
+
+        @keyframes flash-red {{
+            0%, 100% {{ background-color: rgba(255, 0, 0, 0.5); }}
+            50% {{ background-color: transparent; }}
+        }}
+
+        /* toggled on only when pitch or roll is outside the safe range */
+        {"""
+        [data-testid="stAppViewContainer"] {
+            animation: flash-red 1s infinite;
+        }
+        """ if (pitch_alert or roll_alert) else ""}
 
         </style>
     """,
@@ -71,13 +92,13 @@ def update_telemetry():
         with st.container(key="rover-pitch"):
             st.image("assets/rover-side-view.png", width="stretch")
         with st.container(key="rover-pitch-text"):
-            st.markdown("Pitch: %0.2f°" % st.session_state.imu_data["pitch"])
+            st.markdown("Pitch: %0.2f°" % pitch_val)
 
     with roll_col:
         with st.container(key="rover-roll"):
             st.image("assets/rover-front-view.png", width="stretch")
         with st.container(key="rover-roll-text"):
-            st.markdown("Roll: %0.2f°" % st.session_state.imu_data["roll"])
+            st.markdown("Roll: %0.2f°" % roll_val)
 
     with open("assets/rover-wheel.png", "rb") as f:
         wheel_b64 = base64.b64encode(f.read()).decode()
