@@ -16,7 +16,7 @@ BASE_URL = (
 VIDEO_URL = f"{BASE_URL}/video_feed/"
 
 
-def camera_html(cam_id: int) -> str:
+def camera_html(cam_id: int, deg: int) -> str:
     return f"""
       <div id="cam_{cam_id}" 
         style=" display:flex;
@@ -29,6 +29,7 @@ def camera_html(cam_id: int) -> str:
                 style="width:100%; 
                 height:100%; 
                 object-fit:cover;
+                transform:rotate({deg}deg);
                 transform-origin:center center;" />
       </div>
     """
@@ -181,11 +182,19 @@ def main():
     with st.container(height="stretch"):
         stream_col, controls_col = st.columns([3, 1])
 
+        rot_key = f"fs_rot_{cam_id}"
+        if rot_key not in st.session_state:
+            st.session_state[rot_key] = 0
+
         with stream_col:
             # size is hard-coded inside camera_html (max-width:74%) — never touch that
-            st.html(camera_html(cam_id))
+            st.html(camera_html(cam_id, st.session_state[rot_key]))
 
         with controls_col:
+            if st.button("Rotate", key=f"rotate_{cam_id}", width="stretch"):
+                st.session_state[rot_key] = (st.session_state[rot_key] + 90) % 360
+                st.rerun()
+
             if st.button(
                 "Screenshot",
                 key=f"screenshot_{cam_id}",
