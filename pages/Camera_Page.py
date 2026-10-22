@@ -35,8 +35,14 @@ def camera_view(cam_id: int):
         st.session_state[k] = 0
 
     rotate = False
-    with st.container(horizontal_alignment="center"):
+    fullscreen = False
+    rotate_col, fs_col = st.columns(2)
+    with rotate_col:
         rotate = st.button("Rotate", key=f"btn_{cam_id}")
+    with fs_col:
+        if st.button("Fullscreen", key=f"fs_btn_{cam_id}"):
+            st.session_state["selected_cam_id_fs"] = cam_id
+            st.switch_page("pages/Full_Screen_Cam_Page.py")
 
     if rotate:
         st.session_state[k] = (st.session_state[k] + 90) % 360

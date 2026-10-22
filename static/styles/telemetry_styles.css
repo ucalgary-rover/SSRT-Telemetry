@@ -254,3 +254,23 @@ div[class*="st-key-poi-label"] {
         margin-right: 0.5rem;
     }
 }
+
+/* Telemetry limit warning */
+@keyframes telemetry-red-flash {
+    0% {
+        box-shadow: inset 0 0 0 0 rgba(255, 0, 0, 0);
+    }
+
+    20% {
+        box-shadow: inset 0 0 0 9999px rgba(255, 0, 0, 0.85);
+    }
+
+    100% {
+        box-shadow: inset 0 0 0 0 rgba(255, 0, 0, 0);
+    }
+}
+
+/* The .telemetry-alert-trigger element causes the flash */
+div[data-testid="stAppViewContainer"]:has(.telemetry-alert-trigger) {
+    animation: telemetry-red-flash 0.8s ease-out;
+}
