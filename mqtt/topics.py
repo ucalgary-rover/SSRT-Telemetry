@@ -12,3 +12,4 @@ TOPIC_HANDLERS: dict[str, Callable] = {
     # read_env_variable("HUMIDITY_TOPIC"):    handle_humidity,
     # read_env_variable("GPS_TOPIC"):         handle_gps,
 }
+    
