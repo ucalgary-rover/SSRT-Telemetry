@@ -225,3 +225,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Map tiles
+map_tiles/
