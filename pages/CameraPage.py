@@ -30,6 +30,85 @@ def camera_html(cam_id: int, deg: int, zoom: float) -> str:
 
 def camera_view(cam_id: int):
     pass
+    # k = f"rot_{cam_id}"
+    # if k not in st.session_state:
+    #     st.session_state[k] = 0
+
+    # rotate = False
+    # fullscreen = False
+    # rotate_col, fs_col = st.columns(2)
+    # with rotate_col:
+    #     rotate = st.button("Rotate", key=f"btn_{cam_id}")
+    # with fs_col:
+    #     if st.button("Fullscreen", key=f"fs_btn_{cam_id}"):
+    #         st.session_state["selected_cam_id_fs"] = cam_id
+    #         st.switch_page("pages/Full_Screen_Cam_Page.py")
+
+    # if rotate:
+    #     st.session_state[k] = (st.session_state[k] + 90) % 360
+
+    # deg = st.session_state[k]
+
+    # zk = f"zoom_{cam_id}"
+    # if zk not in st.session_state:
+    #     st.session_state[zk] = 1.0
+
+    # zoom = st.slider(
+    #     "Zoom",
+    #     min_value=1.0,
+    #     max_value=3.0,
+    #     step=0.1,
+    #     key=zk,
+    #     label_visibility="collapsed",
+    # )
+
+    # st.markdown(
+    #     """
+    #     <style>
+    #     div[data-testid="stSlider"] {
+    #         margin-top: -10px;
+    #         margin-bottom: -15px;
+    #     }
+
+    #     div[data-testid="stSlider"] div[data-baseweb="slider"] > div {
+    #         height: 1px;
+    #     }
+    #     </style>
+    #     """,
+    #     unsafe_allow_html=True,
+    # )
+
+    # with st.container():
+    #     st.html(camera_html(cam_id, deg, zoom))
+
+    #     col_left, col_right = st.columns(2)
+
+    #     with col_left:
+    #         if st.button(
+    #             "Screenshot",
+    #             key=f"screenshot_{cam_id}",
+    #             type="secondary",
+    #             width="stretch",
+    #         ):
+    #             take_screenshot(cam_id)
+
+    #     recording_state = get_recording_state()
+
+    #     with col_right:
+    #         is_recording = recording_state["flags"].get(cam_id, False)
+    #         label = "Stop Recording" if is_recording else "Record"
+    #         if st.button(
+    #             label, key=f"record_{cam_id}", type="primary", width="stretch"
+    #         ):
+    #             if is_recording:
+    #                 stop_record(cam_id, recording_state)
+    #                 st.session_state[
+    #                     "rec_status"
+    #                 ] = f"stopped recording camera {cam_id}"  # store record status, to access after rerun
+    #             else:
+    #                 start_record(cam_id, recording_state)
+    #                 st.session_state["rec_status"] = f"recording on camera {cam_id}"
+    #             st.rerun()  # renders changed button label
 
 
 def take_screenshot(cam_id: int):
