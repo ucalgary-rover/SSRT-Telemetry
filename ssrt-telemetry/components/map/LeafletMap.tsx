@@ -7,8 +7,8 @@ import {
   TileLayer,
   ZoomControl,
 } from "react-leaflet";
-
 import "leaflet/dist/leaflet.css";
+import type { MapProps } from "@lib/props";
 
 // If these are ever used anywhere else, move CONSTS to their own file. Keeping them here for now
 const MIN_ZOOM: number = 16;
@@ -22,7 +22,7 @@ type Props = {
 }
 
 // Leaflet documentation: https://react-leaflet.js.org/docs/start-introduction/
-export default function LeafletMap({ gpsLocation }: Props) {
+export default function LeafletMap({ gpsLocation }: MapProps) {
   return (
     // The Map component
     <MapContainer
