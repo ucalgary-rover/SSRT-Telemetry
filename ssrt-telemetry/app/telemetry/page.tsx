@@ -1,10 +1,26 @@
-import MapWrapper from "@/components/map/MapWrapper";
+"use client";
 
-export default function Home() {
+import MapWrapper from "@/components/map/MapWrapper";
+import { useState } from "react";
+import MapSection from "@/components/sections/mapSection";
+import CameraPreview from "@/components/sections/cameraPreview";
+import Rover from "@/components/sections/rover";
+
+export default function TelemetryPage() {
+  const [toast, setToast] = useState("");
+  const notify = (msg: string) => {
+    setToast(msg);
+    setTimeout(() => setToast(""), 3000);
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      Temp Telemetry Page
-      <MapWrapper />
+    <div className="telemetry">
+      <div className="top-row">
+        <MapWrapper />
+        <CameraPreview notify={notify} />
+      </div>
+      <Rover />
+      {toast && <div className="toast">{toast}</div>}
     </div>
   );
 }

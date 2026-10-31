@@ -1,0 +1,110 @@
+.telemetry {
+  flex: 1;
+  padding: 1rem;
+}
+
+.top-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Tailwind's reset strips default control styling, so restore a basic look */
+.telemetry button,
+.telemetry select,
+.telemetry input {
+  padding: 4px 10px;
+  border: 1px solid #8888;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.telemetry button {
+  cursor: pointer;
+}
+
+.telemetry button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.map-container,
+.camera-container {
+  border: 1px solid #8884;
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+.map-row {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 1rem;
+}
+
+.map {
+  width: 100%;
+  height: 405px;
+}
+
+.map-status {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.poi-add {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.pois-list {
+  max-height: 75px;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #8884;
+  border-radius: 6px;
+}
+
+.pois-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 6px;
+}
+
+.coords {
+  display: flex;
+  justify-content: space-around;
+}
+
+.camera-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.camera-preview {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  padding: 0.75rem 1rem;
+  background: #222;
+  color: #fff;
+  border-radius: 6px;
+  z-index: 1000;
+}
