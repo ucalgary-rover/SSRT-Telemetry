@@ -1,4 +1,4 @@
-import { TelemetryProvider } from "@/components/telemetryProvider";
+import { TelemetryProvider } from "@/lib/functions/telemetry";
 import "@/styles/telemetry.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";

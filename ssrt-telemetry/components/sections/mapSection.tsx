@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { useTelemetry } from "@/components/telemetryProvider";
+import { useTelemetry } from "@/lib/functions/telemetry";
 import type { Poi } from "@/types/telemetry";   
-import Compass from "./compass";
+import Compass from "../map/Compass";
 
 // Leaflet touches window on import, so it can't render on the server
 const LiveMap = dynamic(() => import("./liveMap"), { ssr: false });
