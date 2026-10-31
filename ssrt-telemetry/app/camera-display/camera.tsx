@@ -1,4 +1,4 @@
-
+import React from "react";
 const ROVER_IP = process.env.ROVER_IP;
 const ROVER_CAMERA_PORT = process.env.CAMERA_FEED_PORT;
 const VIDEO_URL = `http://${ROVER_IP}:${ROVER_CAMERA_PORT}/video_feed/`
@@ -10,9 +10,14 @@ const divStyle: React.CSSProperties = {
     position: "relative" // wrapped in quotes
 };
 
+interface CameraProps {
+    cam_id:number;
+    deg:number;
+    zoom:number;
+}
 
 
-export default function camera(cam_id:number, deg:number, zoom:number) {
+export default function Camera({cam_id, deg, zoom}): CameraProps {
 
 
     const cameraStyle: React.CSSProperties = {
@@ -23,7 +28,7 @@ export default function camera(cam_id:number, deg:number, zoom:number) {
         transformOrigin: "center center"
     }
 
-    const cameraURL = VIDEO_URL + cam_id;
+    const cameraURL = `${VIDEO_URL}${cam_id}`;
 
     return (
         <div id="cam_{cam_id}" style={divStyle}>
