@@ -1,5 +1,6 @@
 "use client";
 
+import MapWrapper from "@/components/map/MapWrapper";
 import { useState } from "react";
 import MapSection from "@/components/sections/mapSection";
 import CameraPreview from "@/components/sections/cameraPreview";
@@ -15,7 +16,7 @@ export default function TelemetryPage() {
   return (
     <div className="telemetry">
       <div className="top-row">
-        <MapSection />
+        <MapWrapper />
         <CameraPreview notify={notify} />
       </div>
       <Rover />
