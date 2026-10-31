@@ -225,3 +225,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Allow the SSRT Telemetry lib directory
+!ssrt-telemetry/lib/
+!ssrt-telemetry/lib/**
