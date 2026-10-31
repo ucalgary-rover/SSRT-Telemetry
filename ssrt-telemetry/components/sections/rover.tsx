@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useTelemetry } from "@/components/telemetryProvider";
+import { useTelemetry } from "@/lib/functions/telemetry";
 import Wheels from "./wheels";
 import "./rover.css";
 
