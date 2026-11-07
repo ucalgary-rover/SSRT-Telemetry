@@ -50,15 +50,15 @@ export default function MapSection() {
   };
 
   return (
-    <div className="map-container">
-      <div className="map-row">
+    <div className="rounded-lg border border-[#8884] p-3">
+      <div className="grid grid-cols-[3fr_1fr] gap-4">
         <LiveMap lat={gnss.latitude} long={gnss.longitude} pois={pois} />
 
-        <div className="map-status">
+        <div className="flex flex-col gap-2">
           <Compass heading={imu.heading_deg} />
           <div>SPEED: {imu.speed.toFixed(DECIMALS)} km/h</div>
 
-          <div className="poi-add">
+          <div className="flex gap-1">
             <input
               value={name}
               placeholder="POI name"
@@ -75,9 +75,9 @@ export default function MapSection() {
           {pois.length === 0 ? (
             <small>No POIs added yet.</small>
           ) : (
-            <ul className="pois-list">
+            <ul className="m-0 max-h-[75px] list-none overflow-y-auto rounded-md border border-[#8884] p-0">
               {pois.map((p) => (
-                <li key={p.id}>
+                <li key={p.id} className="flex items-center justify-between px-1.5 py-0.5">
                   <span>{p.text}</span>
                   <button onClick={() => setPois(pois.filter((x) => x.id !== p.id))}>
                     ✕
@@ -93,7 +93,7 @@ export default function MapSection() {
 
       <hr />
 
-      <div className="coords">
+      <div className="flex justify-around">
         <span>LAT: {gnss.latitude.toFixed(10)}</span>
         <span>LONG: {gnss.longitude.toFixed(10)}</span>
       </div>

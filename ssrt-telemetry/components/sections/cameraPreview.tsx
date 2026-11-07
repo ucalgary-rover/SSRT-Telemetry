@@ -18,8 +18,8 @@ export default function CameraPreview({
   const none = cameras.length === 0;
 
   return (
-    <div className="camera-container">
-      <div className="camera-controls">
+    <div className="rounded-lg border border-[#8884] p-3">
+      <div className="flex items-center gap-2">
         <select
           value={camId ?? ""}
           disabled={none}
@@ -59,7 +59,7 @@ export default function CameraPreview({
 
       <hr />
 
-      <div className="camera-preview">
+      <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden">
         {none || camId === undefined ? (
           "No cameras detected"
         ) : (

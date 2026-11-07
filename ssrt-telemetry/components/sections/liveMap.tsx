@@ -69,5 +69,5 @@ export default function LiveMap({ lat, long, pois }: Props) {
     });
   }, [pois]);
 
-  return <div ref={elRef} className="map" />;
+  return <div ref={elRef} className="h-[405px] w-full" />;
 }
